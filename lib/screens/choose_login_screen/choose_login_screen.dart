@@ -47,9 +47,11 @@ class ChooseLoginScreen extends StatelessWidget {
                       tag: 'patient',
                     ),
                     ChooseIcon(
-                      label: 'Doctor',
+                      label: 'doctor',
                       image: 'images/doctor.png',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/doctor-login');
+                      },
                       tag: 'doctor',
                     ),
                   ],
@@ -61,15 +63,19 @@ class ChooseLoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ChooseIcon(
-                      label: 'Pharmacist',
+                      label: 'pharmacian',
                       image: 'images/pharmacian.png',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/pharmacian-login');
+                      },
                       tag: 'pharmacian',
                     ),
                     ChooseIcon(
                       label: 'Admin',
                       image: 'images/admin.png',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/admin-login');
+                      },
                       tag: 'admin',
                     ),
                   ],

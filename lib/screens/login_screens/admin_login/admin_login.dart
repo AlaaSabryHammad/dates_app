@@ -1,55 +1,22 @@
-import 'package:dates_app/screens/login_screens/pateint_login/complete_patient_profile_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../constants.dart';
 import '../widgets/custom_textfield.dart';
 
-class PatientRegisterScreen extends StatefulWidget {
-  const PatientRegisterScreen({super.key});
+class AdminLoginScreen extends StatefulWidget {
+  const AdminLoginScreen({super.key});
 
   @override
-  State<PatientRegisterScreen> createState() => _PatientRegisterScreenState();
+  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
 }
 
-class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
+class _AdminLoginScreenState extends State<AdminLoginScreen> {
   String? emailAddress;
   String? password;
-  String? confirm;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
 
-  registerNewPatient() async {
-    if (password == confirm) {
-      try {
-        UserCredential credential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailAddress!,
-          password: password!,
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          const snackBar = SnackBar(
-            content: Text('The password provided is too weak.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if (e.code == 'email-already-in-use') {
-          const snackBar = SnackBar(
-            content: Text('The account already exists for that email.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      } catch (e) {
-        print(e);
-      }
-    } else {
-      const snackBar = SnackBar(
-        content: Text('passwords are not the same ...'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -64,15 +31,18 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset(
-                    'images/patient.png',
-                    width: width * 0.4,
-                    height: width * 0.4,
+                  Hero(
+                    tag: 'admin',
+                    child: Image.asset(
+                      'images/admin.png',
+                      width: width * 0.4,
+                      height: width * 0.4,
+                    ),
                   ),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Patient Sign Up',
+                      'Admin Login',
                       style: TextStyle(
                           color: textColor,
                           fontSize: 22,
@@ -85,7 +55,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Register New Account ...... !',
+                      'Login to continue ...... !',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -113,35 +83,32 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                     isSecured: true,
                     controller: passwordController,
                   ),
-                  CustomTextField(
-                    hint: 'Confirm your password .....',
-                    icon: Icons.lock,
-                    label: 'Confirm Password',
-                    onPressed: (value) {
-                      confirm = value;
-                    },
-                    isSecured: true,
-                    controller: confirmController,
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   MaterialButton(
                     elevation: 5,
-                    onPressed: () {
-                      registerNewPatient();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CompletePatientProfileScreen(
-                            patientEmail: emailAddress!,
-                          ),
-                        ),
-                      );
+                    onPressed: () async {
+                      List admin = await firebaseFirestore
+                          .collection('admins')
+                          .get()
+                          .then((value) {
+                        return [
+                          value.docs.first['email'],
+                          value.docs.first['password']
+                        ];
+                      });
+                      if (emailAddress == admin[0] && password == admin[1]) {
+                        Navigator.pushNamed(context, '/home');
+                      } else {
+                        const snackBar = SnackBar(
+                            content: Text('login data not correct ...'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                     color: mainColor,
                     child: const Text(
-                      'Register',
+                      'Login',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

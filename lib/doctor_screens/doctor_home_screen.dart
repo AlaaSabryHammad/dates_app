@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../constants.dart';
-import '../widgets/custom_icon.dart';
-import '../widgets/user_action.dart';
-import 'widgets/appointment_action.dart';
+import '../constants.dart';
+import '../screens/home_screen/patient_home_screen/widgets/appointment_action.dart';
+import '../screens/home_screen/widgets/custom_icon.dart';
+import '../screens/home_screen/widgets/user_action.dart';
 
-class PatientHomeScreen extends StatelessWidget {
-  const PatientHomeScreen({super.key});
+class DoctorHomeScreen extends StatelessWidget {
+  const DoctorHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +34,9 @@ class PatientHomeScreen extends StatelessWidget {
                     children: [
                       CustomIcon(
                         onPressed: () {
-                          // Navigator.pushNamed(context, '/user-appointments');
-                          customShowModalSheetApp(context);
+                          Navigator.pushReplacementNamed(
+                              context, '/doctor-app');
+                          // customShowModalSheetApp(context);
                         },
                         label: "Appointments",
                         icon: Icons.book_rounded,
@@ -44,45 +45,7 @@ class PatientHomeScreen extends StatelessWidget {
                         onPressed: () {
                           print('object');
                         },
-                        label: 'View Prescription',
-                        icon: Icons.contact_page_rounded,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomIcon(
-                        onPressed: () {
-                          // customShowModalSheet(context);
-                        },
-                        label: 'Book Health Awareness Session',
-                        icon: Icons.menu_book_rounded,
-                      ),
-                      CustomIcon(
-                        onPressed: () {
-                          print('object');
-                        },
-                        label: "Test Results",
-                        icon: Icons.analytics_rounded,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomIcon(
-                        onPressed: () {
-                          customShowModalSheetServiceEvaluation(context);
-                        },
-                        label: 'Service Evaluation',
-                        icon: Icons.medical_services_rounded,
-                      ),
-                      CustomIcon(
-                        onPressed: () {
-                          print('object');
-                        },
-                        label: "Send Email",
+                        label: "Chats",
                         icon: Icons.email,
                       ),
                     ],
@@ -196,56 +159,6 @@ class PatientHomeScreen extends StatelessWidget {
                   },
                   label: 'View appointments',
                   icon: Icons.book_rounded,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  Future<dynamic> customShowModalSheetServiceEvaluation(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Manage Evaluations',
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: mainColor,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                UserAction(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/patient-add-evaluation');
-                  },
-                  label: 'Add Evaluation',
-                  icon: Icons.note_add_rounded,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                UserAction(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/patient-view-evaluations');
-                  },
-                  label: 'View Evaluations',
-                  icon: Icons.note_alt,
                 ),
                 const SizedBox(
                   height: 30,

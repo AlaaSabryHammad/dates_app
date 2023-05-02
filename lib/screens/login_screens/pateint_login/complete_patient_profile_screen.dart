@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../widgets/profile_textfield.dart';
 
 class CompletePatientProfileScreen extends StatefulWidget {
-  const CompletePatientProfileScreen({super.key});
+  const CompletePatientProfileScreen({super.key, required this.patientEmail});
+  final String patientEmail;
 
   @override
   State<CompletePatientProfileScreen> createState() =>
@@ -42,145 +43,148 @@ class _CompletePatientProfileScreenState
   void initState() {
     super.initState();
     setState(() {
-      emailController.text = user.email!;
+      emailController.text = widget.patientEmail;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding:
-            const EdgeInsets.only(top: 70, left: 30, right: 30, bottom: 50),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Patient Profile',
-                  style: TextStyle(
-                      color: mainColor,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: Padding(
+          padding:
+              const EdgeInsets.only(top: 70, left: 30, right: 30, bottom: 50),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Patient Profile',
+                    style: TextStyle(
+                        color: mainColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              ProfileTextField(
-                  controller: fNameController,
-                  hint: 'First Name',
+                const SizedBox(
+                  height: 30,
+                ),
+                ProfileTextField(
+                    controller: fNameController,
+                    hint: 'First Name',
+                    requiredColor: Colors.red,
+                    readOnly: false,
+                    inputType: TextInputType.name),
+                ProfileTextField(
+                    controller: lNameController,
+                    hint: 'Last Name',
+                    requiredColor: Colors.red,
+                    readOnly: false,
+                    inputType: TextInputType.name),
+                ProfileTextField(
+                    controller: emailController,
+                    hint: 'email address',
+                    requiredColor: Colors.white,
+                    readOnly: true,
+                    inputType: TextInputType.emailAddress),
+                ProfileTextField(
+                    controller: nIDController,
+                    hint: 'National ID',
+                    requiredColor: Colors.red,
+                    readOnly: false,
+                    inputType: TextInputType.number),
+                ProfileTextField(
+                  controller: ageController,
+                  hint: 'Age',
                   requiredColor: Colors.red,
                   readOnly: false,
-                  inputType: TextInputType.name),
-              ProfileTextField(
-                  controller: lNameController,
-                  hint: 'Last Name',
-                  requiredColor: Colors.red,
-                  readOnly: false,
-                  inputType: TextInputType.name),
-              ProfileTextField(
-                  controller: emailController,
-                  hint: 'email address',
-                  requiredColor: Colors.white,
-                  readOnly: true,
-                  inputType: TextInputType.emailAddress),
-              ProfileTextField(
-                  controller: nIDController,
-                  hint: 'National ID',
-                  requiredColor: Colors.red,
-                  readOnly: false,
-                  inputType: TextInputType.number),
-              ProfileTextField(
-                controller: ageController,
-                hint: 'Age',
-                requiredColor: Colors.red,
-                readOnly: false,
-                inputType: TextInputType.number,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        socialStatus = true;
-                        status = 'married';
-                      });
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: socialStatus
-                              ? mainColor
-                              : Colors.grey.withOpacity(0.5)),
-                      child: const Center(
-                        child: Text(
-                          'Married',
-                          style: TextStyle(color: Colors.white),
+                  inputType: TextInputType.number,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          socialStatus = true;
+                          status = 'married';
+                        });
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: socialStatus
+                                ? mainColor
+                                : Colors.grey.withOpacity(0.5)),
+                        child: const Center(
+                          child: Text(
+                            'Married',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        socialStatus = false;
-                        status = 'single';
-                      });
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: socialStatus
-                              ? Colors.grey.withOpacity(0.5)
-                              : mainColor),
-                      child: const Center(
-                        child: Text(
-                          'Single',
-                          style: TextStyle(color: Colors.white),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          socialStatus = false;
+                          status = 'single';
+                        });
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: socialStatus
+                                ? Colors.grey.withOpacity(0.5)
+                                : mainColor),
+                        child: const Center(
+                          child: Text(
+                            'Single',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              ProfileTextField(
-                  controller: allergyController,
-                  hint: 'Allergy',
-                  requiredColor: Colors.red,
-                  readOnly: false,
-                  inputType: TextInputType.text),
-              ProfileTextField(
-                  controller: chromesController,
-                  hint: 'Chromes Diseases',
-                  requiredColor: Colors.red,
-                  readOnly: false,
-                  inputType: TextInputType.text),
-              MaterialButton(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                color: mainColor,
-                elevation: 5,
-                onPressed: () {
-                  saveUserData();
-                  Navigator.pushReplacementNamed(context, '/patient-home');
-                },
-                child: const Text(
-                  'Done',
-                  style: TextStyle(color: Colors.white),
+                  ],
                 ),
-              )
-            ],
+                const SizedBox(
+                  height: 15,
+                ),
+                ProfileTextField(
+                    controller: allergyController,
+                    hint: 'Allergy',
+                    requiredColor: Colors.red,
+                    readOnly: false,
+                    inputType: TextInputType.text),
+                ProfileTextField(
+                    controller: chromesController,
+                    hint: 'Chromes Diseases',
+                    requiredColor: Colors.red,
+                    readOnly: false,
+                    inputType: TextInputType.text),
+                MaterialButton(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  color: mainColor,
+                  elevation: 5,
+                  onPressed: () {
+                    saveUserData();
+                    Navigator.pushReplacementNamed(context, '/patient-home');
+                  },
+                  child: const Text(
+                    'Done',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

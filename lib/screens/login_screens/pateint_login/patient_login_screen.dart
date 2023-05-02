@@ -14,6 +14,9 @@ class PatientLoginScreen extends StatefulWidget {
 class _PatientLoginScreenState extends State<PatientLoginScreen> {
   String? emailAddress;
   String? password;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -65,6 +68,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                     emailAddress = value;
                   },
                   isSecured: false,
+                  controller: emailController,
                 ),
                 CustomTextField(
                   hint: 'Enter your password .....',
@@ -74,6 +78,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                     password = value;
                   },
                   isSecured: true,
+                  controller: passwordController,
                 ),
                 const SizedBox(
                   height: 20,

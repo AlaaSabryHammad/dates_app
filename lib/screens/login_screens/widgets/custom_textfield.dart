@@ -9,12 +9,13 @@ class CustomTextField extends StatelessWidget {
     required this.label,
     required this.hint,
     required this.icon,
-    required this.isSecured,
+    required this.isSecured, required this.controller,
   });
   final Function onPressed;
   final String label, hint;
   final IconData icon;
   final bool isSecured;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
