@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/choose_icon.dart';
+import '../widgets/choose_icon.dart';
 
 class ChooseLoginScreen extends StatelessWidget {
   const ChooseLoginScreen({super.key});

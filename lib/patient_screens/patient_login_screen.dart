@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../constants.dart';
 import '../widgets/custom_textfield.dart';
 
-class AdminLoginScreen extends StatefulWidget {
-  const AdminLoginScreen({super.key});
+class PatientLoginScreen extends StatefulWidget {
+  const PatientLoginScreen({super.key});
 
   @override
-  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
+  State<PatientLoginScreen> createState() => _PatientLoginScreenState();
 }
 
-class _AdminLoginScreenState extends State<AdminLoginScreen> {
+class _PatientLoginScreenState extends State<PatientLoginScreen> {
   String? emailAddress;
   String? password;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -32,9 +32,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Hero(
-                    tag: 'admin',
+                    tag: 'patient',
                     child: Image.asset(
-                      'images/admin.png',
+                      'images/patient.png',
                       width: width * 0.4,
                       height: width * 0.4,
                     ),
@@ -42,7 +42,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Admin Login',
+                      'Patient Login',
                       style: TextStyle(
                           color: textColor,
                           fontSize: 22,
@@ -89,21 +89,27 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   MaterialButton(
                     elevation: 5,
                     onPressed: () async {
-                      List admin = await firebaseFirestore
-                          .collection('admins')
-                          .get()
-                          .then((value) {
-                        return [
-                          value.docs.first['email'],
-                          value.docs.first['password']
-                        ];
-                      });
-                      if (emailAddress == admin[0] && password == admin[1]) {
-                        Navigator.pushNamed(context, '/home');
-                      } else {
-                        const snackBar = SnackBar(
-                            content: Text('login data not correct ...'));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: emailAddress!, password: password!);
+                        DocumentSnapshot ds = await FirebaseFirestore.instance
+                            .collection('patients')
+                            .doc(credential.user!.uid)
+                            .get();
+                        if (ds.exists) {
+                          Navigator.pushReplacementNamed(
+                              context, '/patient-home');
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, '/complete-patient-profile');
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          print('No user found for that email.');
+                        } else if (e.code == 'wrong-password') {
+                          print('Wrong password provided for that user.');
+                        }
                       }
                     },
                     color: mainColor,
@@ -115,6 +121,22 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           letterSpacing: 1.1),
                     ),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      const Text("Don't you have an account ...?"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/patient-register');
+                          },
+                          child: const Text('Register .'))
+                    ],
+                  )
                 ],
               ),
             ),

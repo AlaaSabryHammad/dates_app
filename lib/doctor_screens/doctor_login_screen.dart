@@ -1,54 +1,23 @@
-import 'package:dates_app/screens/login_screens/pateint_login/complete_patient_profile_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../constants.dart';
+import '../constants.dart';
 import '../widgets/custom_textfield.dart';
 
-class PatientRegisterScreen extends StatefulWidget {
-  const PatientRegisterScreen({super.key});
+class DoctorLoginScreen extends StatefulWidget {
+  const DoctorLoginScreen({super.key});
 
   @override
-  State<PatientRegisterScreen> createState() => _PatientRegisterScreenState();
+  State<DoctorLoginScreen> createState() => _DoctorLoginScreenState();
 }
 
-class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
+class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
   String? emailAddress;
   String? password;
-  String? confirm;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
 
-  registerNewPatient() async {
-    if (password == confirm) {
-      try {
-        UserCredential credential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailAddress!,
-          password: password!,
-        );
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          const snackBar = SnackBar(
-            content: Text('The password provided is too weak.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if (e.code == 'email-already-in-use') {
-          const snackBar = SnackBar(
-            content: Text('The account already exists for that email.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      } catch (e) {
-        print(e);
-      }
-    } else {
-      const snackBar = SnackBar(
-        content: Text('passwords are not the same ...'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +33,18 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset(
-                    'images/patient.png',
-                    width: width * 0.4,
-                    height: width * 0.4,
+                  Hero(
+                    tag: 'doctor',
+                    child: Image.asset(
+                      'images/doctor.png',
+                      width: width * 0.4,
+                      height: width * 0.4,
+                    ),
                   ),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Patient Sign Up',
+                      'Doctor Login',
                       style: TextStyle(
                           color: textColor,
                           fontSize: 22,
@@ -85,7 +57,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Register New Account ...... !',
+                      'Login to continue ...... !',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -113,35 +85,31 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                     isSecured: true,
                     controller: passwordController,
                   ),
-                  CustomTextField(
-                    hint: 'Confirm your password .....',
-                    icon: Icons.lock,
-                    label: 'Confirm Password',
-                    onPressed: (value) {
-                      confirm = value;
-                    },
-                    isSecured: true,
-                    controller: confirmController,
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   MaterialButton(
                     elevation: 5,
-                    onPressed: () {
-                      registerNewPatient();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CompletePatientProfileScreen(
-                            patientEmail: emailAddress!,
-                          ),
-                        ),
-                      );
+                    onPressed: () async {
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: emailAddress!, password: password!);
+                        Navigator.pushNamed(context, '/doctor-home');
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          print('No user found for that email.');
+                        } else if (e.code == 'wrong-password') {
+                          print('Wrong password provided for that user.');
+                          const snackBar = SnackBar(
+                              content: Text('login data not correct ...'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      }
                     },
                     color: mainColor,
                     child: const Text(
-                      'Register',
+                      'Login',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

@@ -1,9 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/patient_screens/patient_view_evaluation_details.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import '../constants.dart';
 
-class PatientViewServiceEvaluations extends StatelessWidget {
+class PatientViewServiceEvaluations extends StatefulWidget {
   const PatientViewServiceEvaluations({super.key});
+
+  @override
+  State<PatientViewServiceEvaluations> createState() =>
+      _PatientViewServiceEvaluationsState();
+}
+
+class _PatientViewServiceEvaluationsState
+    extends State<PatientViewServiceEvaluations> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +46,89 @@ class PatientViewServiceEvaluations extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-                child: ListView(
-              children: [
-                GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                        context, '/patient-view-evaluation-details'),
-                    child: const UserEvaluationCard()),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-              ],
-            ))
+              child: StreamBuilder(
+                  stream: firebaseFirestore
+                      .collection('evaluations')
+                      .where('patientId',
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .orderBy('time', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var item = snapshot.data!.docs[index];
+                            DateTime evalTime = item['time'].toDate();
+                            String day = DateFormat('E').format(evalTime);
+                            return GestureDetector(
+                              onTap: () {
+                                firebaseFirestore
+                                    .collection('evaluations')
+                                    .doc(item.id)
+                                    .update({'read': true});
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PatientViewEvaluationDetails(
+                                      item: item,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: UserEvaluationCard(
+                                doctorName: item['doctorName'],
+                                day: evalTime.day,
+                                textWidget: item['read'] == false
+                                    ? Container(
+                                        width: 60,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          color: mainColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            'New',
+                                            style: TextStyle(
+                                                color: Colors.yellow,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 60,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'Read',
+                                            style: TextStyle(
+                                                color: mainColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                      ),
+                                dayName: day,
+                              ),
+                            );
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }),
+            )
           ],
         ),
       ),
@@ -57,7 +139,15 @@ class PatientViewServiceEvaluations extends StatelessWidget {
 class UserEvaluationCard extends StatelessWidget {
   const UserEvaluationCard({
     super.key,
+    required this.doctorName,
+    required this.day,
+    required this.textWidget,
+    required this.dayName,
   });
+  final String doctorName;
+  final int day;
+  final Widget textWidget;
+  final String dayName;
 
   @override
   Widget build(BuildContext context) {
@@ -84,39 +174,25 @@ class UserEvaluationCard extends StatelessWidget {
                     color: mainColor, borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      '27',
-                      style: TextStyle(
+                      '$day',
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 22),
                     ),
-                    Text('Mon',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22))
+                    Text(
+                      dayName,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22),
+                    ),
                   ],
                 ),
               ),
-              // Container(
-              //   width: 80,
-              //   height: 40,
-              //   decoration: BoxDecoration(
-              //     color: Colors.grey.withOpacity(0.3),
-              //     borderRadius: BorderRadius.circular(5),
-              //   ),
-              //   child: Center(
-              //     child: Text(
-              //       'New',
-              //       style: TextStyle(
-              //           color: mainColor,
-              //           fontWeight: FontWeight.bold,
-              //           fontSize: 22),
-              //     ),
-              //   ),
-              // )
+              textWidget
             ],
           ),
           const SizedBox(
@@ -126,9 +202,10 @@ class UserEvaluationCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Dr. Mohammed Ali',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              Text(
+                doctorName,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               const SizedBox(
                 height: 10,

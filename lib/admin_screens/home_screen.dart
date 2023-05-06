@@ -1,10 +1,10 @@
 import 'package:dates_app/constants.dart';
-import 'package:dates_app/screens/home_screen/widgets/custom_icon.dart';
-import 'package:dates_app/screens/home_screen/widgets/user_action.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'patient_home_screen/widgets/appointment_action.dart';
+import '../widgets/appointment_action.dart';
+import '../widgets/custom_icon.dart';
+import '../widgets/user_action.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

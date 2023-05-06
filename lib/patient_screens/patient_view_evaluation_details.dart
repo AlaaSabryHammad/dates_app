@@ -1,9 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
 
-class PatientViewEvaluationDetails extends StatelessWidget {
-  const PatientViewEvaluationDetails({super.key});
+class PatientViewEvaluationDetails extends StatefulWidget {
+  const PatientViewEvaluationDetails({super.key, required this.item});
+  final QueryDocumentSnapshot item;
+
+  @override
+  State<PatientViewEvaluationDetails> createState() =>
+      _PatientViewEvaluationDetailsState();
+}
+
+class _PatientViewEvaluationDetailsState
+    extends State<PatientViewEvaluationDetails> {
+  TextEditingController evalConroller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      evalConroller.text = widget.item['description'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +59,10 @@ class PatientViewEvaluationDetails extends StatelessWidget {
                   width: width - 40,
                   height: 50,
                   decoration: BoxDecoration(color: mainColor),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Family Clinic',
-                      style: TextStyle(
+                      widget.item['clinicName'],
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 22),
@@ -68,10 +86,10 @@ class PatientViewEvaluationDetails extends StatelessWidget {
                   width: width - 40,
                   height: 50,
                   decoration: BoxDecoration(color: mainColor),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Dr. Alaa Sbry',
-                      style: TextStyle(
+                      widget.item['doctorName'],
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 22),
@@ -98,11 +116,11 @@ class PatientViewEvaluationDetails extends StatelessWidget {
                       color: mainColor,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.black)),
-                  child: const TextField(
+                  child: TextField(
+                    controller: evalConroller,
                     maxLines: null, // Set this
                     expands: true, // and this
                     keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(hintText: 'Write here ......'),
                   ),
                 ),
                 const SizedBox(

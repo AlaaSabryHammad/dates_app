@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
-import 'package:dates_app/screens/login_screens/widgets/custom_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import '../widgets/custom_textfield.dart';
 
 class AdminAddPatient extends StatefulWidget {
   const AdminAddPatient({super.key});

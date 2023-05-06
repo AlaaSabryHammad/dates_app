@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PatientAddServiceEvaluations extends StatefulWidget {
@@ -13,10 +14,33 @@ class PatientAddServiceEvaluations extends StatefulWidget {
 class _PatientAddServiceEvaluationsState
     extends State<PatientAddServiceEvaluations> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  TextEditingController descController = TextEditingController();
   List<String> itemss = [];
   List<String> doctorsList = [];
   String? dropdownValue;
   String? dropdownValueDoctors;
+  String? clinicID;
+  String? doctorID;
+
+  setClinicId(String clinicName) async {
+    await firebaseFirestore
+        .collection('clinics')
+        .where('clinic_name', isEqualTo: clinicName)
+        .get()
+        .then((value) {
+      clinicID = value.docs.first.id;
+    });
+  }
+
+  setDoctorId(String doctorName) async {
+    await firebaseFirestore
+        .collection('doctors')
+        .where('name', isEqualTo: doctorName)
+        .get()
+        .then((value) {
+      doctorID = value.docs.first.id;
+    });
+  }
 
   getClinics() async {
     await firebaseFirestore.collection('clinics').get().then((value) {
@@ -28,6 +52,7 @@ class _PatientAddServiceEvaluationsState
       setState(() {
         dropdownValue = itemss[0];
       });
+      setClinicId(dropdownValue!);
       getDoctors(dropdownValue!);
     });
   }
@@ -46,6 +71,7 @@ class _PatientAddServiceEvaluationsState
       setState(() {
         dropdownValueDoctors = doctorsList[0];
       });
+      setDoctorId(dropdownValueDoctors!);
     });
   }
 
@@ -184,11 +210,13 @@ class _PatientAddServiceEvaluationsState
                       color: mainColor,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.black)),
-                  child: const TextField(
+                  child: TextField(
                     maxLines: null, // Set this
                     expands: true, // and this
                     keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(hintText: 'Write here ......'),
+                    decoration:
+                        const InputDecoration(hintText: 'Write here ......'),
+                    controller: descController,
                   ),
                 ),
                 const SizedBox(
@@ -198,7 +226,20 @@ class _PatientAddServiceEvaluationsState
                   elevation: 5,
                   minWidth: 250,
                   color: mainColor,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await firebaseFirestore.collection('evaluations').add({
+                      'patientId': FirebaseAuth.instance.currentUser!.uid,
+                      'clinicName': dropdownValue, 
+                      'clinicID': clinicID,
+                      'doctorName': dropdownValueDoctors,
+                      'doctorId': doctorID,
+                      'description': descController.text,
+                      'read': false,
+                      'time': FieldValue.serverTimestamp()
+                    });
+                    Navigator.pushReplacementNamed(
+                        context, '/patient-view-evaluations');
+                  },
                   child: const Text(
                     'Done',
                     style: TextStyle(

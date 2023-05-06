@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../../constants.dart';
+import '../constants.dart';
+import '../widgets/appointment_action.dart';
 import '../widgets/custom_icon.dart';
 import '../widgets/user_action.dart';
-import 'widgets/appointment_action.dart';
 
 class PatientHomeScreen extends StatelessWidget {
   const PatientHomeScreen({super.key});
@@ -80,7 +80,7 @@ class PatientHomeScreen extends StatelessWidget {
                       ),
                       CustomIcon(
                         onPressed: () {
-                          print('object');
+                          Navigator.pushNamed(context, '/patient-home-chat');
                         },
                         label: "Send Email",
                         icon: Icons.email,

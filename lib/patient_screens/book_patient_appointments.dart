@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:dates_app/models/time_model.dart';
-import 'package:dates_app/screens/appointments/widgets/book_widget.dart';
+import 'package:dates_app/widgets/book_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +14,13 @@ class BookPatientAppointments extends StatefulWidget {
 }
 
 class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
+  String? patientName;
   List<String> itemss = [];
   List<String> doctorsList = [];
   String? dropdownValue;
+  String? clinicID;
   String? dropdownValueDoctors;
+  String? doctorID;
   DateTime bookingDate = DateTime.now();
   DateTime newBookingDate = DateTime.now();
   DateTime newBookingDateEnd = DateTime.now();
@@ -26,6 +29,19 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
   int? bookingHrEnd;
   int? bookingMinEnd;
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  getPatientName() {
+    firebaseFirestore
+        .collection('patients')
+        .doc(auth.currentUser!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        patientName = '${value.data()!['fname']} ${value.data()!['lname']}';
+      });
+    });
+  }
 
   getClinics() async {
     await firebaseFirestore.collection('clinics').get().then((value) {
@@ -37,7 +53,28 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
       setState(() {
         dropdownValue = itemss[0];
       });
+      setClinicId(dropdownValue!);
       getDoctors(dropdownValue!);
+    });
+  }
+
+  setClinicId(String clinicName) async {
+    await firebaseFirestore
+        .collection('clinics')
+        .where('clinic_name', isEqualTo: clinicName)
+        .get()
+        .then((value) {
+      doctorID = value.docs.first.id;
+    });
+  }
+
+  setDoctorId(String doctorName) async {
+    await firebaseFirestore
+        .collection('doctors')
+        .where('name', isEqualTo: doctorName)
+        .get()
+        .then((value) {
+      clinicID = value.docs.first.id;
     });
   }
 
@@ -55,6 +92,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
       setState(() {
         dropdownValueDoctors = doctorsList[0];
       });
+      setDoctorId(dropdownValueDoctors!);
     });
   }
 
@@ -86,6 +124,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
     super.initState();
     getClinics();
     getBookings(DateTime.now());
+    getPatientName();
   }
 
   @override
@@ -137,6 +176,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
                   doctorsList.clear();
                   dropdownValue = newValue!;
                 });
+                setClinicId(dropdownValue!);
                 getDoctors(dropdownValue!);
               },
               items: itemss.map<DropdownMenuItem<String>>((String value) {
@@ -179,6 +219,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
                 setState(() {
                   dropdownValueDoctors = newValue!;
                 });
+                setClinicId(dropdownValueDoctors!);
               },
               items: doctorsList.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -275,19 +316,24 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
               elevation: 5,
               padding: const EdgeInsets.symmetric(vertical: 10),
               color: mainColor,
-              onPressed: () {
+              onPressed: () async {
                 if (bookingHr == null) {
                   var snackBar = const SnackBar(
                       content: Text('Please, Select The Time ...'));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {
-                  firebaseFirestore.collection('bookings').add({
+                  await firebaseFirestore.collection('bookings').add({
                     'patientId': FirebaseAuth.instance.currentUser!.uid,
+                    'patientName': patientName,
                     'startTime': newBookingDate,
                     'endTime': newBookingDateEnd,
                     'clinic': dropdownValue,
+                    'clinicID': clinicID,
                     'doctor': dropdownValueDoctors,
-                    'status': 'active'
+                    'doctorID': doctorID,
+                    'status': 'active',
+                    'isWaiting': true,
+                    'isRefered': false
                   });
                   Navigator.pushReplacementNamed(context, '/view-patient-app');
                 }

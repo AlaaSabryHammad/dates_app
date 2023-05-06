@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../screens/login_screens/widgets/custom_textfield.dart';
+import '../widgets/custom_textfield.dart';
 
 class PharmacistLogin extends StatefulWidget {
   const PharmacistLogin({super.key});

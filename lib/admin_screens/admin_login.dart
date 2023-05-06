@@ -1,25 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../../constants.dart';
+import '../constants.dart';
 import '../widgets/custom_textfield.dart';
 
-class DoctorLoginScreen extends StatefulWidget {
-  const DoctorLoginScreen({super.key});
+class AdminLoginScreen extends StatefulWidget {
+  const AdminLoginScreen({super.key});
 
   @override
-  State<DoctorLoginScreen> createState() => _DoctorLoginScreenState();
+  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
 }
 
-class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
+class _AdminLoginScreenState extends State<AdminLoginScreen> {
   String? emailAddress;
   String? password;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -35,9 +32,9 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Hero(
-                    tag: 'doctor',
+                    tag: 'admin',
                     child: Image.asset(
-                      'images/doctor.png',
+                      'images/admin.png',
                       width: width * 0.4,
                       height: width * 0.4,
                     ),
@@ -45,7 +42,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Doctor Login',
+                      'Admin Login',
                       style: TextStyle(
                           color: textColor,
                           fontSize: 22,
@@ -92,20 +89,21 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                   MaterialButton(
                     elevation: 5,
                     onPressed: () async {
-                      try {
-                        final credential = await FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: emailAddress!, password: password!);
-                        Navigator.pushNamed(context, '/doctor-home');
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          print('No user found for that email.');
-                        } else if (e.code == 'wrong-password') {
-                          print('Wrong password provided for that user.');
-                          const snackBar = SnackBar(
-                              content: Text('login data not correct ...'));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
+                      List admin = await firebaseFirestore
+                          .collection('admins')
+                          .get()
+                          .then((value) {
+                        return [
+                          value.docs.first['email'],
+                          value.docs.first['password']
+                        ];
+                      });
+                      if (emailAddress == admin[0] && password == admin[1]) {
+                        Navigator.pushNamed(context, '/home');
+                      } else {
+                        const snackBar = SnackBar(
+                            content: Text('login data not correct ...'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                     color: mainColor,

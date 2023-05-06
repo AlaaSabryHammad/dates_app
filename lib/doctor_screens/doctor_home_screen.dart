@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../screens/home_screen/patient_home_screen/widgets/appointment_action.dart';
-import '../screens/home_screen/widgets/custom_icon.dart';
-import '../screens/home_screen/widgets/user_action.dart';
+import '../widgets/appointment_action.dart';
+import '../widgets/custom_icon.dart';
+import '../widgets/user_action.dart';
 
 class DoctorHomeScreen extends StatelessWidget {
   const DoctorHomeScreen({super.key});
@@ -34,8 +34,7 @@ class DoctorHomeScreen extends StatelessWidget {
                     children: [
                       CustomIcon(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, '/doctor-app');
+                          Navigator.pushNamed(context, '/doctor-app');
                           // customShowModalSheetApp(context);
                         },
                         label: "Appointments",
