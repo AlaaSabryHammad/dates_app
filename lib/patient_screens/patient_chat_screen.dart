@@ -14,6 +14,17 @@ class _ChatScreenState extends State<ChatScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController messageController = TextEditingController();
+  createChat() async {
+    // firebaseFirestore.collection('messages').
+  }
+  getMessages() async {
+    firebaseFirestore
+        .collection('messages')
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection(widget.receiverDocument.id)
+        .snapshots();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -29,12 +40,17 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               Expanded(
                 child: StreamBuilder(
+                    // stream: firebaseFirestore
+                    //     .collection('messages')
+                    //     .where('sender',
+                    //         isEqualTo: firebaseAuth.currentUser!.email)
+                    //     .where('receiver',
+                    //         isEqualTo: widget.receiverDocument['email'])
+                    //     .snapshots(),
                     stream: firebaseFirestore
                         .collection('messages')
-                        .where('sender',
-                            isEqualTo: firebaseAuth.currentUser!.email)
-                        .where('receiver',
-                            isEqualTo: widget.receiverDocument['email'])
+                        .doc(firebaseAuth.currentUser!.uid)
+                        .collection(widget.receiverDocument.id)
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -61,11 +77,17 @@ class _ChatScreenState extends State<ChatScreen> {
                     )),
                     TextButton(
                       onPressed: () async {
-                        await firebaseFirestore.collection('messages').add({
+                        await firebaseFirestore
+                            .collection('messages')
+                            .doc(
+                                "${firebaseAuth.currentUser!.uid}${widget.receiverDocument['id']}")
+                            .collection(widget.receiverDocument.id)
+                            .add({
                           'text': messageController.text,
                           'time': FieldValue.serverTimestamp(),
                           'sender': firebaseAuth.currentUser!.email,
-                          'receiver': widget.receiverDocument['email']
+                          'receiver': widget.receiverDocument['email'],
+                          'read': false
                         });
                         messageController.clear();
                       },

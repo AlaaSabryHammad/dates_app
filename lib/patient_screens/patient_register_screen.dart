@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../constants.dart';
@@ -12,6 +13,7 @@ class PatientRegisterScreen extends StatefulWidget {
 }
 
 class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   String? emailAddress;
   String? password;
   String? confirm;
@@ -27,6 +29,16 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
           email: emailAddress!,
           password: password!,
         );
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CompletePatientProfileScreen(
+              patientEmail: emailAddress!,
+              password: password!,
+            ),
+          ),
+        );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           const snackBar = SnackBar(
@@ -34,10 +46,28 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else if (e.code == 'email-already-in-use') {
-          const snackBar = SnackBar(
-            content: Text('The account already exists for that email.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          await firebaseFirestore
+              .collection('patients')
+              .where('email', isEqualTo: emailAddress)
+              .get()
+              .then((value) {
+            if (value.docs.isNotEmpty) {
+              const snackBar = SnackBar(
+                content: Text('The account already exists for that email.'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CompletePatientProfileScreen(
+                    patientEmail: emailAddress!,
+                    password: password!,
+                  ),
+                ),
+              );
+            }
+          });
         }
       } catch (e) {
         print(e);
@@ -128,20 +158,20 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                   ),
                   MaterialButton(
                     elevation: 5,
-                    onPressed: () {
-                      registerNewPatient();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CompletePatientProfileScreen(
-                            patientEmail: emailAddress!,
-                          ),
-                        ),
-                      );
+                    onPressed: () async {
+                      await registerNewPatient();
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => CompletePatientProfileScreen(
+                      //       patientEmail: emailAddress!,
+                      //     ),
+                      //   ),
+                      // );
                     },
                     color: mainColor,
                     child: const Text(
-                      'Register',
+                      'Continue...',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import '../widgets/profile_textfield.dart';
 
 class CompletePatientProfileScreen extends StatefulWidget {
-  const CompletePatientProfileScreen({super.key, required this.patientEmail});
+  const CompletePatientProfileScreen({super.key, required this.patientEmail, required this.password});
   final String patientEmail;
+  final String password;
 
   @override
   State<CompletePatientProfileScreen> createState() =>
@@ -30,6 +31,7 @@ class _CompletePatientProfileScreenState
       'lname': lNameController.text,
       'socialstatus': status,
       'email': emailController.text,
+      'password': widget.password,
       'nationalid': nIDController.text,
       'age': ageController.text,
       'allegry': allergyController.text,

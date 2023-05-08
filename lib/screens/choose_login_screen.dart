@@ -10,9 +10,9 @@ class ChooseLoginScreen extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding:
-            const EdgeInsets.only(top: 100, left: 30, right: 30, bottom: 50),
+            const EdgeInsets.only(top: 50, left: 30, right: 30, bottom: 50),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
               children: [
@@ -20,8 +20,8 @@ class ChooseLoginScreen extends StatelessWidget {
                   tag: 'logo',
                   child: Image.asset(
                     'images/logo.png',
-                    width: width * 0.5,
-                    height: width * 0.5,
+                    width: width * 0.3,
+                    height: width * 0.3,
                   ),
                 ),
                 const SizedBox(
@@ -29,7 +29,7 @@ class ChooseLoginScreen extends StatelessWidget {
                 ),
                 const Text(
                   'TAIBAH CARE',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

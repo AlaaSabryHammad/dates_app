@@ -3,6 +3,9 @@ import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'patient_update_appointment.dart';
+
+
 
 class ViewPatientAppointments extends StatefulWidget {
   const ViewPatientAppointments({super.key});
@@ -63,7 +66,54 @@ class _ViewPatientAppointmentsState extends State<ViewPatientAppointments> {
                               return BookCard(
                                 item: item,
                                 tDate: bookingTime,
-                                edit: () {},
+                                edit: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: Text(
+                                        'Do you want to Update the Appointment..?',
+                                        style: TextStyle(
+                                            color: textColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      actions: [
+                                        MaterialButton(
+                                          elevation: 5,
+                                          color: mainColor,
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text(
+                                            'No',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                        MaterialButton(
+                                          elevation: 5,
+                                          color: textColor,
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PatientUpdateAppointment(
+                                                  item: item,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: const Text(
+                                            'Yes',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
                                 cancel: () {
                                   showDialog(
                                     context: context,
@@ -234,6 +284,16 @@ class BookCard extends StatelessWidget {
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
                         fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Time- ${tDate.hour}:${tDate.minute}',
+                    style: TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12),
                   ),
                 ],
               )

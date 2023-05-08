@@ -3,6 +3,7 @@ import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
+import 'complete_patient_profile_screen.dart';
 
 class PatientLoginScreen extends StatefulWidget {
   const PatientLoginScreen({super.key});
@@ -98,17 +99,34 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                             .doc(credential.user!.uid)
                             .get();
                         if (ds.exists) {
+                          // ignore: use_build_context_synchronously
                           Navigator.pushReplacementNamed(
                               context, '/patient-home');
                         } else {
-                          Navigator.pushReplacementNamed(
-                              context, '/complete-patient-profile');
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CompletePatientProfileScreen(
+                                patientEmail: emailAddress!,
+                                password: password!,
+                              ),
+                            ),
+                          );
                         }
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
-                          print('No user found for that email.');
+                          const snackBar = SnackBar(
+                            content: Text('No user found for that email.'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (e.code == 'wrong-password') {
-                          print('Wrong password provided for that user.');
+                          const snackBar = SnackBar(
+                            content:
+                                Text('Wrong password provided for that user.'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }
                     },

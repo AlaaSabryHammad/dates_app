@@ -7,7 +7,8 @@ class ChooseIcon extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.image,
-    required this.label, required this.tag,
+    required this.label,
+    required this.tag,
   });
   final VoidCallback onPressed;
   final String image;
@@ -20,8 +21,8 @@ class ChooseIcon extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: (width - 90) / 2,
-        height: (width - 90) / 2,
+        width: (width - 120) / 2,
+        height: (width - 120) / 2,
         decoration: BoxDecoration(
           boxShadow: [customBoxShadow],
           color: Colors.white,
@@ -35,8 +36,8 @@ class ChooseIcon extends StatelessWidget {
               tag: tag,
               child: Image.asset(
                 image,
-                width: width / 2 - 110,
-                height: width / 2 - 110,
+                width: width / 2 - 130,
+                height: width / 2 - 130,
               ),
             ),
             const SizedBox(
