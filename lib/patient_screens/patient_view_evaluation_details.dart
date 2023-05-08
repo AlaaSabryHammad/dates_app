@@ -117,6 +117,7 @@ class _PatientViewEvaluationDetailsState
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.black)),
                   child: TextField(
+                    readOnly: true,
                     controller: evalConroller,
                     maxLines: null, // Set this
                     expands: true, // and this

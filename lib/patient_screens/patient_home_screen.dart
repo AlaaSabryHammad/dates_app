@@ -42,7 +42,8 @@ class PatientHomeScreen extends StatelessWidget {
                       ),
                       CustomIcon(
                         onPressed: () {
-                          print('object');
+                          Navigator.pushNamed(
+                              context, '/patient-view-prescription');
                         },
                         label: 'View Prescription',
                         icon: Icons.contact_page_rounded,

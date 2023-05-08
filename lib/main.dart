@@ -26,6 +26,7 @@ import 'admin_screens/admin_add_clinic_screen.dart';
 import 'patient_screens/book_patient_appointments.dart';
 import 'patient_screens/patient_login_screen.dart';
 import 'patient_screens/patient_register_screen.dart';
+import 'patient_screens/patient_view_prescription.dart';
 import 'patient_screens/view_pateint_appointments_screen.dart';
 
 void main() async {
@@ -57,8 +58,8 @@ class MyApp extends StatelessWidget {
             const PatientViewServiceEvaluations(),
         '/patient-home-chat': (context) =>
             const PatientHomeChatScreen(),
-        // '/complete-patient-profile': (context) =>
-        //     const CompletePatientProfileScreen(),
+        '/patient-view-prescription': (context) =>
+            const PatientViewDescriptions(),
         '/patient-home': (context) => const PatientHomeScreen(),
         '/book-patient-app': (context) => const BookPatientAppointments(),
         '/view-patient-app': (context) => const ViewPatientAppointments(),

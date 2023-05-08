@@ -17,8 +17,6 @@ class _PatientViewServiceEvaluationsState
     extends State<PatientViewServiceEvaluations> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +61,10 @@ class _PatientViewServiceEvaluationsState
                             String day = DateFormat('E').format(evalTime);
                             return GestureDetector(
                               onTap: () {
-                                firebaseFirestore
-                                    .collection('evaluations')
-                                    .doc(item.id)
-                                    .update({'read': true});
+                                // firebaseFirestore
+                                //     .collection('evaluations')
+                                //     .doc(item.id)
+                                //     .update({'read': true});
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

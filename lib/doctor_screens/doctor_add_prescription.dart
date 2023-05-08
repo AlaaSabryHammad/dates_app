@@ -240,6 +240,7 @@ class PrescriptionCard extends StatelessWidget {
                   ),
                 ],
               ),
+              const Divider(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

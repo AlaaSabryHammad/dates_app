@@ -64,7 +64,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
         .where('clinic_name', isEqualTo: clinicName)
         .get()
         .then((value) {
-      doctorID = value.docs.first.id;
+      clinicID = value.docs.first.id;
     });
   }
 
@@ -74,7 +74,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
         .where('name', isEqualTo: doctorName)
         .get()
         .then((value) {
-      clinicID = value.docs.first.id;
+      doctorID = value.docs.first.id;
     });
   }
 
