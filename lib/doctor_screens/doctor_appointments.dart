@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:dates_app/doctor_screens/doctor_add_prescription.dart';
 import 'package:dates_app/doctor_screens/doctor_record_test.dart';
+import 'package:dates_app/doctor_screens/doctor_refer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -195,7 +196,14 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
                                               minWidth: 120,
                                               color: mainColor,
                                               elevation: 5,
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            DoctorRefer(
+                                                                item: item)));
+                                              },
                                               child: const Text(
                                                 'Refer',
                                                 style: TextStyle(

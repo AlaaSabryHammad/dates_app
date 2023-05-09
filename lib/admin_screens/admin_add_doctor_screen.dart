@@ -219,52 +219,6 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
                       }
 
                       await app.delete();
-                      // return Future.sync(() => userCredential);
-                      // try {
-                      //   final credential = await FirebaseAuth.instance
-                      //       .createUserWithEmailAndPassword(
-                      //     email: emailController.text,
-                      //     password: passwordController.text,
-                      //   );
-                      //   await firebaseFirestore
-                      //       .collection('doctors')
-                      //       .doc(credential.user!.uid)
-                      //       .set({
-                      //     'email': emailController.text,
-                      //     'name': userNameController.text,
-                      //     'password': passwordController.text,
-                      //     'sex': sex,
-                      //     'clinic': dropdownValue
-                      //   });
-                      //   // ignore: use_build_context_synchronously
-                      //   showDialog(
-                      //       context: context,
-                      //       builder: (context) => AlertDialog(
-                      //             content: Text(
-                      //               'Doctor has been added successfully ...',
-                      //               style: TextStyle(
-                      //                   color: mainColor,
-                      //                   fontSize: 18,
-                      //                   fontWeight: FontWeight.bold),
-                      //             ),
-                      //           ));
-                      //   Navigator.pushReplacementNamed(
-                      //       context, '/view-doctors');
-                      // } on FirebaseAuthException catch (e) {
-                      //   if (e.code == 'weak-password') {
-                      //     var snackBar = const SnackBar(
-                      //         content:
-                      //             Text('The password provided is too weak.'));
-                      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //   } else if (e.code == 'email-already-in-use') {
-                      //     var snackBar = const SnackBar(
-                      //         content: Text(
-                      //             'The account already exists for that email.'));
-                      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //   }
-                      // } catch (e) {
-                      //   print(e);
-                      // }
                     },
                     child: const Text(
                       'Done',

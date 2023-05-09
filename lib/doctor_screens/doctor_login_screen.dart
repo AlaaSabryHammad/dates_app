@@ -95,7 +95,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                         final credential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: emailAddress!, password: password!);
-                        Navigator.pushNamed(context, '/doctor-home');
+                        Navigator.pushReplacementNamed(context, '/doctor-home');
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           print('No user found for that email.');

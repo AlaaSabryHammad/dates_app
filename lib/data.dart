@@ -32,135 +32,135 @@ List results = [
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Urea',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Iron',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Uric Acid',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'BP',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'MCV',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'MCH',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'MCHC',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'PLT',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'TG',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'RDW',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'MPV',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Bilirubin',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Creatinine',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'HDL',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'LDL',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'FBG',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'PPBG',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'TSH',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'VGM',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'VPM',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'TCMH',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'CCMH',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Vitamin D',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Vitamin B9',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Vitamin B11',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Vitamin B12',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Magnesium(Mg)',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Zinc(Zn)',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Ferritin(Fe)',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Calcium(Ca)',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Phosphorus(Ph)',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Sodium(Na)',
     'result': '',
   },
   {
-    'testName': '',
+    'testName': 'Potassium(K)',
     'result': '',
   },
 ];

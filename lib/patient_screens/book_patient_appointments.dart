@@ -333,7 +333,9 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
                     'doctorID': doctorID,
                     'status': 'active',
                     'isWaiting': true,
-                    'isRefered': false
+                    'isRefered': false,
+                    'prescription': null,
+                    'tests' : null
                   });
                   Navigator.pushReplacementNamed(context, '/view-patient-app');
                 }

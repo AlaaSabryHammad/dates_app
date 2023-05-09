@@ -21,6 +21,7 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
     await firebaseFirestore
         .collection('bookings')
         .where('patientId', isEqualTo: firebaseAuth.currentUser!.uid)
+        .where('prescription', isNotEqualTo: null)
         .get()
         .then((value) {
       for (var item in value.docs) {
@@ -115,6 +116,8 @@ class PreCardWidget extends StatelessWidget {
         height: 150,
         width: width - 40,
         decoration: BoxDecoration(
+            border: Border.all(
+                color: Colors.blue, width: 2, style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
             boxShadow: [

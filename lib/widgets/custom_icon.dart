@@ -23,6 +23,8 @@ class CustomIcon extends StatelessWidget {
         width: (width - 90) / 2,
         height: (width - 90) / 2,
         decoration: BoxDecoration(
+            border: Border.all(
+                color: mainColor, width: 1, style: BorderStyle.solid),
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             boxShadow: const [
