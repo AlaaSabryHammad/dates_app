@@ -101,6 +101,8 @@ class UserEvaluationCard extends StatelessWidget {
       width: width - 40,
       height: 150,
       decoration: BoxDecoration(
+        border:
+            Border.all(color: mainColor, width: 2, style: BorderStyle.solid),
         color: Colors.white,
         boxShadow: [customBoxShadow],
         borderRadius: BorderRadius.circular(10),
