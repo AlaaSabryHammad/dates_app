@@ -88,7 +88,7 @@ class AdminViewPatients extends StatelessWidget {
                                             )));
                               },
                               email: item['email'],
-                              name: '${item['fName']} ${item['lName']}',
+                              name: '${item['fname']} ${item['lname']}',
                             );
                           });
                     } else if (snapshot.hasError) {
@@ -98,68 +98,6 @@ class AdminViewPatients extends StatelessWidget {
                       child: Text('loading'),
                     );
                   }),
-              // child: ListView(
-              //   children: [
-              //     PatientCardInAdmin(
-              //       delete: () {
-              //         showDialog(
-              //           context: context,
-              //           builder: (context) => AlertDialog(
-              //             title: Text(
-              //               'Delete Patient',
-              //               style: TextStyle(
-              //                   color: mainColor,
-              //                   fontWeight: FontWeight.bold,
-              //                   fontSize: 18),
-              //             ),
-              //             content: Text(
-              //               'Do tou want to remove the patient?',
-              //               style: TextStyle(
-              //                   color: textColor,
-              //                   fontSize: 16,
-              //                   fontWeight: FontWeight.bold),
-              //             ),
-              //             actions: [
-              //               MaterialButton(
-              //                 color: mainColor,
-              //                 elevation: 5,
-              //                 onPressed: () {},
-              //                 child: const Text(
-              //                   'Ok',
-              //                   style: TextStyle(
-              //                       color: Colors.white,
-              //                       fontWeight: FontWeight.bold),
-              //                 ),
-              //               ),
-              //               MaterialButton(
-              //                 color: Colors.red,
-              //                 elevation: 5,
-              //                 onPressed: () {
-              //                   Navigator.pop(context);
-              //                 },
-              //                 child: const Text(
-              //                   'Cancel',
-              //                   style: TextStyle(
-              //                       color: Colors.white,
-              //                       fontWeight: FontWeight.bold),
-              //                 ),
-              //               )
-              //             ],
-              //           ),
-              //         );
-              //       },
-              //       edit: () {
-              //         Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //                 builder: (context) =>
-              //                     const AdminUpdatePatient()));
-              //       },
-              //       email: 'alaa@sabry.com',
-              //       name: 'Alaa Hammad',
-              //     ),
-              //   ],
-              // ),
             ),
           ],
         ),
@@ -188,53 +126,62 @@ class PatientCardInAdmin extends StatelessWidget {
       width: width - 40,
       height: 150,
       decoration: BoxDecoration(
+          border:
+              Border.all(color: mainColor, width: 2, style: BorderStyle.solid),
           color: Colors.white,
           boxShadow: [customBoxShadow],
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                    color: textColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                email,
-                style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              )
-            ],
+          SizedBox(
+            width: (width - 40) * 0.6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                      color: textColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  email,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              MaterialButton(
-                elevation: 5,
-                color: mainColor,
-                onPressed: edit,
-                child: const Text(
-                  'Update',
-                  style: TextStyle(color: Colors.white),
+          SizedBox(
+            width: (width - 40) * 0.3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                MaterialButton(
+                  elevation: 5,
+                  color: mainColor,
+                  onPressed: edit,
+                  child: const Text(
+                    'Update',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-              ),
-              MaterialButton(
-                elevation: 5,
-                color: Colors.red,
-                onPressed: delete,
-                child: const Text(
-                  'Delete',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            ],
+                MaterialButton(
+                  elevation: 5,
+                  color: Colors.red,
+                  onPressed: delete,
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),

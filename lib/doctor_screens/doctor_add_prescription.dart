@@ -107,7 +107,10 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                     firebaseFirestore
                         .collection('bookings')
                         .doc(widget.item.id)
-                        .update({'prescription': prescriptionList});
+                        .update({
+                      'prescription': prescriptionList,
+                      'status': 'completed'
+                    });
                     Navigator.pop(context);
                   }
                 },

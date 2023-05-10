@@ -1,22 +1,52 @@
-import 'package:dates_app/models/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/screens/user_appointments/widgets/user_card_cancelled.dart';
 import 'package:flutter/material.dart';
 
-class CancelledScreen extends StatelessWidget {
+class CancelledScreen extends StatefulWidget {
   const CancelledScreen({super.key});
+
+  @override
+  State<CancelledScreen> createState() => _CancelledScreenState();
+}
+
+class _CancelledScreenState extends State<CancelledScreen> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  List<UserCardCancelled> canceledDates = [];
+
+  getCanceledDates() async {
+    await firebaseFirestore
+        .collection('bookings')
+        .where('status', isEqualTo: 'canceled')
+        .get()
+        .then((value) {
+      for (var item in value.docs) {
+        DateTime dateTime = item['startTime'].toDate();
+        String date = '$dateTime';
+        setState(() {
+          canceledDates.add(UserCardCancelled(
+              name: item['patientName'],
+              label: item['clinic'],
+              date: item['doctor'],
+              time: date));
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCanceledDates();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-          itemCount: usersCancelled.length,
+          itemCount: canceledDates.length,
           itemBuilder: (context, index) {
-            var item = usersCancelled[index];
-            return UserCardCancelled(
-                name: item.name,
-                label: item.label,
-                date: item.date,
-                time: item.time);
+            var item = canceledDates[index];
+            return item;
           }),
     );
   }

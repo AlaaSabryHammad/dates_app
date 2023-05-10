@@ -1,9 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:flutter/material.dart';
 
-class AdminViewUserEvaluations extends StatelessWidget {
+import 'admin_view_evaluation_details.dart';
+
+class AdminViewUserEvaluations extends StatefulWidget {
   const AdminViewUserEvaluations({super.key});
 
+  @override
+  State<AdminViewUserEvaluations> createState() =>
+      _AdminViewUserEvaluationsState();
+}
+
+class _AdminViewUserEvaluationsState extends State<AdminViewUserEvaluations> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,21 +33,48 @@ class AdminViewUserEvaluations extends StatelessWidget {
               height: 20,
             ),
             Expanded(
-                child: ListView(
-              children: [
-                GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                        context, '/admin-view-evaluation-details'),
-                    child: const UserEvaluationCard()),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-                const UserEvaluationCard(),
-              ],
-            ))
+              child: StreamBuilder(
+                  stream:
+                      firebaseFirestore.collection('evaluations').snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var item = snapshot.data!.docs[index];
+                            DateTime dateTime = item['time'].toDate();
+                            String name = '';
+                            // firebaseFirestore
+                            //     .collection('patients')
+                            //     .doc(item['patientId'])
+                            //     .get()
+                            //     .then((value) {
+                            //   setState(() {
+                            //     name = value.get('fname');
+                            //   });
+                            //   print(value.get('fname'));
+                            //   print('*********');
+                            // });
+
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AdminViewEvaluationDetails())),
+                              child: UserEvaluationCard(
+                                  status: item['read'] ? 'read' : 'new',
+                                  date: "${dateTime.day}",
+                                  day: "${dateTime.day}",
+                                  name: name),
+                            );
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  }),
+            ),
           ],
         ),
       ),
@@ -48,7 +85,12 @@ class AdminViewUserEvaluations extends StatelessWidget {
 class UserEvaluationCard extends StatelessWidget {
   const UserEvaluationCard({
     super.key,
+    required this.status,
+    required this.date,
+    required this.day,
+    required this.name,
   });
+  final String status, date, day, name;
 
   @override
   Widget build(BuildContext context) {
@@ -75,16 +117,16 @@ class UserEvaluationCard extends StatelessWidget {
                     color: mainColor, borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
-                      '27',
-                      style: TextStyle(
+                      date,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 22),
                     ),
-                    Text('Mon',
-                        style: TextStyle(
+                    Text(day,
+                        style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 22))
@@ -100,7 +142,7 @@ class UserEvaluationCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'New',
+                    status,
                     style: TextStyle(
                         color: mainColor,
                         fontWeight: FontWeight.bold,
@@ -125,7 +167,7 @@ class UserEvaluationCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Recorded by Alaa Sabry',
+                'Recorded by $name',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,

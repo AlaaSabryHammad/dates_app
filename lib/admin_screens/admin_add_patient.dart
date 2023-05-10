@@ -118,8 +118,8 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                             .collection('patients')
                             .doc(userCredential.user!.uid)
                             .set({
-                          'fName': fname,
-                          'lName' : lname,
+                          'fname': fname,
+                          'lname': lname,
                           'email': email,
                           'password': password,
                           'type': 'patient'

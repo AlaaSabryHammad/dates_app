@@ -38,7 +38,7 @@ class _ViewDoctorsScreenState extends State<ViewDoctorsScreen> {
                               itemBuilder: (context, index) {
                                 var item = snapshot.data!.docs[index];
                                 if (snapshot.data!.docs.isEmpty) {
-                                  return Center(
+                                  return const Center(
                                     child: Text('No Doctors'),
                                   );
                                 } else {
@@ -50,60 +50,17 @@ class _ViewDoctorsScreenState extends State<ViewDoctorsScreen> {
                                     name: item['name'],
                                     onPressed: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DoctorDetailsScreen(
-                                                    ds: item,
-                                                  )));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DoctorDetailsScreen(
+                                            ds: item,
+                                          ),
+                                        ),
+                                      );
                                     },
                                     delete: () {
                                       print('ddddddddddddd');
-                                      // showDialog(
-                                      //   context: context,
-                                      //   builder: (context) => AlertDialog(
-                                      //     title: Text(
-                                      //       'Delete Patient',
-                                      //       style: TextStyle(
-                                      //           color: mainColor,
-                                      //           fontWeight: FontWeight.bold,
-                                      //           fontSize: 18),
-                                      //     ),
-                                      //     content: Text(
-                                      //       'Do tou want to remove the patient?',
-                                      //       style: TextStyle(
-                                      //           color: textColor,
-                                      //           fontSize: 16,
-                                      //           fontWeight: FontWeight.bold),
-                                      //     ),
-                                      //     actions: [
-                                      //       MaterialButton(
-                                      //         color: mainColor,
-                                      //         elevation: 5,
-                                      //         onPressed: () {},
-                                      //         child: const Text(
-                                      //           'Ok',
-                                      //           style: TextStyle(
-                                      //               color: Colors.white,
-                                      //               fontWeight: FontWeight.bold),
-                                      //         ),
-                                      //       ),
-                                      //       MaterialButton(
-                                      //         color: Colors.red,
-                                      //         elevation: 5,
-                                      //         onPressed: () {
-                                      //           Navigator.pop(context);
-                                      //         },
-                                      //         child: const Text(
-                                      //           'Cancel',
-                                      //           style: TextStyle(
-                                      //               color: Colors.white,
-                                      //               fontWeight: FontWeight.bold),
-                                      //         ),
-                                      //       )
-                                      //     ],
-                                      //   ),
-                                      // );
                                     },
                                     update: () {},
                                   );
@@ -143,11 +100,7 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return
-        //  GestureDetector(
-        //   onTap: onPressed,
-        // child:
-        Container(
+    return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 15),
       height: 150,

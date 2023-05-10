@@ -23,8 +23,8 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
   @override
   void initState() {
     super.initState();
-    fnameController.text = widget.patient['fName'];
-    lnameController.text = widget.patient['lName'];
+    fnameController.text = widget.patient['fname'];
+    lnameController.text = widget.patient['lname'];
     emailController.text = widget.patient['email'];
     passwordController.text = widget.patient['password'];
   }
@@ -103,8 +103,8 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                           .collection('patients')
                           .doc(widget.patient.id)
                           .update({
-                        'fName': fnameController.text,
-                        'lName': lnameController.text,
+                        'fname': fnameController.text,
+                        'lname': lnameController.text,
                         'email': emailController.text,
                         'password': passwordController.text,
                       });
