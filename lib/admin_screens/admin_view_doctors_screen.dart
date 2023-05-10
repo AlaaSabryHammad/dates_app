@@ -105,6 +105,8 @@ class DoctorCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 15),
       height: 150,
       decoration: BoxDecoration(
+        border:
+            Border.all(color: mainColor, width: 1, style: BorderStyle.solid),
         boxShadow: [
           customBoxShadow,
         ],

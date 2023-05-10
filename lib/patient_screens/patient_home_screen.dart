@@ -99,13 +99,26 @@ class PatientHomeScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  CustomIcon(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacementNamed(context, '/choose-login');
-                    },
-                    label: 'Log out',
-                    icon: Icons.logout_rounded,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomIcon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/patient-profile');
+                        },
+                        label: 'Profile',
+                        icon: Icons.person,
+                      ),
+                      CustomIcon(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacementNamed(
+                              context, '/choose-login');
+                        },
+                        label: 'Log out',
+                        icon: Icons.logout_rounded,
+                      ),
+                    ],
                   ),
                 ],
               ),

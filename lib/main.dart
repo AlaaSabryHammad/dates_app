@@ -3,8 +3,10 @@ import 'package:dates_app/admin_screens/admin_add_pharmacian.dart';
 import 'package:dates_app/admin_screens/admin_view_patients.dart';
 import 'package:dates_app/admin_screens/admin_view_pharmacists.dart';
 import 'package:dates_app/admin_screens/admin_view_user_evaluations.dart';
+import 'package:dates_app/admin_screens/success/admin_add_doctor_success.dart';
 import 'package:dates_app/patient_screens/patient_add_service_evaluation.dart';
 import 'package:dates_app/patient_screens/patient_home_chat_screen.dart';
+import 'package:dates_app/patient_screens/patient_profile.dart';
 import 'package:dates_app/patient_screens/patient_view_service_evaluations.dart';
 import 'package:dates_app/admin_screens/admin_add_doctor_screen.dart';
 import 'package:dates_app/pharmacist_screens/pharmacist_login.dart';
@@ -58,6 +60,7 @@ class MyApp extends StatelessWidget {
         '/patient-view-prescription': (context) =>
             const PatientViewDescriptions(),
         '/patient-home': (context) => const PatientHomeScreen(),
+        '/patient-profile': (context) => const PatientProfile(),
         '/book-patient-app': (context) => const BookPatientAppointments(),
         '/view-patient-app': (context) => const ViewPatientAppointments(),
         '/home': (context) => const HomeScreen(),
@@ -66,6 +69,7 @@ class MyApp extends StatelessWidget {
         '/admin-view-patients': (context) => const AdminViewPatients(),
         '/admin-view-evaluations': (context) =>
             const AdminViewUserEvaluations(),
+        '/admin-add-doctor-success': (context) => const AdminAddDoctorSuccess(),
         // '/admin-view-evaluation-details': (context) =>
         //     const AdminViewEvaluationDetails(),
         '/admin-add-pharmacian': (context) => const AdminAddPharmacian(),

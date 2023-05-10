@@ -69,18 +69,12 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(
-                    color: Colors.black26, offset: Offset(1, 1), blurRadius: 5)
-              ]),
-              child: Hero(
-                tag: 'logo',
-                child: Image.asset(
-                  'images/logo.png',
-                  width: width * 0.4,
-                  height: width * 0.4,
-                ),
+            Hero(
+              tag: 'logo',
+              child: Image.asset(
+                'images/logo.png',
+                width: width * 0.4,
+                height: width * 0.4,
               ),
             ),
             const SizedBox(

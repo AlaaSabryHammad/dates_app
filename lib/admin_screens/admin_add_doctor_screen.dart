@@ -210,7 +210,7 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
                           'type': 'doctor'
                         });
                         Navigator.pushReplacementNamed(
-                            context, '/view-doctors');
+                            context, '/admin-add-doctor-success');
                       } on FirebaseAuthException {
                         // Do something with exception. This try/catch is here to make sure
                         // that even if the user creation fails, app.delete() runs, if is not,

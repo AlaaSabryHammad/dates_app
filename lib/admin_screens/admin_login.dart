@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_textfield.dart';
@@ -89,21 +90,32 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   MaterialButton(
                     elevation: 5,
                     onPressed: () async {
-                      List admin = await firebaseFirestore
-                          .collection('admins')
-                          .get()
-                          .then((value) {
-                        return [
-                          value.docs.first['email'],
-                          value.docs.first['password']
-                        ];
-                      });
-                      if (emailAddress == admin[0] && password == admin[1]) {
-                        Navigator.pushNamed(context, '/home');
-                      } else {
-                        const snackBar = SnackBar(
-                            content: Text('login data not correct ...'));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: emailAddress!, password: password!);
+                        List admin = await firebaseFirestore
+                            .collection('admins')
+                            .get()
+                            .then((value) {
+                          return [
+                            value.docs.first['email'],
+                            value.docs.first['password']
+                          ];
+                        });
+                        if (emailAddress == admin[0] && password == admin[1]) {
+                          Navigator.pushNamed(context, '/home');
+                        } else {
+                          const snackBar = SnackBar(
+                              content: Text('login data not correct ...'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          print('No user found for that email.');
+                        } else if (e.code == 'wrong-password') {
+                          print('Wrong password provided for that user.');
+                        }
                       }
                     },
                     color: mainColor,

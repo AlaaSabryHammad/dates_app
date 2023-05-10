@@ -55,51 +55,6 @@ class _AdminViewPharmacistsState extends State<AdminViewPharmacists> {
                                   },
                                   delete: () {
                                     print('ddddddddddddd');
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (context) => AlertDialog(
-                                    //     title: Text(
-                                    //       'Delete Patient',
-                                    //       style: TextStyle(
-                                    //           color: mainColor,
-                                    //           fontWeight: FontWeight.bold,
-                                    //           fontSize: 18),
-                                    //     ),
-                                    //     content: Text(
-                                    //       'Do tou want to remove the patient?',
-                                    //       style: TextStyle(
-                                    //           color: textColor,
-                                    //           fontSize: 16,
-                                    //           fontWeight: FontWeight.bold),
-                                    //     ),
-                                    //     actions: [
-                                    //       MaterialButton(
-                                    //         color: mainColor,
-                                    //         elevation: 5,
-                                    //         onPressed: () {},
-                                    //         child: const Text(
-                                    //           'Ok',
-                                    //           style: TextStyle(
-                                    //               color: Colors.white,
-                                    //               fontWeight: FontWeight.bold),
-                                    //         ),
-                                    //       ),
-                                    //       MaterialButton(
-                                    //         color: Colors.red,
-                                    //         elevation: 5,
-                                    //         onPressed: () {
-                                    //           Navigator.pop(context);
-                                    //         },
-                                    //         child: const Text(
-                                    //           'Cancel',
-                                    //           style: TextStyle(
-                                    //               color: Colors.white,
-                                    //               fontWeight: FontWeight.bold),
-                                    //         ),
-                                    //       )
-                                    //     ],
-                                    //   ),
-                                    // );
                                   },
                                   update: () {},
                                 );

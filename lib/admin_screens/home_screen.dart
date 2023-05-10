@@ -1,13 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/appointment_action.dart';
 import '../widgets/custom_icon.dart';
 import '../widgets/user_action.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  String? password, newPassword, confirm;
+  resetPass() {
+    print(firebaseAuth.currentUser!.email);
+    firebaseAuth.currentUser!.updatePassword(newPassword!);
+    firebaseFirestore
+        .collection('admins')
+        .doc(firebaseAuth.currentUser!.uid)
+        .update({'password': newPassword});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,13 +129,23 @@ class HomeScreen extends StatelessWidget {
                     ),
                     CustomIcon(
                       onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                        Navigator.pushNamed(context, '/choose-login');
+                        resetPassword(context);
                       },
-                      label: 'Log out',
-                      icon: Icons.logout_rounded,
+                      label: 'Reset Password',
+                      icon: Icons.password,
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomIcon(
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pushNamed(context, '/choose-login');
+                  },
+                  label: 'Log out',
+                  icon: Icons.logout_rounded,
                 ),
               ],
             )),
@@ -239,6 +266,97 @@ class HomeScreen extends StatelessWidget {
                   height: 30,
                 ),
               ],
+            ),
+          );
+        });
+  }
+
+  Future<dynamic> resetPassword(BuildContext context) {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        builder: (context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Reset Password',
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: mainColor,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextField(
+                    onChanged: (value) {
+                      password = value;
+                    },
+                    decoration: const InputDecoration(
+                        hintText: 'write old password ....'),
+                  ),
+                  TextField(
+                    onChanged: (value) {
+                      newPassword = value;
+                    },
+                    decoration: const InputDecoration(
+                        hintText: 'write new password ....'),
+                  ),
+                  TextField(
+                    onChanged: (value) {
+                      confirm = value;
+                    },
+                    decoration: const InputDecoration(
+                        hintText: 'confirm new password ....'),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  MaterialButton(
+                    minWidth: 120,
+                    color: mainColor,
+                    onPressed: () async {
+                      await firebaseFirestore
+                          .collection('admins')
+                          .doc(firebaseAuth.currentUser!.uid)
+                          .get()
+                          .then((value) async {
+                        if (password == value.get('password')) {
+                          if (newPassword == confirm) {
+                            print(newPassword);
+                            print(confirm);
+                            await resetPass();
+                            var snackBar = const SnackBar(
+                                content:
+                                    Text('Password reset successfully ...'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            var snackBar = const SnackBar(
+                                content: Text('old Password not correct ...'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        }
+                      });
+                      // Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Reset',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         });

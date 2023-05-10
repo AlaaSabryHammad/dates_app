@@ -21,6 +21,8 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
   @override
   void initState() {
     super.initState();
+    // print(firebaseAuth.currentUser!.uid);
+    // print('444444444444444444444');
   }
 
   @override
@@ -50,7 +52,8 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
                   stream: firebaseFirestore
                       .collection('bookings')
                       .where('doctorID',
-                          isEqualTo: firebaseAuth.currentUser!.uid)
+                          // isEqualTo: 'IDqVgFlIhFZJRohBu5AtPEyhpS83')
+                      isEqualTo: firebaseAuth.currentUser!.uid)
                       .where('status', isEqualTo: 'active')
                       .orderBy('startTime', descending: false)
                       .snapshots(),
@@ -61,6 +64,8 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
                           itemBuilder: (context, index) {
                             var item = snapshot.data!.docs[index];
                             DateTime date = item['startTime'].toDate();
+                            print(item);
+                            print('************');
                             return GestureDetector(
                               onTap: () {},
                               child: Stack(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
+
+
 
 class ChooseIcon extends StatelessWidget {
   const ChooseIcon({
@@ -24,6 +25,8 @@ class ChooseIcon extends StatelessWidget {
         width: (width - 120) / 2,
         height: (width - 120) / 2,
         decoration: BoxDecoration(
+          border:
+              Border.all(color: mainColor, width: 2, style: BorderStyle.solid),
           boxShadow: [customBoxShadow],
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
