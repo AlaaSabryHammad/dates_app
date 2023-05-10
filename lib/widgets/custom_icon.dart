@@ -20,8 +20,8 @@ class CustomIcon extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.all(10),
-        width: (width - 90) / 2,
-        height: (width - 90) / 2,
+        width: (width - 70) / 2,
+        height: (width - 70) / 2,
         decoration: BoxDecoration(
             border: Border.all(
                 color: mainColor, width: 1, style: BorderStyle.solid),

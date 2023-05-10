@@ -14,19 +14,21 @@ class PatientHomeScreen extends StatelessWidget {
       body: Padding(
         padding:
             const EdgeInsets.only(top: 90, left: 30, right: 30, bottom: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Home Page',
-              style: TextStyle(
-                  color: mainColor, fontSize: 40, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-            Expanded(
-              child: Column(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Home Page',
+                style: TextStyle(
+                    color: mainColor,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 60,
+              ),
+              Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
@@ -50,6 +52,9 @@ class PatientHomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -68,6 +73,9 @@ class PatientHomeScreen extends StatelessWidget {
                         icon: Icons.analytics_rounded,
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,6 +96,9 @@ class PatientHomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   CustomIcon(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
@@ -98,8 +109,8 @@ class PatientHomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
