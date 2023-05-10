@@ -58,10 +58,14 @@ class _AdminViewUserEvaluationsState extends State<AdminViewUserEvaluations> {
 
                             return GestureDetector(
                               onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AdminViewEvaluationDetails())),
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AdminViewEvaluationDetails(
+                                    item: item,
+                                  ),
+                                ),
+                              ),
                               child: UserEvaluationCard(
                                   status: item['read'] ? 'read' : 'new',
                                   date: "${dateTime.day}",

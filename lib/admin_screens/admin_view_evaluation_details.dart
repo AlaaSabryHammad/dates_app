@@ -1,8 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:flutter/material.dart';
 
-class AdminViewEvaluationDetails extends StatelessWidget {
-  const AdminViewEvaluationDetails({super.key});
+class AdminViewEvaluationDetails extends StatefulWidget {
+  const AdminViewEvaluationDetails({super.key, required this.item});
+  final QueryDocumentSnapshot item;
+
+  @override
+  State<AdminViewEvaluationDetails> createState() =>
+      _AdminViewEvaluationDetailsState();
+}
+
+class _AdminViewEvaluationDetailsState
+    extends State<AdminViewEvaluationDetails> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  String name = '';
+  getPatientName() async {
+    await firebaseFirestore
+        .collection('patients')
+        .doc(widget.item['patientId'])
+        .get()
+        .then((value) {
+      setState(() {
+        name = value.get('fname');
+      });
+    });
+    print(name);
+    print('************');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPatientName();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +75,7 @@ class AdminViewEvaluationDetails extends StatelessWidget {
               ),
               child: Center(
                   child: Text(
-                'Alaa Sabry',
+                name,
                 style: TextStyle(
                     color: mainColor,
                     fontSize: 20,
@@ -76,7 +107,7 @@ class AdminViewEvaluationDetails extends StatelessWidget {
               ),
               child: Center(
                   child: Text(
-                'Reem Mohammed',
+                widget.item['doctorName'],
                 style: TextStyle(
                     color: mainColor,
                     fontSize: 20,
@@ -110,7 +141,7 @@ class AdminViewEvaluationDetails extends StatelessWidget {
                 ),
                 child: Center(
                     child: Text(
-                  'User Evaluations .....',
+                  widget.item['description'],
                   overflow: TextOverflow.clip,
                   style: TextStyle(
                       color: mainColor,
