@@ -25,8 +25,6 @@ class _AdminViewEvaluationDetailsState
         name = value.get('fname');
       });
     });
-    print(name);
-    print('************');
   }
 
   @override

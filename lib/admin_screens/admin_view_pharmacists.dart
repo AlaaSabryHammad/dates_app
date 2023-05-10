@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
 import '../screens/view_screens/view_doctors_screen/doctor_details_screen.dart';
 
@@ -31,8 +30,9 @@ class _AdminViewPharmacistsState extends State<AdminViewPharmacists> {
               ),
               Expanded(
                   child: StreamBuilder(
-                      stream:
-                          firebaseFirestore.collection('doctors').snapshots(),
+                      stream: firebaseFirestore
+                          .collection('pharmacists')
+                          .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return ListView.builder(
