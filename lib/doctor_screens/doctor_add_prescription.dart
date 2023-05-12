@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
-import 'package:dates_app/models/prescription_model.dart';
 import 'package:flutter/material.dart';
 
 class DoctorAddPrescription extends StatefulWidget {
@@ -12,12 +11,14 @@ class DoctorAddPrescription extends StatefulWidget {
 
 class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  TextEditingController numberController = TextEditingController();
   List prescriptionList = [];
   String? item;
   String? description;
-  toMap(Prescription pre) {
-    return {'item': pre.item, 'desc': pre.desc};
-  }
+  int? numberOfItems;
+  // toMap(Prescription pre) {
+  //   return {'item': pre.item, 'desc': pre.desc};
+  // }
 
   getPrescription() {
     firebaseFirestore
@@ -31,10 +32,12 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
     });
   }
 
+  int number = 1;
   @override
   void initState() {
     super.initState();
     getPrescription();
+    // numberController.text = '$number';
   }
 
   @override
@@ -88,6 +91,7 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                               },
                               itemDesc: item['item'],
                               itemName: item['desc'],
+                              count: item['count'],
                             );
                           }),
                     ),
@@ -103,15 +107,13 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                         content: Text('Add atleast one Item ...'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   } else {
-                    // List xx = prescriptionList.map((e) => toMap(e)).toList();
                     firebaseFirestore
                         .collection('bookings')
                         .doc(widget.item.id)
                         .update({
                       'prescription': prescriptionList,
-                      'status': 'completed'
                     });
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, '/doctor-add-pre-success');
                   }
                 },
                 child: const Text(
@@ -129,6 +131,65 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
       ),
     );
   }
+
+  // Future<dynamic> customShowModaSave(BuildContext context) {
+  //   return showModalBottomSheet(
+  //       isScrollControlled: true,
+  //       context: context,
+  //       shape: const RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+  //       builder: (context) {
+  //         return Padding(
+  //           padding: MediaQuery.of(context).viewInsets,
+  //           child: Container(
+  //             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Text(
+  //                   'Save',
+  //                   style: TextStyle(
+  //                       fontSize: 30,
+  //                       color: mainColor,
+  //                       fontWeight: FontWeight.bold),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 30,
+  //                 ),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: [
+  //                     TextField(
+  //                       controller: numberController,
+  //                     )
+  //                   ],
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 40,
+  //                 ),
+  //                 MaterialButton(
+  //                   minWidth: 120,
+  //                   color: mainColor,
+  //                   onPressed: () {
+  //                     // setState(() {
+  //                     //   prescriptionList
+  //                     //       .add({'item': item, 'desc': description});
+  //                     // });
+  //                     Navigator.pop(context);
+  //                   },
+  //                   child: const Text(
+  //                     'Save Prescription',
+  //                     style: TextStyle(
+  //                         color: Colors.white, fontWeight: FontWeight.bold),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   Future<dynamic> customShowModalSheetServiceEvaluation(BuildContext context) {
     return showModalBottomSheet(
@@ -169,6 +230,13 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                     decoration: const InputDecoration(
                         hintText: 'write description ....'),
                   ),
+                  TextField(
+                    onChanged: (value) {
+                      numberOfItems = int.parse(value);
+                    },
+                    decoration: const InputDecoration(
+                        hintText: 'write item count ....'),
+                  ),
                   const SizedBox(
                     height: 30,
                   ),
@@ -177,8 +245,11 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                     color: mainColor,
                     onPressed: () {
                       setState(() {
-                        prescriptionList
-                            .add({'item': item, 'desc': description});
+                        prescriptionList.add({
+                          'item': item,
+                          'desc': description,
+                          'count': numberOfItems
+                        });
                       });
                       Navigator.pop(context);
                     },
@@ -202,9 +273,11 @@ class PrescriptionCard extends StatelessWidget {
     required this.delete,
     required this.itemName,
     required this.itemDesc,
+    required this.count,
   });
   final VoidCallback delete;
   final String itemName, itemDesc;
+  final int count;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -214,7 +287,6 @@ class PrescriptionCard extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 20),
           padding: const EdgeInsets.all(10),
           width: width - 50,
-          height: 150,
           decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [customBoxShadow],
@@ -257,6 +329,27 @@ class PrescriptionCard extends StatelessWidget {
                   ),
                   Text(
                     itemDesc,
+                    style: TextStyle(
+                        color: mainColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const Divider(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Item Count',
+                    style: TextStyle(
+                        color: textColor, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '$count',
                     style: TextStyle(
                         color: mainColor,
                         fontSize: 16,

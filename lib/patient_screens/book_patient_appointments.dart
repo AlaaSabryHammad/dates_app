@@ -17,7 +17,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
   String? patientName;
   List<String> itemss = [];
   List<String> doctorsList = [];
-  String? dropdownValue;
+  String? dropdownValueClinics;
   String? clinicID;
   String? dropdownValueDoctors;
   String? doctorID;
@@ -51,10 +51,10 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
         });
       }
       setState(() {
-        dropdownValue = itemss[0];
+        dropdownValueClinics = itemss[0];
       });
-      setClinicId(dropdownValue!);
-      getDoctors(dropdownValue!);
+      setClinicId(dropdownValueClinics!);
+      getDoctors(dropdownValueClinics!);
     });
   }
 
@@ -170,14 +170,14 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
                 fillColor: mainColor,
               ),
               dropdownColor: mainColor,
-              value: dropdownValue,
+              value: dropdownValueClinics,
               onChanged: (String? newValue) {
                 setState(() {
                   doctorsList.clear();
-                  dropdownValue = newValue!;
+                  dropdownValueClinics = newValue!;
                 });
-                setClinicId(dropdownValue!);
-                getDoctors(dropdownValue!);
+                setClinicId(dropdownValueClinics!);
+                getDoctors(dropdownValueClinics!);
               },
               items: itemss.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -327,7 +327,7 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
                     'patientName': patientName,
                     'startTime': newBookingDate,
                     'endTime': newBookingDateEnd,
-                    'clinic': dropdownValue,
+                    'clinic': dropdownValueClinics,
                     'clinicID': clinicID,
                     'doctor': dropdownValueDoctors,
                     'doctorID': doctorID,
@@ -335,9 +335,10 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
                     'isWaiting': true,
                     'isRefered': false,
                     'prescription': null,
-                    'tests' : null
+                    'tests': null
                   });
-                  Navigator.pushReplacementNamed(context, '/view-patient-app');
+                  Navigator.pushReplacementNamed(
+                      context, '/patient-book-app-success');
                 }
               },
               child: const Text(

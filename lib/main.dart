@@ -4,11 +4,18 @@ import 'package:dates_app/admin_screens/admin_view_patients.dart';
 import 'package:dates_app/admin_screens/admin_view_pharmacists.dart';
 import 'package:dates_app/admin_screens/admin_view_user_evaluations.dart';
 import 'package:dates_app/admin_screens/success/admin_add_doctor_success.dart';
+import 'package:dates_app/admin_screens/success/admin_add_patient_success.dart';
+import 'package:dates_app/admin_screens/success/admin_update_patient_success.dart';
+import 'package:dates_app/doctor_screens/success/doctor_add_pre_success.dart';
+import 'package:dates_app/patient_screens/booking_appointment/patient_select_clinic.dart';
 import 'package:dates_app/patient_screens/patient_add_service_evaluation.dart';
 import 'package:dates_app/patient_screens/patient_home_chat_screen.dart';
 import 'package:dates_app/patient_screens/patient_profile.dart';
 import 'package:dates_app/patient_screens/patient_view_service_evaluations.dart';
 import 'package:dates_app/admin_screens/admin_add_doctor_screen.dart';
+import 'package:dates_app/patient_screens/success/patient_add_evaluation_success.dart';
+import 'package:dates_app/patient_screens/success/patient_book_app_success.dart';
+import 'package:dates_app/patient_screens/success/patient_register_success.dart';
 import 'package:dates_app/pharmacist_screens/pharmacist_login.dart';
 import 'package:dates_app/screens/choose_login_screen.dart';
 import 'package:dates_app/doctor_screens/doctor_appointments.dart';
@@ -59,17 +66,27 @@ class MyApp extends StatelessWidget {
         '/patient-home-chat': (context) => const PatientHomeChatScreen(),
         '/patient-view-prescription': (context) =>
             const PatientViewDescriptions(),
+        '/patient-register-success': (context) =>
+            const PatientRegisterSuccess(),
         '/patient-home': (context) => const PatientHomeScreen(),
         '/patient-profile': (context) => const PatientProfile(),
+        '/patient-add-evaluation-success': (context) =>
+            const PatientAddEvaluationSuccess(),
         '/book-patient-app': (context) => const BookPatientAppointments(),
+        '/patient-book-app-success': (context) => const PatientBookAppSuccess(),
+        '/patient-select-clinic': (context) => const PatientSelectClinic(),
         '/view-patient-app': (context) => const ViewPatientAppointments(),
         '/home': (context) => const HomeScreen(),
         '/admin-login': (context) => const AdminLoginScreen(),
         '/admin-add-patient': (context) => const AdminAddPatient(),
+        '/admin-update-patient-success': (context) =>
+            const AdminUpdatePatientSuccess(),
         '/admin-view-patients': (context) => const AdminViewPatients(),
         '/admin-view-evaluations': (context) =>
             const AdminViewUserEvaluations(),
         '/admin-add-doctor-success': (context) => const AdminAddDoctorSuccess(),
+        '/admin-add-patient-success': (context) =>
+            const AdminAddPatientSuccess(),
         // '/admin-view-evaluation-details': (context) =>
         //     const AdminViewEvaluationDetails(),
         '/admin-add-pharmacian': (context) => const AdminAddPharmacian(),
@@ -81,6 +98,7 @@ class MyApp extends StatelessWidget {
         '/doctor-login': (context) => const DoctorLoginScreen(),
         '/doctor-home': (context) => const DoctorHomeScreen(),
         '/doctor-app': (context) => const DoctorAppointments(),
+        '/doctor-add-pre-success': (context) => const DoctorAddPreSuccess(),
         '/pharmacian-login': (context) => const PharmacistLogin(),
       },
     );

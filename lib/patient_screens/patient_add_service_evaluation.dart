@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class PatientAddServiceEvaluations extends StatefulWidget {
   const PatientAddServiceEvaluations({super.key});
@@ -21,6 +22,7 @@ class _PatientAddServiceEvaluationsState
   String? dropdownValueDoctors;
   String? clinicID;
   String? doctorID;
+  double ratingValue = 2;
 
   setClinicId(String clinicName) async {
     await firebaseFirestore
@@ -193,6 +195,24 @@ class _PatientAddServiceEvaluationsState
                 const SizedBox(
                   height: 20,
                 ),
+                RatingBar.builder(
+                  initialRating: ratingValue,
+                  minRating: 0,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    ratingValue = rating;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Text(
                   'Write An Evaluation',
                   style: TextStyle(
@@ -229,16 +249,19 @@ class _PatientAddServiceEvaluationsState
                   onPressed: () async {
                     await firebaseFirestore.collection('evaluations').add({
                       'patientId': FirebaseAuth.instance.currentUser!.uid,
-                      'clinicName': dropdownValue, 
+                      'patientName':
+                          FirebaseAuth.instance.currentUser!.displayName,
+                      'clinicName': dropdownValue,
                       'clinicID': clinicID,
                       'doctorName': dropdownValueDoctors,
                       'doctorId': doctorID,
                       'description': descController.text,
                       'read': false,
+                      'rating': ratingValue,
                       'time': FieldValue.serverTimestamp()
                     });
                     Navigator.pushReplacementNamed(
-                        context, '/patient-view-evaluations');
+                        context, '/patient-add-evaluation-success');
                   },
                   child: const Text(
                     'Done',

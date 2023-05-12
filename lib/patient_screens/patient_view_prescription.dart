@@ -21,7 +21,8 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
     await firebaseFirestore
         .collection('bookings')
         .where('patientId', isEqualTo: firebaseAuth.currentUser!.uid)
-        .where('prescription', isNotEqualTo: null)
+        .where('prescription', isNotEqualTo: '')
+        // .where('prescription', isNotEqualTo: null)
         .get()
         .then((value) {
       for (var item in value.docs) {

@@ -2,8 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../widgets/choose_icon.dart';
 
-
-
 class ChooseLoginScreen extends StatelessWidget {
   const ChooseLoginScreen({super.key});
 
@@ -70,7 +68,7 @@ class ChooseLoginScreen extends StatelessWidget {
                           tag: 'patient',
                         ),
                         ChooseIcon(
-                          label: 'doctor',
+                          label: 'Doctor',
                           image: 'images/doctor.png',
                           onPressed: () {
                             Navigator.pushNamed(context, '/doctor-login');
@@ -86,7 +84,7 @@ class ChooseLoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ChooseIcon(
-                          label: 'pharmacian',
+                          label: 'Pharmacist',
                           image: 'images/pharmacian.png',
                           onPressed: () {
                             Navigator.pushNamed(context, '/pharmacian-login');

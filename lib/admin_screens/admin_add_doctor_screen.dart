@@ -189,36 +189,60 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
                     minWidth: width * 0.5,
                     elevation: 5,
                     onPressed: () async {
-                      FirebaseApp app = await Firebase.initializeApp(
-                          name: 'Secondary', options: Firebase.app().options);
-                      try {
-                        UserCredential userCredential =
-                            await FirebaseAuth.instanceFor(app: app)
-                                .createUserWithEmailAndPassword(
-                                    email: emailController.text,
-                                    password: passwordController.text);
-                        await firebaseFirestore
-                            .collection('doctors')
-                            .doc(userCredential.user!.uid)
-                            .set({
-                          'email': emailController.text,
-                          'name': userNameController.text,
-                          'password': passwordController.text,
-                          'sex': 'Female',
-                          'clinic': dropdownValue,
-                          'time': FieldValue.serverTimestamp(),
-                          'type': 'doctor'
-                        });
-                        Navigator.pushReplacementNamed(
-                            context, '/admin-add-doctor-success');
-                      } on FirebaseAuthException {
-                        // Do something with exception. This try/catch is here to make sure
-                        // that even if the user creation fails, app.delete() runs, if is not,
-                        // next time Firebase.initializeApp() will fail as the previous one was
-                        // not deleted.
-                      }
+                      if (emailController.text.contains('@taibahu.edu.sa')) {
+                        FirebaseApp app = await Firebase.initializeApp(
+                            name: 'Secondary', options: Firebase.app().options);
+                        try {
+                          UserCredential userCredential =
+                              await FirebaseAuth.instanceFor(app: app)
+                                  .createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text);
+                          await firebaseFirestore
+                              .collection('doctors')
+                              .doc(userCredential.user!.uid)
+                              .set({
+                            'email': emailController.text,
+                            'name': userNameController.text,
+                            'password': passwordController.text,
+                            'sex': 'Female',
+                            'clinic': dropdownValue,
+                            'time': FieldValue.serverTimestamp(),
+                            'type': 'doctor'
+                          });
+                          await userCredential.user!
+                              .updateDisplayName(userNameController.text);
+                          Navigator.pushReplacementNamed(
+                              context, '/admin-add-doctor-success');
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            const snackBar = SnackBar(
+                              content:
+                                  Text('The password provided is too weak.'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else if (e.code == 'email-already-in-use') {
+                            const snackBar = SnackBar(
+                              content: Text(
+                                  'The account already exists for that email.'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                          // Do something with exception. This try/catch is here to make sure
+                          // that even if the user creation fails, app.delete() runs, if is not,
+                          // next time Firebase.initializeApp() will fail as the previous one was
+                          // not deleted.
+                        }
 
-                      await app.delete();
+                        await app.delete();
+                      } else {
+                        const snackBar = SnackBar(
+                          content: Text('Email must end with @taibahu.edu.sa'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                     child: const Text(
                       'Done',

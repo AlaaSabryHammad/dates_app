@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class AdminViewEvaluationDetails extends StatefulWidget {
   const AdminViewEvaluationDetails({super.key, required this.item});
@@ -14,24 +15,6 @@ class AdminViewEvaluationDetails extends StatefulWidget {
 class _AdminViewEvaluationDetailsState
     extends State<AdminViewEvaluationDetails> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  String name = '';
-  getPatientName() async {
-    await firebaseFirestore
-        .collection('patients')
-        .doc(widget.item['patientId'])
-        .get()
-        .then((value) {
-      setState(() {
-        name = value.get('fname');
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getPatientName();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,17 +51,21 @@ class _AdminViewEvaluationDetailsState
               width: width - 40,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.5),
+                boxShadow: [customBoxShadow],
+                color: const Color(0xffF1FAEE),
+                border: Border.all(
+                    color: textColor, width: 1, style: BorderStyle.solid),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
-                  child: Text(
-                name,
-                style: TextStyle(
-                    color: mainColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              )),
+                child: Text(
+                  widget.item['patientName'],
+                  style: TextStyle(
+                      color: mainColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -100,7 +87,10 @@ class _AdminViewEvaluationDetailsState
               width: width - 40,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.5),
+                boxShadow: [customBoxShadow],
+                color: const Color(0xffF1FAEE),
+                border: Border.all(
+                    color: textColor, width: 1, style: BorderStyle.solid),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
@@ -113,7 +103,58 @@ class _AdminViewEvaluationDetailsState
               )),
             ),
             const SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Time',
+                style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: width - 40,
+              height: 50,
+              decoration: BoxDecoration(
+                boxShadow: [customBoxShadow],
+                color: const Color(0xffF1FAEE),
+                border: Border.all(
+                    color: textColor, width: 1, style: BorderStyle.solid),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Center(
+                  child: Text(
+                '${widget.item['time'].toDate()}',
+                style: TextStyle(
+                    color: mainColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              )),
+            ),
+            const SizedBox(
               height: 20,
+            ),
+            RatingBar.builder(
+              itemSize: 20,
+              initialRating: widget.item['rating'],
+              minRating: 0,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => const Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              onRatingUpdate: (rating) {
+                // widget.item['rating'] = rating;
+              },
             ),
             Align(
               alignment: Alignment.centerLeft,
@@ -134,7 +175,10 @@ class _AdminViewEvaluationDetailsState
                 width: width - 40,
                 // height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.5),
+                  boxShadow: [customBoxShadow],
+                  border: Border.all(
+                      color: textColor, width: 1, style: BorderStyle.solid),
+                  color: const Color(0xffF1FAEE),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Center(

@@ -17,6 +17,14 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
   String? lname;
   String? email;
   String? password;
+  String? age;
+  String? nationalId;
+  String? allegry;
+  String? chromes;
+  String? medicalnumber;
+  bool socialStatus = true;
+  String status = 'married';
+
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -72,6 +80,56 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                 ),
                 CustomTextField(
                   onPressed: (value) {
+                    medicalnumber = value;
+                  },
+                  label: 'File Medical Number',
+                  hint: 'file medical number ...',
+                  icon: Icons.numbers,
+                  isSecured: false,
+                  controller: lnameController,
+                ),
+                CustomTextField(
+                  onPressed: (value) {
+                    age = value;
+                  },
+                  label: 'Age',
+                  hint: 'age ...',
+                  icon: Icons.date_range,
+                  isSecured: false,
+                  controller: fnameController,
+                ),
+                CustomTextField(
+                  onPressed: (value) {
+                    nationalId = value;
+                  },
+                  label: 'National ID',
+                  hint: 'national id ...',
+                  icon: Icons.person,
+                  isSecured: false,
+                  controller: fnameController,
+                ),
+                CustomTextField(
+                  onPressed: (value) {
+                    allegry = value;
+                  },
+                  label: 'Allergy',
+                  hint: 'allergy ...',
+                  icon: Icons.health_and_safety,
+                  isSecured: false,
+                  controller: fnameController,
+                ),
+                CustomTextField(
+                  onPressed: (value) {
+                    chromes = value;
+                  },
+                  label: 'Chromes Diseases',
+                  hint: 'Chromes Diseases ...',
+                  icon: Icons.health_and_safety,
+                  isSecured: false,
+                  controller: fnameController,
+                ),
+                CustomTextField(
+                  onPressed: (value) {
                     email = value;
                   },
                   label: 'Email Address',
@@ -86,9 +144,61 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                   },
                   label: 'Password',
                   hint: 'password ...',
-                  icon: Icons.person,
+                  icon: Icons.lock,
                   isSecured: false,
                   controller: passwordController,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          socialStatus = true;
+                          status = 'married';
+                        });
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: socialStatus
+                                ? mainColor
+                                : Colors.grey.withOpacity(0.5)),
+                        child: const Center(
+                          child: Text(
+                            'Married',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          socialStatus = false;
+                          status = 'single';
+                        });
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: socialStatus
+                                ? Colors.grey.withOpacity(0.5)
+                                : mainColor),
+                        child: const Center(
+                          child: Text(
+                            'Single',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,
@@ -97,43 +207,71 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                   minWidth: width - 100,
                   color: mainColor,
                   onPressed: () async {
-                    FirebaseFirestore firebaseFirestore =
-                        FirebaseFirestore.instance;
-                    FirebaseApp app = await Firebase.initializeApp(
-                        name: 'Secondary', options: Firebase.app().options);
-                    if (lname == null ||
-                        email == null ||
-                        password == null ||
-                        fname == null) {
-                      var snackBar = const SnackBar(
-                          content: Text('Complete patient data ...'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else {
-                      try {
-                        UserCredential userCredential =
-                            await FirebaseAuth.instanceFor(app: app)
-                                .createUserWithEmailAndPassword(
-                                    email: email!, password: password!);
-                        await firebaseFirestore
-                            .collection('patients')
-                            .doc(userCredential.user!.uid)
-                            .set({
-                          'fname': fname,
-                          'lname': lname,
-                          'email': email,
-                          'password': password,
-                          'type': 'patient'
-                        });
-                        // Future.delayed(const Duration(seconds: 2), () {
-                        Navigator.pushReplacementNamed(context, '/home');
-                        // });
-                      } on FirebaseAuthException {
-                        // Do something with exception. This try/catch is here to make sure
-                        // that even if the user creation fails, app.delete() runs, if is not,
-                        // next time Firebase.initializeApp() will fail as the previous one was
-                        // not deleted.
+                    if (email!.contains('@taibahu.edu.sa')) {
+                      FirebaseFirestore firebaseFirestore =
+                          FirebaseFirestore.instance;
+                      FirebaseApp app = await Firebase.initializeApp(
+                          name: 'Secondary', options: Firebase.app().options);
+                      if (lname == null ||
+                          email == null ||
+                          password == null ||
+                          medicalnumber == null ||
+                          fname == null ||
+                          age == null ||
+                          allegry == null ||
+                          chromes == null ||
+                          nationalId == null) {
+                        var snackBar = const SnackBar(
+                            content: Text('Complete patient data ...'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        try {
+                          UserCredential userCredential =
+                              await FirebaseAuth.instanceFor(app: app)
+                                  .createUserWithEmailAndPassword(
+                                      email: email!, password: password!);
+                          await firebaseFirestore
+                              .collection('patients')
+                              .doc(userCredential.user!.uid)
+                              .set({
+                            'fname': fname,
+                            'lname': lname,
+                            'email': email,
+                            'medicalFileNumber': medicalnumber,
+                            'password': password,
+                            'age': age,
+                            'nationalid': nationalId,
+                            'allegry': allegry,
+                            'chromes': chromes,
+                            'socialstatus': status,
+                            'type': 'patient'
+                          });
+                          Navigator.pushReplacementNamed(
+                              context, '/admin-add-patient-success');
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            const snackBar = SnackBar(
+                              content:
+                                  Text('The password provided is too weak.'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else if (e.code == 'email-already-in-use') {
+                            const snackBar = SnackBar(
+                              content: Text(
+                                  'The account already exists for that email.'),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        }
+                        await app.delete();
                       }
-                      await app.delete();
+                    } else {
+                      const snackBar = SnackBar(
+                        content: Text('email must end with @taibahu.edu.sa'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   },
                   child: const Text(

@@ -14,10 +14,15 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
   TextEditingController editController = TextEditingController();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   saveClinic() async {
-    await FirebaseFirestore.instance.collection('clinics').add({
-      'clinic_name': clinicController.text,
-      'time': FieldValue.serverTimestamp()
-    });
+    if (clinicController.text.isEmpty) {
+      var snackBar = const SnackBar(content: Text('Field is empty'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      await FirebaseFirestore.instance.collection('clinics').add({
+        'clinic_name': clinicController.text,
+        'time': FieldValue.serverTimestamp()
+      });
+    }
   }
 
   @override
@@ -85,20 +90,29 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
                                 margin: const EdgeInsets.only(bottom: 10),
                                 padding: const EdgeInsets.all(10),
                                 width: width - 70,
-                                height: 100,
+                                height: 120,
                                 decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: mainColor,
+                                        width: 1,
+                                        style: BorderStyle.solid),
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
                                     boxShadow: [customBoxShadow]),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       clinics[index]['clinic_name'],
                                       style: TextStyle(
-                                          color: mainColor,
-                                          fontSize: 22,
+                                          color: textColor,
+                                          fontSize: 20,
                                           fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -113,81 +127,95 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
                                             });
                                             showDialog(
                                                 context: context,
-                                                builder: (context) =>
-                                                    AlertDialog(
-                                                      title: Text(
-                                                        'Update Clinic',
-                                                        style: TextStyle(
-                                                            color: textColor,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 18),
-                                                      ),
-                                                      content: TextField(
-                                                        controller:
-                                                            editController,
-                                                        decoration:
-                                                            const InputDecoration(
-                                                          border:
-                                                              OutlineInputBorder(),
-                                                        ),
-                                                      ),
-                                                      actions: [
-                                                        MaterialButton(
-                                                          color: mainColor,
-                                                          onPressed: () {
-                                                            firebaseFirestore
-                                                                .collection(
-                                                                    'clinics')
-                                                                .where(
-                                                                    'clinic_name',
-                                                                    isEqualTo:
-                                                                        clinics[index]
-                                                                            [
-                                                                            'clinic_name'])
-                                                                .limit(1)
-                                                                .get()
-                                                                .then((value) {
-                                                              for (var element
-                                                                  in value
-                                                                      .docs) {
-                                                                firebaseFirestore
-                                                                    .collection(
-                                                                        'clinics')
-                                                                    .doc(element
-                                                                        .id)
-                                                                    .update({
-                                                                  'clinic_name':
-                                                                      editController
-                                                                          .text
-                                                                });
+                                                builder:
+                                                    (context) => AlertDialog(
+                                                          title: Text(
+                                                            'Update Clinic',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    textColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 18),
+                                                          ),
+                                                          content: TextField(
+                                                            controller:
+                                                                editController,
+                                                            decoration:
+                                                                const InputDecoration(
+                                                              border:
+                                                                  OutlineInputBorder(),
+                                                            ),
+                                                          ),
+                                                          actions: [
+                                                            MaterialButton(
+                                                              color: mainColor,
+                                                              onPressed: () {
+                                                                if (editController
+                                                                    .text
+                                                                    .isEmpty) {
+                                                                  var snackBar =
+                                                                      const SnackBar(
+                                                                          content:
+                                                                              Text('Field is empty'));
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                          snackBar);
+                                                                } else {
+                                                                  firebaseFirestore
+                                                                      .collection(
+                                                                          'clinics')
+                                                                      .where(
+                                                                          'clinic_name',
+                                                                          isEqualTo: clinics[index]
+                                                                              [
+                                                                              'clinic_name'])
+                                                                      .limit(1)
+                                                                      .get()
+                                                                      .then(
+                                                                          (value) {
+                                                                    for (var element
+                                                                        in value
+                                                                            .docs) {
+                                                                      firebaseFirestore
+                                                                          .collection(
+                                                                              'clinics')
+                                                                          .doc(element
+                                                                              .id)
+                                                                          .update({
+                                                                        'clinic_name':
+                                                                            editController.text
+                                                                      });
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    }
+                                                                  });
+                                                                }
+                                                              },
+                                                              child: const Text(
+                                                                'Update',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                            MaterialButton(
+                                                              color: mainColor,
+                                                              onPressed: () {
                                                                 Navigator.pop(
                                                                     context);
-                                                              }
-                                                            });
-                                                          },
-                                                          child: const Text(
-                                                            'Update',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ),
-                                                        MaterialButton(
-                                                          color: mainColor,
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: const Text(
-                                                            'Cancel',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ));
+                                                              },
+                                                              child: const Text(
+                                                                'Cancel',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ));
                                           },
                                           child: const Text(
                                             'Update',

@@ -28,53 +28,62 @@ class _ViewDoctorsScreenState extends State<ViewDoctorsScreen> {
                     fontWeight: FontWeight.bold),
               ),
               Expanded(
-                  child: StreamBuilder(
-                      stream:
-                          firebaseFirestore.collection('doctors').snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                var item = snapshot.data!.docs[index];
-                                if (snapshot.data!.docs.isEmpty) {
-                                  return const Center(
-                                    child: Text('No Doctors'),
-                                  );
-                                } else {
-                                  return DoctorCard(
-                                    clinic: item['clinic'],
-                                    email: item['email'],
-                                    image:
-                                        item['sex'] == 'male' ? 'man' : 'girl',
-                                    name: item['name'],
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              DoctorDetailsScreen(
-                                            ds: item,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    delete: () {
-                                      print('ddddddddddddd');
-                                    },
-                                    update: () {},
-                                  );
-                                }
-                              });
-                        } else if (snapshot.hasError) {
+                child: StreamBuilder(
+                    stream: firebaseFirestore.collection('doctors').snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.docs.isEmpty) {
                           return Center(
-                            child: Text('${snapshot.error}'),
+                            child: Text(
+                              'no Doctors',
+                              style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           );
                         }
-                        return const Center(
-                          child: Text('There is no doctors'),
+                        return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              var item = snapshot.data!.docs[index];
+                              if (snapshot.data!.docs.isEmpty) {
+                                return  Center(
+                                  child: Text('No Doctors',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textColor),),
+                                );
+                              } else {
+                                return DoctorCard(
+                                  clinic: item['clinic'],
+                                  email: item['email'],
+                                  image: item['sex'] == 'male' ? 'man' : 'girl',
+                                  name: item['name'],
+                                  delete: () {
+                                    print('ddddddddddddd');
+                                  },
+                                  update: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DoctorDetailsScreen(
+                                          ds: item,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            });
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('${snapshot.error}'),
                         );
-                      }))
+                      }
+                      return const Center(
+                        child: Text('There is no doctors'),
+                      );
+                    }),
+              ),
             ],
           ),
         ),
@@ -86,7 +95,6 @@ class _ViewDoctorsScreenState extends State<ViewDoctorsScreen> {
 class DoctorCard extends StatelessWidget {
   const DoctorCard({
     super.key,
-    required this.onPressed,
     required this.update,
     required this.delete,
     required this.name,
@@ -94,7 +102,7 @@ class DoctorCard extends StatelessWidget {
     required this.clinic,
     required this.image,
   });
-  final VoidCallback onPressed, update, delete;
+  final VoidCallback update, delete;
   final String name, email, clinic, image;
 
   @override
@@ -162,16 +170,16 @@ class DoctorCard extends StatelessWidget {
               MaterialButton(
                 elevation: 5,
                 color: mainColor,
-                onPressed: () {},
+                onPressed: update,
                 child: const Text(
-                  'Update',
+                  'View',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
               MaterialButton(
                 elevation: 5,
                 color: Colors.red,
-                onPressed: () {},
+                onPressed: delete,
                 child: const Text(
                   'Delete',
                   style: TextStyle(color: Colors.white),
@@ -181,7 +189,6 @@ class DoctorCard extends StatelessWidget {
           ),
         ],
       ),
-      // ),
     );
   }
 }

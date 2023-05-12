@@ -26,6 +26,17 @@ class AdminViewPatients extends StatelessWidget {
                       FirebaseFirestore.instance.collection('patients').get(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      if (snapshot.data!.docs.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No Patients',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: textColor),
+                          ),
+                        );
+                      }
                       return ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
@@ -89,6 +100,12 @@ class AdminViewPatients extends StatelessWidget {
                               },
                               email: item['email'],
                               name: '${item['fname']} ${item['lname']}',
+                              medical: item['medicalFileNumber'] == ''
+                                  ? 'no medical file no.'
+                                  : item['medicalFileNumber'],
+                              medicalColor: item['medicalFileNumber'] == ''
+                                  ? Colors.red
+                                  : textColor,
                             );
                           });
                     } else if (snapshot.hasError) {
@@ -113,9 +130,12 @@ class PatientCardInAdmin extends StatelessWidget {
     required this.email,
     required this.edit,
     required this.delete,
+    required this.medical,
+    required this.medicalColor,
   });
-  final String name, email;
+  final String name, email, medical;
   final VoidCallback edit, delete;
+  final Color medicalColor;
 
   @override
   Widget build(BuildContext context) {
@@ -138,21 +158,48 @@ class PatientCardInAdmin extends StatelessWidget {
             width: (width - 40) * 0.6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                      color: textColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: TextStyle(
+                          color: textColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      email,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
-                Text(
-                  email,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Medical File Number:',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: mainColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      medical,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: medicalColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 )
               ],
             ),

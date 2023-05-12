@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,6 +34,7 @@ class _CompletePatientProfileScreenState
         password: widget.password,
       );
       await firestore.collection('patients').doc(credential.user!.uid).set({
+        'medicalFileNumber': '',
         'fname': fNameController.text,
         'lname': lNameController.text,
         'socialstatus': status,
@@ -45,6 +45,8 @@ class _CompletePatientProfileScreenState
         'allegry': allergyController.text,
         'chromes': chromesController.text
       });
+      await credential.user!
+          .updateDisplayName('${fNameController.text} ${lNameController.text}');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         const snackBar = SnackBar(
@@ -231,7 +233,7 @@ class _CompletePatientProfileScreenState
                         } else {
                           saveUserData();
                           Navigator.pushReplacementNamed(
-                              context, '/patient-home');
+                              context, '/patient-register-success');
                         }
                       },
                       child: const Text(

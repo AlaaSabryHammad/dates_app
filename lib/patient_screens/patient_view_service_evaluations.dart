@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/patient_screens/patient_view_evaluation_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import '../constants.dart';
 
@@ -16,6 +17,8 @@ class PatientViewServiceEvaluations extends StatefulWidget {
 class _PatientViewServiceEvaluationsState
     extends State<PatientViewServiceEvaluations> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +56,17 @@ class _PatientViewServiceEvaluationsState
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      if (snapshot.data!.docs.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No Service Evaluations',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: textColor),
+                          ),
+                        );
+                      }
                       return ListView.builder(
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
@@ -112,6 +126,8 @@ class _PatientViewServiceEvaluationsState
                                         ),
                                       ),
                                 dayName: day,
+                                clinic: item['clinicName'],
+                                ratingValue: item['rating'],
                               ),
                             );
                           });
@@ -137,11 +153,15 @@ class UserEvaluationCard extends StatelessWidget {
     required this.day,
     required this.textWidget,
     required this.dayName,
+    required this.clinic,
+    required this.ratingValue,
   });
   final String doctorName;
   final int day;
   final Widget textWidget;
   final String dayName;
+  final String clinic;
+  final double ratingValue;
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +227,7 @@ class UserEvaluationCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Family Clinic',
+                clinic,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -216,9 +236,29 @@ class UserEvaluationCard extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                '1 Evaluation',
-                style: TextStyle(fontSize: 16),
+              Text(
+                '$ratingValue Evaluation',
+                style: const TextStyle(fontSize: 16),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: RatingBar.builder(
+                  maxRating: ratingValue,
+                  itemSize: 15,
+                  initialRating: ratingValue,
+                  minRating: ratingValue,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    // ratingValue = rating;
+                  },
+                ),
               ),
             ],
           )

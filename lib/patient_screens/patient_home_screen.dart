@@ -206,7 +206,7 @@ class PatientHomeScreen extends StatelessWidget {
                 AppointmentAction(
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/book-patient-app');
+                    Navigator.pushNamed(context, '/patient-select-clinic');
                   },
                   label: 'Book a new appointment',
                   icon: Icons.note_add_rounded,

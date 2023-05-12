@@ -19,6 +19,7 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
   TextEditingController lnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController idController = TextEditingController();
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
     lnameController.text = widget.patient['lname'];
     emailController.text = widget.patient['email'];
     passwordController.text = widget.patient['password'];
+    idController.text = widget.patient['medicalFileNumber'];
   }
 
   @override
@@ -83,6 +85,13 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                   isSecured: false,
                   controller: passwordController,
                 ),
+                CustomTextFieldEdit(
+                  onPressed: () {},
+                  label: 'Medical File Number',
+                  icon: Icons.person,
+                  isSecured: false,
+                  controller: idController,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -94,7 +103,8 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                     if (fnameController.text.isEmpty ||
                         lnameController.text.isEmpty ||
                         emailController.text.isEmpty ||
-                        passwordController.text.isEmpty) {
+                        passwordController.text.isEmpty ||
+                        idController.text.isEmpty) {
                       var snackBar = const SnackBar(
                           content: Text('Complete patient data ...'));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -107,8 +117,10 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                         'lname': lnameController.text,
                         'email': emailController.text,
                         'password': passwordController.text,
+                        'medicalFileNumber': idController.text
                       });
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushReplacementNamed(
+                          context, '/admin-update-patient-success');
                     }
                   },
                   child: const Text(
