@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
+import 'package:dates_app/doctor_screens/refer_screens/refer_select_clinic.dart';
 import 'package:flutter/material.dart';
 import 'doctor_add_prescription.dart';
 import 'doctor_record_test.dart';
-import 'doctor_refer.dart';
 
 class DoctorShowApp extends StatefulWidget {
   const DoctorShowApp({super.key, required this.item});
@@ -38,7 +38,7 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
     setPatientData();
   }
 
-  bool isChecked = true;
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -137,15 +137,17 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
                             height: 100,
                             decoration:
                                 const BoxDecoration(color: Colors.white),
-                            child: StreamBuilder(
-                                stream: firebaseFirestore
+                            child: FutureBuilder(
+                                future: firebaseFirestore
                                     .collection('bookings')
                                     .doc(widget.item.id)
-                                    .snapshots(),
+                                    .get(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data!['prescription'] == '') {
-                                      return const Text('no prescription');
+                                    if (snapshot.data!['prescription'] ==
+                                        null) {
+                                      return const Center(
+                                          child: Text('no prescription'));
                                     } else {
                                       List dataList =
                                           snapshot.data!['prescription'];
@@ -250,15 +252,16 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
                             height: 100,
                             decoration:
                                 const BoxDecoration(color: Colors.white),
-                            child: StreamBuilder(
-                                stream: firebaseFirestore
+                            child: FutureBuilder(
+                                future: firebaseFirestore
                                     .collection('bookings')
                                     .doc(widget.item.id)
-                                    .snapshots(),
+                                    .get(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data!['tests'] == '') {
-                                      return const Text('no Tests');
+                                    if (snapshot.data!['tests'] == null) {
+                                      return const Center(
+                                          child: Text('no Tests'));
                                     } else {
                                       List xx = snapshot.data!['tests'];
                                       List dataList = [];
@@ -267,7 +270,6 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
                                           dataList.add(element);
                                         }
                                       }
-                                      // List dataList = yy;
                                       return ListView.builder(
                                           scrollDirection: Axis.horizontal,
                                           itemCount: dataList.length,
@@ -349,13 +351,16 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      DoctorRefer(item: widget.item),
+                                  builder: (context) => ReferSelectClinic(
+                                    patientId: patientId!,
+                                    patientName: patientName!,
+                                    oldApp: widget.item,
+                                  ),
                                 ),
                               );
                             },
                             child: const Text(
-                              'Refere',
+                              'Refer',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,

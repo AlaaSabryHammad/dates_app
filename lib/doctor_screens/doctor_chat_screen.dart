@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../constants.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.receiverDocument});
-  final QueryDocumentSnapshot receiverDocument;
+class DoctorChatScreen extends StatefulWidget {
+  const DoctorChatScreen(
+      {super.key, required this.patientId, required this.patientEmail});
+  final String patientId, patientEmail;
+
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<DoctorChatScreen> createState() => _DoctorChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _DoctorChatScreenState extends State<DoctorChatScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController messageController = TextEditingController();
@@ -22,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: mainColor,
-          title: Text(widget.receiverDocument['name']),
+          title: Text(widget.patientEmail),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -33,12 +35,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     stream: firebaseFirestore
                         .collection('chat')
                         .doc(
-                            '${firebaseAuth.currentUser!.uid}${widget.receiverDocument.id}')
+                            '${widget.patientId}${firebaseAuth.currentUser!.uid}')
                         .collection('messages')
-                        .where('patientEmail',
-                            isEqualTo: firebaseAuth.currentUser!.email)
                         .where('doctorEmail',
-                            isEqualTo: widget.receiverDocument['email'])
+                            isEqualTo: firebaseAuth.currentUser!.email)
+                        .where('patientEmail', isEqualTo: widget.patientEmail)
                         .orderBy('time', descending: true)
                         .snapshots(),
                     builder: (context, snapshot) {
@@ -67,50 +68,19 @@ class _ChatScreenState extends State<ChatScreen> {
                   )),
                   TextButton(
                     onPressed: () async {
-                      DocumentSnapshot ds = await firebaseFirestore
+                      await firebaseFirestore
                           .collection('chat')
                           .doc(
-                              '${firebaseAuth.currentUser!.uid}${widget.receiverDocument.id}')
-                          .get();
-                      if (ds.exists) {
-                        await firebaseFirestore
-                            .collection('chat')
-                            .doc(
-                                '${firebaseAuth.currentUser!.uid}${widget.receiverDocument.id}')
-                            .collection('messages')
-                            .add({
-                          'text': messageController.text,
-                          'time': FieldValue.serverTimestamp(),
-                          'patientEmail': firebaseAuth.currentUser!.email,
-                          'doctorEmail': widget.receiverDocument['email'],
-                          'read': false,
-                          'sender': 'patient'
-                        });
-                      } else {
-                        await firebaseFirestore
-                            .collection('chat')
-                            .doc(
-                                '${firebaseAuth.currentUser!.uid}${widget.receiverDocument.id}')
-                            .set({
-                          'patientEmail': firebaseAuth.currentUser!.email,
-                          'doctorEmail': widget.receiverDocument['email'],
-                          'patientId': firebaseAuth.currentUser!.uid,
-                          'doctorId': widget.receiverDocument.id,
-                        });
-                        await firebaseFirestore
-                            .collection('chat')
-                            .doc(
-                                '${firebaseAuth.currentUser!.uid}${widget.receiverDocument.id}')
-                            .collection('messages')
-                            .add({
-                          'text': messageController.text,
-                          'time': FieldValue.serverTimestamp(),
-                          'patientEmail': firebaseAuth.currentUser!.email,
-                          'doctorEmail': widget.receiverDocument['email'],
-                          'read': false,
-                          'sender': 'patient'
-                        });
-                      }
+                              '${widget.patientId}${firebaseAuth.currentUser!.uid}')
+                          .collection('messages')
+                          .add({
+                        'text': messageController.text,
+                        'time': FieldValue.serverTimestamp(),
+                        'doctorEmail': firebaseAuth.currentUser!.email,
+                        'patientEmail': widget.patientEmail,
+                        'read': false,
+                        'sender': 'doctor'
+                      });
                       messageController.clear();
                     },
                     child: const Text(
@@ -137,7 +107,7 @@ class MessageWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        crossAxisAlignment: mDocument['sender'] == 'patient'
+        crossAxisAlignment: mDocument['sender'] == 'doctor'
             ? CrossAxisAlignment.start
             : CrossAxisAlignment.end,
         children: [
@@ -148,7 +118,7 @@ class MessageWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Material(
               elevation: 10,
-              color: mDocument['sender'] == 'patient' ? mainColor : textColor,
+              color: mDocument['sender'] == 'doctor' ? mainColor : textColor,
               borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(10),
                   bottomLeft: Radius.circular(10)),

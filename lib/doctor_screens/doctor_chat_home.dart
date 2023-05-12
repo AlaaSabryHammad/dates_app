@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dates_app/constants.dart';
-import 'package:dates_app/patient_screens/patient_chat_screen.dart';
+import 'package:dates_app/doctor_screens/doctor_appointments.dart';
+import 'package:dates_app/doctor_screens/doctor_chat_screen.dart';
 import 'package:flutter/material.dart';
+import '../constants.dart';
 
-class PatientHomeChatScreen extends StatefulWidget {
-  const PatientHomeChatScreen({super.key});
+class DoctorChatHome extends StatefulWidget {
+  const DoctorChatHome({super.key});
 
   @override
-  State<PatientHomeChatScreen> createState() => _PatientHomeChatScreenState();
+  State<DoctorChatHome> createState() => _DoctorChatHomeState();
 }
 
-class _PatientHomeChatScreenState extends State<PatientHomeChatScreen> {
+class _DoctorChatHomeState extends State<DoctorChatHome> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _PatientHomeChatScreenState extends State<PatientHomeChatScreen> {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Connect to your Doctor',
+                  'Chat with your Patients',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
@@ -39,7 +40,11 @@ class _PatientHomeChatScreenState extends State<PatientHomeChatScreen> {
           ),
           Expanded(
             child: StreamBuilder(
-                stream: firebaseFirestore.collection('doctors').snapshots(),
+                stream: firebaseFirestore
+                    .collection('chat')
+                    .where('doctorEmail',
+                        isEqualTo: firebaseAuth.currentUser!.email)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
@@ -55,23 +60,23 @@ class _PatientHomeChatScreenState extends State<PatientHomeChatScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        ChatScreen(receiverDocument: item),
+                                         DoctorChatScreen(
+                                      patientId: item.get('patientId'),
+                                      patientEmail: item.get('patientEmail'),
+                                    ),
                                   ),
                                 );
                               },
-                              leading: CircleAvatar(
+                              leading: const CircleAvatar(
                                 radius: 30,
-                                backgroundImage: AssetImage(
-                                    item['sex'] == 'Female'
-                                        ? 'images/girl.png'
-                                        : 'images/man.png'),
+                                backgroundImage: AssetImage('images/girl.png'),
                               ),
                               title: Text(
-                                item['name'],
+                                item['patientEmail'],
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Text(item['clinic']),
+                              subtitle: Text(item['patientEmail']),
                               trailing: const Icon(Icons.arrow_forward_ios),
                             ),
                           );

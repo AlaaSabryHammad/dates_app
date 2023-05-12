@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
-import 'package:dates_app/doctor_screens/doctor_add_prescription.dart';
-import 'package:dates_app/doctor_screens/doctor_record_test.dart';
-import 'package:dates_app/doctor_screens/doctor_refer.dart';
 import 'package:dates_app/doctor_screens/doctor_show_app.dart';
+import 'package:dates_app/doctor_screens/doctor_show_completed_app_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -242,9 +240,7 @@ class UpcommingWidget extends StatelessWidget {
     return StreamBuilder(
         stream: firebaseFirestore
             .collection('bookings')
-            .where('doctorID',
-                // isEqualTo: 'IDqVgFlIhFZJRohBu5AtPEyhpS83')
-                isEqualTo: firebaseAuth.currentUser!.uid)
+            .where('doctorID', isEqualTo: firebaseAuth.currentUser!.uid)
             .where('status', isEqualTo: 'active')
             .orderBy('startTime', descending: false)
             .snapshots(),
@@ -255,8 +251,6 @@ class UpcommingWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var item = snapshot.data!.docs[index];
                   DateTime date = item['startTime'].toDate();
-                  print(item);
-                  print('************');
                   return GestureDetector(
                     onTap: () {},
                     child: Stack(
@@ -330,9 +324,6 @@ class UpcommingWidget extends StatelessWidget {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      // Checkbox(
-                                      //     value: isCompleted,
-                                      //     onChanged: (value) {})
                                     ],
                                   )
                                 ],
@@ -341,46 +332,6 @@ class UpcommingWidget extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  // MaterialButton(
-                                  //   minWidth: 120,
-                                  //   color: mainColor,
-                                  //   elevation: 5,
-                                  //   onPressed: () {
-                                  //     Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             DoctorRecordTestScreen(
-                                  //           item: item,
-                                  //         ),
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  //   child: const Text(
-                                  //     'Record Test',
-                                  //     style: TextStyle(color: Colors.white),
-                                  //   ),
-                                  // ),
-                                  // MaterialButton(
-                                  //   minWidth: 120,
-                                  //   color: mainColor,
-                                  //   elevation: 5,
-                                  //   onPressed: () {
-                                  //     Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             DoctorAddPrescription(
-                                  //           item: item,
-                                  //         ),
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  //   child: const Text(
-                                  //     'Prescription',
-                                  //     style: TextStyle(color: Colors.white),
-                                  //   ),
-                                  // ),
                                   MaterialButton(
                                     minWidth: 120,
                                     color: mainColor,
@@ -439,151 +390,99 @@ class CompletedWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var item = snapshot.data!.docs[index];
                   DateTime date = item['startTime'].toDate();
-                  print(item);
-                  print('************');
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Stack(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          margin: const EdgeInsets.only(
-                              bottom: 15, right: 5, left: 5),
-                          width: width - 50,
-                          height: 200,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [customBoxShadow],
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        item['patientName'],
-                                        style: TextStyle(
-                                            color: textColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        '${date.day}/${date.month}/${date.year}',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blue),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        '${date.hour}:${date.minute}',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blue),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        'Waiting ....',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey),
-                                      ),
-                                      Text(
-                                        'Not Refered',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      // Checkbox(
-                                      //     value: isCompleted,
-                                      //     onChanged: (value) {})
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  MaterialButton(
-                                    minWidth: 120,
-                                    color: mainColor,
-                                    elevation: 5,
-                                    onPressed: () {
-                                      Navigator.push(
+                  return Stack(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.only(
+                            bottom: 15, right: 5, left: 5),
+                        width: width - 50,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [customBoxShadow],
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['patientName'],
+                                      style: TextStyle(
+                                          color: textColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      '${date.day}/${date.month}/${date.year}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      '${date.hour}:${date.minute}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['isRefered']
+                                          ? 'Refered'
+                                          : 'Not Refered',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: item['isRefered']
+                                              ? Colors.blue
+                                              : Colors.black),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                MaterialButton(
+                                  minWidth: 120,
+                                  color: mainColor,
+                                  elevation: 5,
+                                  onPressed: () {
+                                    Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              DoctorRecordTestScreen(
-                                            item: item,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text(
-                                      'Record Test',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                            builder: (context) =>
+                                                DoctorShowCompletedAppDetails(
+                                                    item: item)));
+                                  },
+                                  child: const Text(
+                                    'Show',
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                  MaterialButton(
-                                    minWidth: 120,
-                                    color: mainColor,
-                                    elevation: 5,
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              DoctorAddPrescription(
-                                            item: item,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text(
-                                      'Prescription',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  MaterialButton(
-                                    minWidth: 120,
-                                    color: mainColor,
-                                    elevation: 5,
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DoctorRefer(item: item)));
-                                    },
-                                    child: const Text(
-                                      'Refer',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
+                                )
+                              ],
+                            )
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 });
           } else if (snapshot.hasError) {

@@ -1,3 +1,4 @@
+import 'package:dates_app/doctor_screens/doctor_chat_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -42,7 +43,12 @@ class DoctorHomeScreen extends StatelessWidget {
                       ),
                       CustomIcon(
                         onPressed: () {
-                          print('object');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DoctorChatHome(),
+                            ),
+                          );
                         },
                         label: "Chats",
                         icon: Icons.email,
