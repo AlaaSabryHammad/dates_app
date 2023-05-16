@@ -137,11 +137,11 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
                             height: 100,
                             decoration:
                                 const BoxDecoration(color: Colors.white),
-                            child: FutureBuilder(
-                                future: firebaseFirestore
+                            child: StreamBuilder(
+                                stream: firebaseFirestore
                                     .collection('bookings')
                                     .doc(widget.item.id)
-                                    .get(),
+                                    .snapshots(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     if (snapshot.data!['prescription'] ==
@@ -252,11 +252,11 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
                             height: 100,
                             decoration:
                                 const BoxDecoration(color: Colors.white),
-                            child: FutureBuilder(
-                                future: firebaseFirestore
+                            child: StreamBuilder(
+                                stream: firebaseFirestore
                                     .collection('bookings')
                                     .doc(widget.item.id)
-                                    .get(),
+                                    .snapshots(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     if (snapshot.data!['tests'] == null) {

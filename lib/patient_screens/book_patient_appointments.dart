@@ -31,8 +31,8 @@ class _BookPatientAppointmentsState extends State<BookPatientAppointments> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  getPatientName() {
-    firebaseFirestore
+  getPatientName() async {
+    await firebaseFirestore
         .collection('patients')
         .doc(auth.currentUser!.uid)
         .get()

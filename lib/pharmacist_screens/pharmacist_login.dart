@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/pharmacist_screens/pharmacist_home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_textfield.dart';
@@ -13,7 +15,7 @@ class PharmacistLogin extends StatefulWidget {
 class _PharmacistLoginState extends State<PharmacistLogin> {
   String? emailAddress;
   String? password;
-    TextEditingController emailController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -71,7 +73,8 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                     onPressed: (value) {
                       emailAddress = value;
                     },
-                    isSecured: false, controller: emailController,
+                    isSecured: false,
+                    controller: emailController,
                   ),
                   CustomTextField(
                     hint: 'Enter your password .....',
@@ -80,7 +83,8 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                     onPressed: (value) {
                       password = value;
                     },
-                    isSecured: true, controller: passwordController,
+                    isSecured: true,
+                    controller: passwordController,
                   ),
                   const SizedBox(
                     height: 20,
@@ -88,21 +92,26 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                   MaterialButton(
                     elevation: 5,
                     onPressed: () async {
-                      // try {
-                      //   final credential = await FirebaseAuth.instance
-                      //       .signInWithEmailAndPassword(
-                      //           email: emailAddress!, password: password!);
-                      //   Navigator.pushNamed(context, '/doctor-home');
-                      // } on FirebaseAuthException catch (e) {
-                      //   if (e.code == 'user-not-found') {
-                      //     print('No user found for that email.');
-                      //   } else if (e.code == 'wrong-password') {
-                      //     print('Wrong password provided for that user.');
-                      //     const snackBar = SnackBar(
-                      //         content: Text('login data not correct ...'));
-                      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //   }
-                      // }
+                      try {
+                        final credential = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: emailAddress!, password: password!);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const PharmacistHomePage()));
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'user-not-found') {
+                          const snackBar = SnackBar(
+                              content: Text('No user found for that email.'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else if (e.code == 'wrong-password') {
+                          const snackBar = SnackBar(
+                              content: Text('Wrong password provided for that user.'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      }
                     },
                     color: mainColor,
                     child: const Text(

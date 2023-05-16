@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
+import 'package:dates_app/patient_screens/patient_home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
-import 'complete_patient_profile_screen.dart';
 
 class PatientLoginScreen extends StatefulWidget {
   const PatientLoginScreen({super.key});
@@ -104,16 +104,23 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                               context, '/patient-home');
                         } else {
                           // ignore: use_build_context_synchronously
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  CompletePatientProfileScreen(
-                                patientEmail: emailAddress!,
-                                password: password!,
-                              ),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         CompletePatientProfileScreen(
+                          //       patientEmail: emailAddress!,
+                          //       password: password!,
+                          //     ),
+                          //   ),
+                          // );
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PatientHomeScreen()),
+                              (route) => false);
                         }
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {

@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'patient_update_appointment.dart';
 
-
-
 class ViewPatientAppointments extends StatefulWidget {
   const ViewPatientAppointments({super.key});
 
@@ -45,6 +43,7 @@ class _ViewPatientAppointmentsState extends State<ViewPatientAppointments> {
                       .collection('bookings')
                       .where('patientId',
                           isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .orderBy('startTime', descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -200,6 +199,8 @@ class BookCard extends StatelessWidget {
           width: width - 40,
           height: 150,
           decoration: BoxDecoration(
+            border: Border.all(
+                color: mainColor, width: 1, style: BorderStyle.solid),
             boxShadow: [customBoxShadow],
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),

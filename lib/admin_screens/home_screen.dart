@@ -331,9 +331,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           .then((value) async {
                         if (password == value.get('password')) {
                           if (newPassword == confirm) {
-                            print(newPassword);
-                            print(confirm);
                             await resetPass();
+                            Navigator.pop(context);
                             var snackBar = const SnackBar(
                                 content:
                                     Text('Password reset successfully ...'));

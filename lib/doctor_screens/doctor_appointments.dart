@@ -85,7 +85,9 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
               child: PageView(
                 controller: pageController,
                 onPageChanged: (value) {
-                  selectedIndex = value;
+                  setState(() {
+                    selectedIndex = value;
+                  });
                 },
                 children: appScreens,
               ),
@@ -95,140 +97,7 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
       ),
     );
   }
-
-  // getPatientDocument(
-  //     Future<DocumentSnapshot<Map<String, dynamic>>> document) async {
-  //   var resultDocument = await document;
-  //   return resultDocument;
-  // }
 }
-
-// class PatientAppCard extends StatelessWidget {
-//   const PatientAppCard({
-//     super.key,
-//     required this.onPressed,
-//     required this.isCompleted,
-//     required this.onChanged,
-//   });
-//   final VoidCallback onPressed;
-//   final bool isCompleted;
-//   final Function onChanged;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     double width = MediaQuery.of(context).size.width;
-//     return GestureDetector(
-//       onTap: onPressed,
-//       child: Stack(
-//         children: [
-//           Container(
-//             padding: const EdgeInsets.all(20),
-//             margin: const EdgeInsets.only(bottom: 15, right: 5, left: 5),
-//             width: width - 50,
-//             height: 200,
-//             decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 boxShadow: [customBoxShadow],
-//                 borderRadius: BorderRadius.circular(10)),
-//             child: Row(
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text(
-//                           'Alaa Sabry',
-//                           style: TextStyle(
-//                               color: textColor,
-//                               fontSize: 20,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                         const SizedBox(
-//                           height: 10,
-//                         ),
-//                         const Text(
-//                           '10/10/2020',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold, color: Colors.blue),
-//                         ),
-//                         const SizedBox(
-//                           height: 10,
-//                         ),
-//                         const Text(
-//                           '10:00 PM',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold, color: Colors.blue),
-//                         )
-//                       ],
-//                     ),
-//                     Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         const Text(
-//                           'Waiting ....',
-//                           style: TextStyle(
-//                               fontWeight: FontWeight.bold, color: Colors.grey),
-//                         ),
-//                         const Text(
-//                           'Not Refered',
-//                           style: TextStyle(fontWeight: FontWeight.bold),
-//                         ),
-//                         // CheckboxListTile(value: value, onChanged: onChanged)
-//                         Checkbox(
-//                             value: isCompleted,
-//                             onChanged: (value) => onChanged(value))
-//                       ],
-//                     )
-//                   ],
-//                 ),
-//                 Column(
-//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                   children: [
-//                     MaterialButton(
-//                       minWidth: 120,
-//                       color: mainColor,
-//                       elevation: 5,
-//                       onPressed: () {},
-//                       child: const Text(
-//                         'Test',
-//                         style: TextStyle(color: Colors.white),
-//                       ),
-//                     ),
-//                     MaterialButton(
-//                       minWidth: 120,
-//                       color: mainColor,
-//                       elevation: 5,
-//                       onPressed: () {},
-//                       child: const Text(
-//                         'Prescription',
-//                         style: TextStyle(color: Colors.white),
-//                       ),
-//                     ),
-//                     MaterialButton(
-//                       minWidth: 120,
-//                       color: mainColor,
-//                       elevation: 5,
-//                       onPressed: () {},
-//                       child: const Text(
-//                         'Refer',
-//                         style: TextStyle(color: Colors.white),
-//                       ),
-//                     )
-//                   ],
-//                 )
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class UpcommingWidget extends StatelessWidget {
   const UpcommingWidget({super.key});
@@ -399,6 +268,10 @@ class CompletedWidget extends StatelessWidget {
                         width: width - 50,
                         height: 200,
                         decoration: BoxDecoration(
+                            border: Border.all(
+                                color: mainColor,
+                                width: 1,
+                                style: BorderStyle.solid),
                             color: Colors.white,
                             boxShadow: [customBoxShadow],
                             borderRadius: BorderRadius.circular(10)),

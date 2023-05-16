@@ -39,10 +39,9 @@ class _AdminViewPharmacistsState extends State<AdminViewPharmacists> {
                               itemCount: snapshot.data!.docs.length,
                               itemBuilder: (context, index) {
                                 var item = snapshot.data!.docs[index];
-                                return DoctorCard(
-                                  clinic: item['clinic'],
+                                return PharmacistCard(
                                   email: item['email'],
-                                  image: item['sex'] == 'male' ? 'man' : 'girl',
+                                  image: 'girl',
                                   name: item['name'],
                                   onPressed: () {
                                     Navigator.push(
@@ -76,32 +75,29 @@ class _AdminViewPharmacistsState extends State<AdminViewPharmacists> {
   }
 }
 
-class DoctorCard extends StatelessWidget {
-  const DoctorCard({
+class PharmacistCard extends StatelessWidget {
+  const PharmacistCard({
     super.key,
     required this.onPressed,
     required this.update,
     required this.delete,
     required this.name,
     required this.email,
-    required this.clinic,
     required this.image,
   });
   final VoidCallback onPressed, update, delete;
-  final String name, email, clinic, image;
+  final String name, email, image;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return
-        //  GestureDetector(
-        //   onTap: onPressed,
-        // child:
-        Container(
+    return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 15),
       height: 150,
       decoration: BoxDecoration(
+        border:
+            Border.all(color: mainColor, width: 1, style: BorderStyle.solid),
         boxShadow: [
           customBoxShadow,
         ],
@@ -141,14 +137,6 @@ class DoctorCard extends StatelessWidget {
                   )
                 ],
               ),
-              Text(
-                clinic,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: mainColor,
-                    fontWeight: FontWeight.bold),
-              )
             ],
           ),
           Column(
@@ -176,7 +164,6 @@ class DoctorCard extends StatelessWidget {
           ),
         ],
       ),
-      // ),
     );
   }
 }

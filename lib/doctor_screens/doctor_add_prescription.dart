@@ -113,7 +113,8 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                         .update({
                       'prescription': prescriptionList,
                     });
-                    Navigator.pushReplacementNamed(context, '/doctor-add-pre-success');
+                    Navigator.pushReplacementNamed(
+                        context, '/doctor-add-pre-success');
                   }
                 },
                 child: const Text(
@@ -248,7 +249,9 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                         prescriptionList.add({
                           'item': item,
                           'desc': description,
-                          'count': numberOfItems
+                          'count': numberOfItems,
+                          'remain': numberOfItems,
+                          'taken': 0
                         });
                       });
                       Navigator.pop(context);

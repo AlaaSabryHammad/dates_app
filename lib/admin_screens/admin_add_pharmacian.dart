@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/admin_screens/success/admin_add_pharmacist_success.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +17,6 @@ class _AdminAddPharmacianState extends State<AdminAddPharmacian> {
   TextEditingController userNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool sexStatus = true;
-  String sex = 'male';
-  String? dropdownValue;
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
@@ -71,58 +69,6 @@ class _AdminAddPharmacianState extends State<AdminAddPharmacian> {
                     icon: Icons.lock,
                     label: 'Password',
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         setState(() {
-                  //           sexStatus = true;
-                  //           sex = 'Male';
-                  //         });
-                  //       },
-                  //       child: Container(
-                  //         width: 100,
-                  //         height: 50,
-                  //         decoration: BoxDecoration(
-                  //             color: sexStatus
-                  //                 ? mainColor
-                  //                 : Colors.grey.withOpacity(0.5)),
-                  //         child: const Center(
-                  //           child: Text(
-                  //             'Male',
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         setState(() {
-                  //           sexStatus = false;
-                  //           sex = 'Female';
-                  //         });
-                  //       },
-                  //       child: Container(
-                  //         width: 100,
-                  //         height: 50,
-                  //         decoration: BoxDecoration(
-                  //             color: sexStatus
-                  //                 ? Colors.grey.withOpacity(0.5)
-                  //                 : mainColor),
-                  //         child: const Center(
-                  //           child: Text(
-                  //             'Female',
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -131,34 +77,68 @@ class _AdminAddPharmacianState extends State<AdminAddPharmacian> {
                     minWidth: width - 120,
                     elevation: 5,
                     onPressed: () async {
-                      FirebaseApp app = await Firebase.initializeApp(
-                          name: 'Secondary', options: Firebase.app().options);
-                      try {
-                        UserCredential userCredential =
-                            await FirebaseAuth.instanceFor(app: app)
-                                .createUserWithEmailAndPassword(
-                                    email: emailController.text,
-                                    password: passwordController.text);
-                        await firebaseFirestore
-                            .collection('doctors')
-                            .doc(userCredential.user!.uid)
-                            .set({
-                          'email': emailController.text,
-                          'name': userNameController.text,
-                          'password': passwordController.text,
-                          'sex': 'Female',
-                          'clinic': dropdownValue
-                        });
-                        Navigator.pushReplacementNamed(
-                            context, '/view-doctors');
-                      } on FirebaseAuthException {
-                        // Do something with exception. This try/catch is here to make sure
-                        // that even if the user creation fails, app.delete() runs, if is not,
-                        // next time Firebase.initializeApp() will fail as the previous one was
-                        // not deleted.
-                      }
+                      if (userNameController.text.isEmpty ||
+                          emailController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
+                        var snackBar = const SnackBar(
+                            content: Text('Complete fields ...'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        if (emailController.text.contains('@taibahu.edu.sa')) {
+                          FirebaseApp app = await Firebase.initializeApp(
+                              name: 'Secondary',
+                              options: Firebase.app().options);
+                          try {
+                            UserCredential userCredential =
+                                await FirebaseAuth.instanceFor(app: app)
+                                    .createUserWithEmailAndPassword(
+                                        email: emailController.text,
+                                        password: passwordController.text);
+                            await firebaseFirestore
+                                .collection('pharmacists')
+                                .doc(userCredential.user!.uid)
+                                .set({
+                              'email': emailController.text,
+                              'name': userNameController.text,
+                              'password': passwordController.text,
+                              'sex': 'Female',
+                            });
+                            await userCredential.user!
+                                .updateDisplayName(userNameController.text);
+                            Navigator.pushReplacementNamed(
+                                context, '/view-doctors');
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'weak-password') {
+                              const snackBar = SnackBar(
+                                content:
+                                    Text('The password provided is too weak.'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else if (e.code == 'email-already-in-use') {
+                              const snackBar = SnackBar(
+                                content: Text(
+                                    'The account already exists for that email.'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          }
 
-                      await app.delete();
+                          await app.delete();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AdminAddPharmacistSuccess()));
+                        } else {
+                          const snackBar = SnackBar(
+                            content:
+                                Text('Email must ends with @taibahu.edu.sa'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      }
                     },
                     child: const Text(
                       'Done',

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/patient_screens/patient_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -5,8 +7,34 @@ import '../widgets/appointment_action.dart';
 import '../widgets/custom_icon.dart';
 import '../widgets/user_action.dart';
 
-class PatientHomeScreen extends StatelessWidget {
+class PatientHomeScreen extends StatefulWidget {
   const PatientHomeScreen({super.key});
+
+  @override
+  State<PatientHomeScreen> createState() => _PatientHomeScreenState();
+}
+
+class _PatientHomeScreenState extends State<PatientHomeScreen> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Map<String, dynamic>? patientDocument;
+  getPatientDocument() async {
+    await firebaseFirestore
+        .collection('patients')
+        .doc(firebaseAuth.currentUser!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        patientDocument = value.data();
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPatientDocument();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +132,12 @@ class PatientHomeScreen extends StatelessWidget {
                     children: [
                       CustomIcon(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/patient-profile');
+                          // Navigator.pushNamed(context, '/patient-profile');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PatientProfile(
+                                      patientDocument: patientDocument!)));
                         },
                         label: 'Profile',
                         icon: Icons.person,

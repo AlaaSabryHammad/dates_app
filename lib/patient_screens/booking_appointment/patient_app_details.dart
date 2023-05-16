@@ -38,82 +38,101 @@ class PatientAppDetails extends StatelessWidget {
               ),
             ),
             Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Clinic Name :",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: mainColor),
+                child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [customBoxShadow],
+                  border: Border.all(
+                      color: mainColor, width: 2, style: BorderStyle.solid)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Clinic Name :",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: mainColor),
+                    ),
                   ),
-                ),
-                Text(
-                  "${clinicDocument.get('clinic_name')}",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: textColor),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Doctor Name :",
+                  Text(
+                    "${clinicDocument.get('clinic_name')}",
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: mainColor),
+                        color: textColor),
                   ),
-                ),
-                Text(
-                  "${doctorDocument.get('name')}",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: textColor),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Start Time :",
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Doctor Name :",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: mainColor),
+                    ),
+                  ),
+                  Text(
+                    "${doctorDocument.get('name')}",
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: mainColor),
+                        color: textColor),
                   ),
-                ),
-                Text(
-                  "$startDate",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: textColor),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "End Time :",
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Start Time :",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: mainColor),
+                    ),
+                  ),
+                  Text(
+                    "$startDate",
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: mainColor),
+                        color: textColor),
                   ),
-                ),
-                Text(
-                  "$endDate",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: textColor),
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "End Time :",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: mainColor),
+                    ),
+                  ),
+                  Text(
+                    "$endDate",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: textColor),
+                  ),
+                ],
+              ),
             )),
             MaterialButton(
               minWidth: width - 50,

@@ -246,6 +246,8 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                             'socialstatus': status,
                             'type': 'patient'
                           });
+                          await userCredential.user!
+                              .updateDisplayName('$fname $lname');
                           Navigator.pushReplacementNamed(
                               context, '/admin-add-patient-success');
                         } on FirebaseAuthException catch (e) {

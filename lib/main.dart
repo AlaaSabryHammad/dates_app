@@ -10,7 +10,6 @@ import 'package:dates_app/doctor_screens/success/doctor_add_pre_success.dart';
 import 'package:dates_app/patient_screens/booking_appointment/patient_select_clinic.dart';
 import 'package:dates_app/patient_screens/patient_add_service_evaluation.dart';
 import 'package:dates_app/patient_screens/patient_home_chat_screen.dart';
-import 'package:dates_app/patient_screens/patient_profile.dart';
 import 'package:dates_app/patient_screens/patient_view_service_evaluations.dart';
 import 'package:dates_app/admin_screens/admin_add_doctor_screen.dart';
 import 'package:dates_app/patient_screens/success/patient_add_evaluation_success.dart';
@@ -71,7 +70,7 @@ class MyApp extends StatelessWidget {
         '/patient-register-success': (context) =>
             const PatientRegisterSuccess(),
         '/patient-home': (context) => const PatientHomeScreen(),
-        '/patient-profile': (context) => const PatientProfile(),
+        // '/patient-profile': (context) => const PatientProfile(),
         '/patient-add-evaluation-success': (context) =>
             const PatientAddEvaluationSuccess(),
         '/book-patient-app': (context) => const BookPatientAppointments(),
