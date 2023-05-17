@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/patient_screens/patient_profile.dart';
+import 'package:dates_app/patient_screens/patient_view_doctor_evaluations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -303,6 +304,21 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                     Navigator.pushNamed(context, '/patient-view-evaluations');
                   },
                   label: 'View Evaluations',
+                  icon: Icons.note_alt,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                UserAction(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const PatientViewDoctorEvaluations()));
+                  },
+                  label: 'Doctor Evaluations',
                   icon: Icons.note_alt,
                 ),
                 const SizedBox(

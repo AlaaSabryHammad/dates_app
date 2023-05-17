@@ -59,8 +59,7 @@ class _DoctorChatHomeState extends State<DoctorChatHome> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                         DoctorChatScreen(
+                                    builder: (context) => DoctorChatScreen(
                                       patientId: item.get('patientId'),
                                       patientEmail: item.get('patientEmail'),
                                     ),
@@ -72,7 +71,7 @@ class _DoctorChatHomeState extends State<DoctorChatHome> {
                                 backgroundImage: AssetImage('images/girl.png'),
                               ),
                               title: Text(
-                                item['patientEmail'],
+                                item['patientName'],
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold),
                               ),

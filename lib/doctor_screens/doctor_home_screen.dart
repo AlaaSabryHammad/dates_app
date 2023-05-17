@@ -1,4 +1,5 @@
 import 'package:dates_app/doctor_screens/doctor_chat_home.dart';
+import 'package:dates_app/doctor_screens/doctor_view_evaluations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -55,13 +56,31 @@ class DoctorHomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  CustomIcon(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacementNamed(context, '/choose-login');
-                    },
-                    label: 'Log out',
-                    icon: Icons.logout_rounded,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomIcon(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DoctorViewEvaluations()));
+                          // customShowModalSheetServiceEvaluation(context);
+                        },
+                        label: 'Service Evaluation',
+                        icon: Icons.medical_services_rounded,
+                      ),
+                      CustomIcon(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacementNamed(
+                              context, '/choose-login');
+                        },
+                        label: 'Log out',
+                        icon: Icons.logout_rounded,
+                      ),
+                    ],
                   ),
                 ],
               ),

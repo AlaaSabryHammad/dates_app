@@ -82,7 +82,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           'text': messageController.text,
                           'time': FieldValue.serverTimestamp(),
                           'patientEmail': firebaseAuth.currentUser!.email,
+                          'patientName': firebaseAuth.currentUser!.displayName,
                           'doctorEmail': widget.receiverDocument['email'],
+                          'doctorName': widget.receiverDocument['name'],
                           'read': false,
                           'sender': 'patient'
                         });
@@ -93,7 +95,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                 '${firebaseAuth.currentUser!.uid}${widget.receiverDocument.id}')
                             .set({
                           'patientEmail': firebaseAuth.currentUser!.email,
+                          'patientName': firebaseAuth.currentUser!.displayName,
                           'doctorEmail': widget.receiverDocument['email'],
+                          'doctorName': widget.receiverDocument['name'],
                           'patientId': firebaseAuth.currentUser!.uid,
                           'doctorId': widget.receiverDocument.id,
                         });
