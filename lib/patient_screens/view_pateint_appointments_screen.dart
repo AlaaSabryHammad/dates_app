@@ -301,37 +301,39 @@ class BookCard extends StatelessWidget {
             ],
           ),
         ),
-        Positioned(
-          bottom: 10,
-          right: 10,
-          child: Column(
-            children: [
-              MaterialButton(
-                elevation: 5,
-                color: mainColor,
-                onPressed: edit,
-                child: const Text(
-                  'Edit',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+        item['status'] == 'active'
+            ? Positioned(
+                bottom: 10,
+                right: 10,
+                child: Column(
+                  children: [
+                    MaterialButton(
+                      elevation: 5,
+                      color: mainColor,
+                      onPressed: edit,
+                      child: const Text(
+                        'Edit',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    MaterialButton(
+                      elevation: 5,
+                      color: textColor,
+                      onPressed: cancel,
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    )
+                  ],
                 ),
-              ),
-              MaterialButton(
-                elevation: 5,
-                color: textColor,
-                onPressed: cancel,
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
               )
-            ],
-          ),
-        ),
+            : const SizedBox(),
       ],
     );
   }

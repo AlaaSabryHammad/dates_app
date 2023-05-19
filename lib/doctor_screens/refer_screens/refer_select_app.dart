@@ -8,14 +8,15 @@ class ReferSelectApp extends StatefulWidget {
       {super.key,
       required this.clinicDocument,
       required this.doctorDocument,
-      required this.patientName,
-      required this.patientId,
-      required this.oldApp});
+      // required this.patientName,
+      // required this.patientId,
+      required this.oldApp, required this.patient});
   final QueryDocumentSnapshot clinicDocument;
   final QueryDocumentSnapshot doctorDocument;
   final QueryDocumentSnapshot oldApp;
+  final Map<String, dynamic> patient;
 
-  final String patientName, patientId;
+  // final String patientName, patientId;
 
   @override
   State<ReferSelectApp> createState() => _ReferSelectAppState();
@@ -53,9 +54,10 @@ class _ReferSelectAppState extends State<ReferSelectApp> {
                   doctorDocument: widget.doctorDocument,
                   startDate:
                       DateTime.parse(newBooking.toJson()['bookingStart']),
-                  endDate: DateTime.parse(newBooking.toJson()['bookingEnd']),
-                  patientId: widget.patientId,
-                  patientName: widget.patientName, oldApp: widget.oldApp,
+                  endDate: DateTime.parse(newBooking.toJson()['bookingEnd']), patient: widget.patient,
+                  // patientId: widget.patientId,
+                  // patientName: widget.patientName,
+                  oldApp: widget.oldApp,
                 )));
   }
 

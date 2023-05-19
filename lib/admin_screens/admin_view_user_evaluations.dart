@@ -18,7 +18,7 @@ class _AdminViewUserEvaluationsState extends State<AdminViewUserEvaluations> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   int? total, read, unread;
   getRecords() async {
-    firebaseFirestore.collection('evaluations').get().then((value) {
+    firebaseFirestore.collection('evaluations').snapshots().listen((value) {
       setState(() {
         total = value.docs.length;
       });
@@ -26,8 +26,8 @@ class _AdminViewUserEvaluationsState extends State<AdminViewUserEvaluations> {
     firebaseFirestore
         .collection('evaluations')
         .where('read', isEqualTo: true)
-        .get()
-        .then((value) {
+        .snapshots()
+        .listen((value) {
       setState(() {
         read = value.docs.length;
       });
@@ -35,8 +35,8 @@ class _AdminViewUserEvaluationsState extends State<AdminViewUserEvaluations> {
     firebaseFirestore
         .collection('evaluations')
         .where('read', isEqualTo: false)
-        .get()
-        .then((value) {
+        .snapshots()
+        .listen((value) {
       setState(() {
         unread = value.docs.length;
       });

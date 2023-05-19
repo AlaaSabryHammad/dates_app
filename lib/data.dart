@@ -164,3 +164,7 @@ List results = [
     'result': '',
   },
 ];
+
+List<String> preItems = [
+  'Chlorphenamine','Dexamethasone','Epinepheine','Hydrocortisone','Prednisolone','Activated Carbon','Acetylcysteine','Atropine','Calcium Gluconate','Deferoxamine','Dimercaprol','Dl-Methionine','Methylthioninium Cloride','Naloxone','Penicillamine','Sodium Calcium Ededate','Sodium nitrite','Sodium Thiosulfate','Carbamazepine','Diazepam','Ethosuximide','Magnsium Sulfate','Phenobarbital','Phenytoin','Valproic Acid','Albendazole','Levamisole','Mebendazole','Niclosamide','Praziquantel','Pyrantel','Antifilarials','Diethylcarbamazine','lvermectin','Suramin Sodium','Oxamniquine','Praziquantel','Triclabendazole','Amoxicillin','Ampicillin','Benzylpenicillin','Benzathine Benzylpenicillin','Cefazolin','Cefixime','Ceftazidime','Ceftriaxone','Cloxacillin','Co-amoxiclav','Imipenem','Phenoxymethylpenicillin','Procaine Benzylpenicillin','Erythromycin','Azithomycin','Doxycycline','Ciprofloxacin','Chloramphenicol','Gentamicin','Spectinomycin','Clindamycin','Sulfadiazine','Trimethoprim','Trimethoprim','Metronidazole','Nitrofurantoin','Vancomycin'
+];

@@ -7,12 +7,13 @@ class ReferSelectDoctor extends StatefulWidget {
   const ReferSelectDoctor(
       {super.key,
       required this.clinicDocument,
-      required this.patientName,
-      required this.patientId,
-      required this.oldApp});
+      // required this.patientName,
+      // required this.patientId,
+      required this.oldApp, required this.patient});
   final QueryDocumentSnapshot clinicDocument;
   final QueryDocumentSnapshot oldApp;
-  final String patientName, patientId;
+  final Map<String, dynamic> patient;
+  // final String patientName, patientId;
   @override
   State<ReferSelectDoctor> createState() => _ReferSelectDoctorState();
 }
@@ -124,9 +125,9 @@ class _ReferSelectDoctorState extends State<ReferSelectDoctor> {
                           builder: (context) => ReferSelectApp(
                                 clinicDocument: widget.clinicDocument,
                                 doctorDocument: doctorDocument!,
-                                patientId: widget.patientId,
-                                patientName: widget.patientName,
-                                oldApp: widget.oldApp,
+                                // patientId: widget.patientId,
+                                // patientName: widget.patientName,
+                                oldApp: widget.oldApp, patient: widget.patient,
                               )));
                 } else {
                   var snackBar = const SnackBar(content: Text('Select doctor'));

@@ -163,73 +163,69 @@ class CompletedWidgetDetails extends StatelessWidget {
                               future: firebaseFirestore
                                   .collection('bookings')
                                   .doc(item.id)
+                                  .collection('prescription')
                                   .get(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  if (snapshot.data!['prescription'] == null) {
-                                    return const Center(
-                                        child: Text('no prescription'));
-                                  } else {
-                                    List dataList =
-                                        snapshot.data!['prescription'];
-                                    return ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: dataList.length,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                              padding: const EdgeInsets.all(10),
-                                              margin: const EdgeInsets.only(
-                                                  right: 10),
-                                              height: 80,
-                                              width: 80,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                boxShadow: [customBoxShadow],
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      mainColor,
-                                                      Colors.white,
-                                                      mainColor
-                                                    ]),
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      dataList[index]['item'],
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                  return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data!.docs.length,
+                                      itemBuilder: (context, index) {
+                                        var itemData =
+                                            snapshot.data!.docs[index];
+                                        return Container(
+                                            padding: const EdgeInsets.all(10),
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            height: 80,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [customBoxShadow],
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    mainColor,
+                                                    Colors.white,
+                                                    mainColor
+                                                  ]),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    itemData['item'],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Text(
-                                                      '${dataList[index]['count']}',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                    '${itemData['count']}',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
-                                                ],
-                                              ));
-                                        });
-                                  }
+                                                ),
+                                              ],
+                                            ));
+                                      });
                                 } else if (snapshot.hasError) {
                                   return Text('${snapshot.error}');
                                 }
@@ -257,79 +253,71 @@ class CompletedWidgetDetails extends StatelessWidget {
                               future: firebaseFirestore
                                   .collection('bookings')
                                   .doc(item.id)
+                                  .collection('tests')
                                   .get(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  if (snapshot.data!['tests'] == null) {
-                                    return const Center(
-                                        child: Text('no Tests'));
-                                  } else {
-                                    List xx = snapshot.data!['tests'];
-                                    List dataList = [];
-                                    for (var element in xx) {
-                                      if (element['result'] != '') {
-                                        dataList.add(element);
-                                      }
-                                    }
-                                    return ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: dataList.length,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                              padding: const EdgeInsets.all(10),
-                                              margin: const EdgeInsets.only(
-                                                  right: 10),
-                                              height: 80,
-                                              width: 80,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                boxShadow: [customBoxShadow],
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    colors: [
-                                                      mainColor,
-                                                      Colors.white,
-                                                      mainColor
-                                                    ]),
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      dataList[index]
-                                                          ['testName'],
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                  return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data!.docs.length,
+                                      itemBuilder: (context, index) {
+                                        var itemData =
+                                            snapshot.data!.docs[index];
+                                        return Container(
+                                            padding: const EdgeInsets.all(10),
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            height: 80,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [customBoxShadow],
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                  colors: [
+                                                    mainColor,
+                                                    Colors.white,
+                                                    mainColor
+                                                  ]),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    itemData['name'],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: Text(
-                                                      '${dataList[index]['result']}',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                    itemData['result'] == ""
+                                                        ? 'waiting'
+                                                        : '${itemData['result']}',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
-                                                ],
-                                              ));
-                                        });
-                                  }
+                                                ),
+                                              ],
+                                            ));
+                                      });
                                 } else if (snapshot.hasError) {
                                   return Text('${snapshot.error}');
                                 }
@@ -413,7 +401,9 @@ class ReferedWidget extends StatelessWidget {
               minWidth: width - 50,
               elevation: 20,
               color: mainColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text(
                 'Done',
                 style: TextStyle(

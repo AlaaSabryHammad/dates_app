@@ -22,7 +22,6 @@ class _PharmacistPrescriptionSearchState
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
@@ -31,7 +30,7 @@ class _PharmacistPrescriptionSearchState
             Align(
               alignment: Alignment.center,
               child: Text(
-                'View Appointments',
+                'View Prescriptions',
                 style: TextStyle(
                   color: mainColor,
                   fontSize: 28,
@@ -129,7 +128,6 @@ class _PrescriptionSearchState extends State<PrescriptionSearch> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         var item = snapshot.data!.docs[index];
-                        List pres = snapshot.data!.docs[index]['prescription'];
                         return Stack(
                           children: [
                             Container(
@@ -188,7 +186,6 @@ class _PatientSearchState extends State<PatientSearch> {
     await firebaseFirestore.collection('patients').get().then((value) {
       for (var item in value.docs) {
         setState(() {
-          // patients.add(item);
           patients.add({
             'email': item.get('email'),
             'name': '${item.get("fname")} ${item.get("lname")}',
@@ -199,30 +196,15 @@ class _PatientSearchState extends State<PatientSearch> {
     });
   }
 
-// List<Map> data = patients;
   getResultSearch(String value) async {
-    // patients.clear();
-
     for (var item in patients) {
       String ss = item['id'];
       if (ss.contains(value)) {
-        // patients.clear();
         setState(() {
           patients.add(item);
         });
       }
     }
-    // var patientss = patients.map((Map item) {
-    //   if (item['id'].toString().contains(value)) {
-    //     return item;
-    //   }
-    // }).toList();
-    // print(patientss);
-    // print('**************');
-    // setState(() {
-    //   var patientss = patients.map((Map item) => item['id'] = value).toList();
-    //   // patients = patientss;
-    // });
   }
 
   @override

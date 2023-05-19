@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
+import 'package:dates_app/data.dart';
 import 'package:flutter/material.dart';
 
 class DoctorAddPrescription extends StatefulWidget {
@@ -16,28 +17,25 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
   String? item;
   String? description;
   int? numberOfItems;
-  // toMap(Prescription pre) {
-  //   return {'item': pre.item, 'desc': pre.desc};
-  // }
 
-  getPrescription() {
-    firebaseFirestore
-        .collection('bookings')
-        .doc(widget.item.id)
-        .get()
-        .then((value) {
-      setState(() {
-        prescriptionList = value.data()!['prescription'];
-      });
+  saveItemsInDb() async {
+    await firebaseFirestore.collection('preItems').get().then((value) async {
+      if (value.docs.isEmpty) {
+        for (var item in preItems) {
+          await firebaseFirestore
+              .collection('preItems')
+              .add({'itemName': item});
+        }
+      }
     });
   }
 
-  int number = 1;
+  String name = '';
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    getPrescription();
-    // numberController.text = '$number';
+    saveItemsInDb();
   }
 
   @override
@@ -45,15 +43,6 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: mainColor,
-          onPressed: () {
-            customShowModalSheetServiceEvaluation(context);
-          },
-          child: const Icon(
-            Icons.add,
-          ),
-        ),
         body: Padding(
           padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
           child: Column(
@@ -68,60 +57,136 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
               const SizedBox(
                 height: 20,
               ),
-              Divider(
-                color: mainColor,
-                thickness: 2,
-              ),
-              prescriptionList.isEmpty
-                  ? const Expanded(
-                      child: Center(
-                        child: Text('add prescription ....'),
-                      ),
-                    )
-                  : Expanded(
-                      child: ListView.builder(
-                          itemCount: prescriptionList.length,
-                          itemBuilder: (context, index) {
-                            var item = prescriptionList[index];
-                            return PrescriptionCard(
-                              delete: () {
-                                setState(() {
-                                  prescriptionList.removeAt(index);
-                                });
-                              },
-                              itemDesc: item['item'],
-                              itemName: item['desc'],
-                              count: item['count'],
-                            );
-                          }),
-                    ),
-              const SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                minWidth: 120,
-                color: mainColor,
-                onPressed: () {
-                  if (prescriptionList.isEmpty) {
-                    var snackBar = const SnackBar(
-                        content: Text('Add atleast one Item ...'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  } else {
-                    firebaseFirestore
-                        .collection('bookings')
-                        .doc(widget.item.id)
-                        .update({
-                      'prescription': prescriptionList,
-                    });
-                    Navigator.pushReplacementNamed(
-                        context, '/doctor-add-pre-success');
-                  }
+              TextField(
+                controller: searchController,
+                onChanged: (value) {
+                  setState(() {
+                    name = value;
+                  });
                 },
-                child: const Text(
-                  'Save Prescription',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            name = '';
+                            searchController.text = '';
+                          });
+                        },
+                        icon: const Icon(Icons.close)),
+                    hintText: 'search for pre. Items .....',
+                    border: const OutlineInputBorder()),
+              ),
+              Expanded(
+                child: StreamBuilder(
+                    stream:
+                        firebaseFirestore.collection('preItems').snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              var item = snapshot.data!.docs[index];
+                              if (name.isEmpty) {
+                                return Container(
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: mainColor,
+                                            style: BorderStyle.solid,
+                                            width: 1),
+                                        boxShadow: [customBoxShadow],
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              item['itemName'],
+                                              style: TextStyle(
+                                                  color: textColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  customShowModalSheetServiceEvaluation(
+                                                      context,
+                                                      item['itemName']);
+                                                },
+                                                icon: Icon(
+                                                  Icons.add_box,
+                                                  color: mainColor,
+                                                  size: 30,
+                                                ))
+                                          ],
+                                        ),
+                                      ],
+                                    ));
+                              }
+                              if (item['itemName']
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(name.toLowerCase())) {
+                                return Container(
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: mainColor,
+                                            style: BorderStyle.solid,
+                                            width: 1),
+                                        boxShadow: [customBoxShadow],
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              item['itemName'],
+                                              style: TextStyle(
+                                                  color: textColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  customShowModalSheetServiceEvaluation(
+                                                      context,
+                                                      item['itemName']);
+                                                },
+                                                icon: Icon(
+                                                  Icons.add_box,
+                                                  color: mainColor,
+                                                  size: 30,
+                                                ))
+                                          ],
+                                        ),
+                                      ],
+                                    ));
+                              }
+                              return Container();
+                            });
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    }),
               ),
               const SizedBox(
                 height: 20,
@@ -133,66 +198,8 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
     );
   }
 
-  // Future<dynamic> customShowModaSave(BuildContext context) {
-  //   return showModalBottomSheet(
-  //       isScrollControlled: true,
-  //       context: context,
-  //       shape: const RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-  //       builder: (context) {
-  //         return Padding(
-  //           padding: MediaQuery.of(context).viewInsets,
-  //           child: Container(
-  //             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: [
-  //                 Text(
-  //                   'Save',
-  //                   style: TextStyle(
-  //                       fontSize: 30,
-  //                       color: mainColor,
-  //                       fontWeight: FontWeight.bold),
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 30,
-  //                 ),
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   children: [
-  //                     TextField(
-  //                       controller: numberController,
-  //                     )
-  //                   ],
-  //                 ),
-  //                 const SizedBox(
-  //                   height: 40,
-  //                 ),
-  //                 MaterialButton(
-  //                   minWidth: 120,
-  //                   color: mainColor,
-  //                   onPressed: () {
-  //                     // setState(() {
-  //                     //   prescriptionList
-  //                     //       .add({'item': item, 'desc': description});
-  //                     // });
-  //                     Navigator.pop(context);
-  //                   },
-  //                   child: const Text(
-  //                     'Save Prescription',
-  //                     style: TextStyle(
-  //                         color: Colors.white, fontWeight: FontWeight.bold),
-  //                   ),
-  //                 )
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
-
-  Future<dynamic> customShowModalSheetServiceEvaluation(BuildContext context) {
+  Future<dynamic> customShowModalSheetServiceEvaluation(
+      BuildContext context, String itemName) {
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -207,36 +214,34 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'New Item',
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: mainColor,
-                        fontWeight: FontWeight.bold),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      itemName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 30,
+                          color: mainColor,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   TextField(
                     onChanged: (value) {
-                      item = value;
-                    },
-                    decoration:
-                        const InputDecoration(hintText: 'write item name ....'),
-                  ),
-                  TextField(
-                    onChanged: (value) {
                       description = value;
                     },
                     decoration: const InputDecoration(
-                        hintText: 'write description ....'),
+                        hintText: 'write instructions ....'),
                   ),
                   TextField(
+                    keyboardType: TextInputType.number,
                     onChanged: (value) {
                       numberOfItems = int.parse(value);
                     },
-                    decoration: const InputDecoration(
-                        hintText: 'write item count ....'),
+                    decoration:
+                        const InputDecoration(hintText: 'Refel per month ....'),
                   ),
                   const SizedBox(
                     height: 30,
@@ -245,19 +250,38 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                     minWidth: 120,
                     color: mainColor,
                     onPressed: () {
-                      setState(() {
-                        prescriptionList.add({
-                          'item': item,
-                          'desc': description,
-                          'count': numberOfItems,
-                          'remain': numberOfItems,
-                          'taken': 0
+                      if (numberOfItems == null) {
+                        var snackBar =
+                            const SnackBar(content: Text('Complete data ...'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        setState(() {
+                          prescriptionList.add({
+                            'item': itemName,
+                            'desc': description ?? '',
+                            'count': numberOfItems,
+                            'remain': numberOfItems,
+                            'taken': 0
+                          });
+                          firebaseFirestore
+                              .collection('bookings')
+                              .doc(widget.item.id)
+                              .collection('prescription')
+                              .add({
+                            'item': itemName,
+                            'desc': description ?? '',
+                            'count': numberOfItems,
+                            'remain': numberOfItems,
+                            'taken': 0
+                          });
                         });
-                      });
+                        description = null;
+                        numberOfItems = null;
+                      }
                       Navigator.pop(context);
                     },
                     child: const Text(
-                      ' Add Item',
+                      'Add Item',
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -267,111 +291,5 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
             ),
           );
         });
-  }
-}
-
-class PrescriptionCard extends StatelessWidget {
-  const PrescriptionCard({
-    super.key,
-    required this.delete,
-    required this.itemName,
-    required this.itemDesc,
-    required this.count,
-  });
-  final VoidCallback delete;
-  final String itemName, itemDesc;
-  final int count;
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(bottom: 20),
-          padding: const EdgeInsets.all(10),
-          width: width - 50,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [customBoxShadow],
-              borderRadius: BorderRadius.circular(10)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Item Name',
-                    style: TextStyle(
-                        color: textColor, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    itemName,
-                    style: TextStyle(
-                        color: mainColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const Divider(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Item Description',
-                    style: TextStyle(
-                        color: textColor, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    itemDesc,
-                    style: TextStyle(
-                        color: mainColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const Divider(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Item Count',
-                    style: TextStyle(
-                        color: textColor, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '$count',
-                    style: TextStyle(
-                        color: mainColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Positioned(
-          top: 10,
-          right: 10,
-          child: IconButton(
-            onPressed: delete,
-            icon: const Icon(Icons.delete),
-          ),
-        ),
-      ],
-    );
   }
 }

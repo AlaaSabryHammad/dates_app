@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../../constants.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -12,15 +11,14 @@ class ReferAppDetails extends StatelessWidget {
       required this.doctorDocument,
       required this.startDate,
       required this.endDate,
-      required this.patientName,
-      required this.patientId,
-      required this.oldApp});
+      required this.oldApp,
+      required this.patient});
   final QueryDocumentSnapshot clinicDocument;
   final QueryDocumentSnapshot doctorDocument;
   final QueryDocumentSnapshot oldApp;
+  final Map<String, dynamic> patient;
   final DateTime startDate;
   final DateTime endDate;
-  final String patientName, patientId;
 
   @override
   Widget build(BuildContext context) {
@@ -143,8 +141,9 @@ class ReferAppDetails extends StatelessWidget {
                   'isRefered': true,
                 });
                 await firebaseFirestore.collection('bookings').add({
-                  'patientId': patientId,
-                  'patientName': patientName,
+                  'patientId': oldApp['patientId'],
+                  'medicalFileNumber': patient['medicalFileNumber'],
+                  'patientName': '${patient['fname']} ${patient['lname']}',
                   'startTime': startDate,
                   'endTime': endDate,
                   'clinic': clinicDocument.get('clinic_name'),
@@ -154,8 +153,8 @@ class ReferAppDetails extends StatelessWidget {
                   'status': 'active',
                   'isWaiting': true,
                   'isRefered': false,
-                  'prescription': null,
-                  'tests': null
+                  'testCompleted': false,
+                  'preCompleted': false
                 });
                 Navigator.pushReplacementNamed(context, '/doctor-app');
               },

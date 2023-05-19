@@ -5,10 +5,15 @@ import '../../constants.dart';
 
 class ReferSelectClinic extends StatefulWidget {
   const ReferSelectClinic(
-      {super.key, required this.patientId, required this.patientName, required this.oldApp});
-  final String patientId;
-  final String patientName;
+      {super.key,
+      // required this.patientId,
+      // required this.patientName,
+      required this.oldApp,
+      required this.patient});
+  // final String patientId;
+  // final String patientName;
   final QueryDocumentSnapshot oldApp;
+  final Map<String, dynamic> patient;
   @override
   State<ReferSelectClinic> createState() => _ReferSelectClinicState();
 }
@@ -70,14 +75,18 @@ class _ReferSelectClinicState extends State<ReferSelectClinic> {
                                         style: BorderStyle.solid),
                                   ),
                                   child: Center(
-                                    child: Text(
-                                      item['clinic_name'],
-                                      style: TextStyle(
-                                          color: SelectedIndex == index
-                                              ? Colors.white
-                                              : textColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        item['clinic_name'],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: SelectedIndex == index
+                                                ? Colors.white
+                                                : textColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -100,8 +109,9 @@ class _ReferSelectClinicState extends State<ReferSelectClinic> {
                       MaterialPageRoute(
                           builder: (context) => ReferSelectDoctor(
                                 clinicDocument: clinicDocument!,
-                                patientId: widget.patientId,
-                                patientName: widget.patientName, oldApp: widget.oldApp,
+                                // patientId: widget.patientId,
+                                // patientName: widget.patientName,
+                                oldApp: widget.oldApp, patient: widget.patient,
                               )));
                 } else {
                   var snackBar = const SnackBar(content: Text('Select clinic'));

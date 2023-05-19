@@ -115,19 +115,20 @@ class _PatientAddServiceEvaluationsState
                   height: 10,
                 ),
                 DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
+                  isExpanded: true,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
                       //<-- SEE HERE
-                      borderSide: BorderSide(color: Colors.black, width: 2),
+                      borderSide: BorderSide(color: Colors.black, width: 1),
                     ),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       //<-- SEE HERE
-                      borderSide: BorderSide(color: Colors.black, width: 2),
+                      borderSide: BorderSide(color: Colors.black, width: 1),
                     ),
                     filled: true,
-                    fillColor: mainColor,
+                    fillColor: Color(0xffcaf0f8),
                   ),
-                  dropdownColor: mainColor,
+                  dropdownColor: const Color(0xffcaf0f8),
                   value: dropdownValue,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -141,8 +142,9 @@ class _PatientAddServiceEvaluationsState
                       value: value,
                       child: Text(
                         value,
+                        overflow: TextOverflow.clip,
                         style:
-                            const TextStyle(fontSize: 20, color: Colors.white),
+                            const TextStyle(fontSize: 14, color: Colors.black),
                       ),
                     );
                   }).toList(),
@@ -161,19 +163,20 @@ class _PatientAddServiceEvaluationsState
                   height: 10,
                 ),
                 DropdownButtonFormField(
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
+                  isExpanded: true,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
                       //<-- SEE HERE
                       borderSide: BorderSide(color: Colors.black, width: 2),
                     ),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       //<-- SEE HERE
                       borderSide: BorderSide(color: Colors.black, width: 2),
                     ),
                     filled: true,
-                    fillColor: mainColor,
+                    fillColor: Color(0xffcaf0f8),
                   ),
-                  dropdownColor: mainColor,
+                  dropdownColor: const Color(0xffcaf0f8),
                   value: dropdownValueDoctors,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -186,8 +189,9 @@ class _PatientAddServiceEvaluationsState
                       value: value,
                       child: Text(
                         value,
+                        overflow: TextOverflow.ellipsis,
                         style:
-                            const TextStyle(fontSize: 20, color: Colors.white),
+                            const TextStyle(fontSize: 14, color: Colors.black),
                       ),
                     );
                   }).toList(),
@@ -227,7 +231,7 @@ class _PatientAddServiceEvaluationsState
                   padding: const EdgeInsets.all(10),
                   height: 250,
                   decoration: BoxDecoration(
-                      color: mainColor,
+                      color: const Color(0xffcaf0f8),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.black)),
                   child: TextField(

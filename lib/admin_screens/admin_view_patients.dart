@@ -21,9 +21,10 @@ class AdminViewPatients extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: FutureBuilder(
-                  future:
-                      FirebaseFirestore.instance.collection('patients').get(),
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('patients')
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data!.docs.isEmpty) {

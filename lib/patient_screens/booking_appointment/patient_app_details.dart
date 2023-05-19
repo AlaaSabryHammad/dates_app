@@ -149,20 +149,28 @@ class PatientAppDetails extends StatelessWidget {
                   'endTime': endDate,
                   'status': 'booked'
                 });
-                await firebaseFirestore.collection('bookings').add({
-                  'patientId': FirebaseAuth.instance.currentUser!.uid,
-                  'patientName': FirebaseAuth.instance.currentUser!.displayName,
-                  'startTime': startDate,
-                  'endTime': endDate,
-                  'clinic': clinicDocument.get('clinic_name'),
-                  'clinicID': clinicDocument.id,
-                  'doctor': doctorDocument.get('name'),
-                  'doctorID': doctorDocument.id,
-                  'status': 'active',
-                  'isWaiting': true,
-                  'isRefered': false,
-                  'prescription': null,
-                  'tests': null
+                await firebaseFirestore
+                    .collection('patients')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .get()
+                    .then((value) async {
+                  await firebaseFirestore.collection('bookings').add({
+                    'patientId': FirebaseAuth.instance.currentUser!.uid,
+                    'medicalFileNumber': value.get('medicalFileNumber'),
+                    'patientName':
+                        FirebaseAuth.instance.currentUser!.displayName,
+                    'startTime': startDate,
+                    'endTime': endDate,
+                    'clinic': clinicDocument.get('clinic_name'),
+                    'clinicID': clinicDocument.id,
+                    'doctor': doctorDocument.get('name'),
+                    'doctorID': doctorDocument.id,
+                    'status': 'active',
+                    'isWaiting': true,
+                    'isRefered': false,
+                    'testCompleted': false,
+                    'preCompleted': false
+                  });
                 });
                 Navigator.pushReplacementNamed(
                     context, '/patient-book-app-success');

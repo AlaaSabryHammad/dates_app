@@ -25,8 +25,11 @@ class _DoctorRecordTestScreenState extends State<DoctorRecordTestScreen> {
         firebaseFirestore.collection('tests').get().then((value) {
           for (var item in value.docs) {
             setState(() {
-              testItems
-                  .add({'testName': item['name'], 'result': item['result']});
+              testItems.add({
+                'testName': item['name'],
+                'result': item['result'],
+                'choose': false
+              });
             });
           }
         });
@@ -42,11 +45,6 @@ class _DoctorRecordTestScreenState extends State<DoctorRecordTestScreen> {
   void initState() {
     super.initState();
     getItems();
-    // for (var item in results) {
-    //   firebaseFirestore
-    //       .collection('tests')
-    //       .add({'name': item['testName'], 'result': item['result']});
-    // }
   }
 
   @override
@@ -92,94 +90,67 @@ class _DoctorRecordTestScreenState extends State<DoctorRecordTestScreen> {
                       var item = testItems[index];
                       return GestureDetector(
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                item['testName'],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: mainColor,
-                                ),
-                              ),
-                              content: TextField(
-                                textAlign: TextAlign.center,
-                                onChanged: (value) {
-                                  testResult = value;
-                                },
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      item['result'] = testResult;
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Save'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text(
-                                    'Close',
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
+                          setState(() {
+                            item['choose'] = true;
+                          });
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (context) => AlertDialog(
+                          //     title: Text(
+                          //       item['testName'],
+                          //       style: TextStyle(
+                          //         fontSize: 20,
+                          //         fontWeight: FontWeight.bold,
+                          //         color: mainColor,
+                          //       ),
+                          //     ),
+                          //     content: TextField(
+                          //       textAlign: TextAlign.center,
+                          //       onChanged: (value) {
+                          //         testResult = value;
+                          //       },
+                          //     ),
+                          //     actions: [
+                          //       TextButton(
+                          //         onPressed: () {
+                          //           setState(() {
+                          //             item['result'] = testResult;
+                          //           });
+                          //           Navigator.pop(context);
+                          //         },
+                          //         child: const Text('Save'),
+                          //       ),
+                          //       TextButton(
+                          //         onPressed: () {
+                          //           Navigator.pop(context);
+                          //         },
+                          //         child: const Text(
+                          //           'Close',
+                          //           style: TextStyle(color: Colors.red),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // );
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: item['result'] == ''
-                                  ? Colors.grey
-                                  : mainColor,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [customBoxShadow]),
-                          child: item['result'] == ''
-                              ? Center(
-                                  child: Text(
-                                    item['testName'],
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                )
-                              : Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        item['testName'],
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        item['result'],
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ),
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: item['choose'] == false
+                                    ? Colors.grey
+                                    : mainColor,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: [customBoxShadow]),
+                            child: Center(
+                              child: Text(
+                                item['testName'],
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14),
+                              ),
+                            )),
                       );
                     })),
             const SizedBox(
@@ -193,7 +164,25 @@ class _DoctorRecordTestScreenState extends State<DoctorRecordTestScreen> {
                 await firebaseFirestore
                     .collection('bookings')
                     .doc(widget.item.id)
-                    .update({'tests': testItems});
+                    .update({
+                  "testSend": 'send',
+                });
+                testItems.forEach((element) async {
+                  if (element['choose'] == true) {
+                    await firebaseFirestore
+                        .collection('bookings')
+                        .doc(widget.item.id)
+                        .collection('tests')
+                        .add({
+                      "name": element['testName'],
+                      "result": element['result']
+                    });
+                  }
+                });
+                // await firebaseFirestore
+                //     .collection('bookings')
+                //     .doc(widget.item.id)
+                //     .update({'tests': testItems});
                 testItems.clear();
                 Navigator.pop(context);
               },

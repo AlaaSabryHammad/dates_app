@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dates_app/pharmacist_screens/pharmacist_home_page.dart';
+import 'package:dates_app/lap_doctor_screens/lap_home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/custom_textfield.dart';
 
-class PharmacistLogin extends StatefulWidget {
-  const PharmacistLogin({super.key});
+class LapLoginScreen extends StatefulWidget {
+  const LapLoginScreen({super.key});
 
   @override
-  State<PharmacistLogin> createState() => _PharmacistLoginState();
+  State<LapLoginScreen> createState() => _LapLoginScreenState();
 }
 
-class _PharmacistLoginState extends State<PharmacistLogin> {
+class _LapLoginScreenState extends State<LapLoginScreen> {
   String? emailAddress;
   String? password;
   TextEditingController emailController = TextEditingController();
@@ -35,9 +35,9 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Hero(
-                    tag: 'pharmacian',
+                    tag: 'lap',
                     child: Image.asset(
-                      'images/pharmacian.png',
+                      'images/lap.png',
                       width: width * 0.4,
                       height: width * 0.4,
                     ),
@@ -45,7 +45,7 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Pharmacist Login',
+                      'Lap. Doctor Login',
                       style: TextStyle(
                           color: textColor,
                           fontSize: 22,
@@ -100,16 +100,18 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const PharmacistHomePage()));
+                                builder: (context) => const LapHomeScreen()));
+                        // Navigator.pushReplacementNamed(context, '/doctor-home');
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
+                          print('No user found for that email.');
                           const snackBar = SnackBar(
                               content: Text('No user found for that email.'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (e.code == 'wrong-password') {
+                          print('Wrong password provided for that user.');
                           const snackBar = SnackBar(
-                              content: Text('Wrong password provided for that user.'));
+                              content: Text('login data not correct ...'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }

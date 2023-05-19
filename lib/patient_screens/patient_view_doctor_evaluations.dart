@@ -5,8 +5,18 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-class PatientViewDoctorEvaluations extends StatelessWidget {
+class PatientViewDoctorEvaluations extends StatefulWidget {
   const PatientViewDoctorEvaluations({super.key});
+
+  @override
+  State<PatientViewDoctorEvaluations> createState() =>
+      _PatientViewDoctorEvaluationsState();
+}
+
+class _PatientViewDoctorEvaluationsState
+    extends State<PatientViewDoctorEvaluations> {
+  String name = '';
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +35,35 @@ class PatientViewDoctorEvaluations extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
+            TextField(
+              controller: searchController,
+              onChanged: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          name = '';
+                          searchController.text = '';
+                        });
+                      },
+                      icon: const Icon(Icons.close)),
+                  hintText: 'search for Doctor .....',
+                  border: const OutlineInputBorder()),
+            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             Expanded(
-              child: FutureBuilder(
-                  future: firebaseFirestore
+              child: StreamBuilder(
+                  stream: firebaseFirestore
                       .collection('evaluations')
                       .orderBy('time', descending: true)
-                      .get(),
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -38,14 +71,30 @@ class PatientViewDoctorEvaluations extends StatelessWidget {
                           itemBuilder: (context, index) {
                             var item = snapshot.data!.docs[index];
                             DateTime date = item['time'].toDate();
-                            return EvaluationDoctorWidget(
-                              ratingValue: item['rating'],
-                              time: date,
-                              desc: item['description'],
-                              patient: item['patientName'],
-                              doctor: item['doctorName'],
-                              clinic: item['clinicName'],
-                            );
+                            if (name.isEmpty) {
+                              return EvaluationDoctorWidget(
+                                ratingValue: item['rating'],
+                                time: date,
+                                desc: item['description'],
+                                patient: item['patientName'],
+                                doctor: item['doctorName'],
+                                clinic: item['clinicName'],
+                              );
+                            }
+                            if (item['doctorName']
+                                .toString()
+                                .toLowerCase()
+                                .contains(name.toLowerCase())) {
+                              return EvaluationDoctorWidget(
+                                ratingValue: item['rating'],
+                                time: date,
+                                desc: item['description'],
+                                patient: item['patientName'],
+                                doctor: item['doctorName'],
+                                clinic: item['clinicName'],
+                              );
+                            }
+                            return Container();
                           });
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');

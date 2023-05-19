@@ -119,6 +119,18 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                         'password': passwordController.text,
                         'medicalFileNumber': idController.text
                       });
+                      await FirebaseFirestore.instance
+                          .collection('bookings')
+                          .where('patientId', isEqualTo: widget.patient.id)
+                          .get()
+                          .then((value) async {
+                        for (var doc in value.docs) {
+                          await FirebaseFirestore.instance
+                              .collection('bookings')
+                              .doc(doc.id)
+                              .update({'medicalFileNumber': idController.text});
+                        }
+                      });
                       Navigator.pushReplacementNamed(
                           context, '/admin-update-patient-success');
                     }

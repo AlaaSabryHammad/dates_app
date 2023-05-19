@@ -66,14 +66,18 @@ class _PatientSelectClinicState extends State<PatientSelectClinic> {
                                         style: BorderStyle.solid),
                                   ),
                                   child: Center(
-                                    child: Text(
-                                      item['clinic_name'],
-                                      style: TextStyle(
-                                          color: SelectedIndex == index
-                                              ? Colors.white
-                                              : textColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        item['clinic_name'],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: SelectedIndex == index
+                                                ? Colors.white
+                                                : textColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 ),

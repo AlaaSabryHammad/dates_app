@@ -151,35 +151,40 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  DropdownButtonFormField(
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        //<-- SEE HERE
-                        borderSide: BorderSide(color: Colors.black, width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        //<-- SEE HERE
-                        borderSide: BorderSide(color: Colors.black, width: 2),
-                      ),
-                      filled: true,
-                      fillColor: Colors.greenAccent,
-                    ),
-                    dropdownColor: Colors.greenAccent,
-                    value: dropdownValue,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: itemss.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: const TextStyle(fontSize: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 1),
+                    child: DropdownButtonFormField(
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          //<-- SEE HERE
+                          borderSide: BorderSide(color: Colors.black, width: 2),
                         ),
-                      );
-                    }).toList(),
+                        focusedBorder: OutlineInputBorder(
+                          //<-- SEE HERE
+                          borderSide: BorderSide(color: Colors.black, width: 2),
+                        ),
+                        filled: true,
+                        fillColor: Colors.greenAccent,
+                      ),
+                      dropdownColor: Colors.greenAccent,
+                      value: dropdownValue,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items:
+                          itemss.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                   const SizedBox(
                     height: 10,

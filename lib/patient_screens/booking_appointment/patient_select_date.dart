@@ -21,6 +21,7 @@ class _PatientSelectDateState extends State<PatientSelectDate> {
   @override
   void initState() {
     super.initState();
+    getCancelledDates();
     mockBookingService = BookingService(
         bookingStart: DateTime(now.year, now.month, now.day, 8, 0),
         bookingEnd: DateTime(now.year, now.month, now.day, 18, 0),
@@ -116,6 +117,24 @@ class _PatientSelectDateState extends State<PatientSelectDate> {
     ];
   }
 
+  List<DateTime> xDates = [];
+
+  getCancelledDates() {
+    firebaseFirestore
+        .collection('cancelledDates')
+        .where('doctorId', isEqualTo: widget.doctorDocument.id)
+        .get()
+        .then((value) {
+      for (var doc in value.docs) {
+        DateTime xx = doc.data()['date'].toDate();
+        setState(() {
+          xDates.add(DateTime(xx.year, xx.month, xx.day));
+        });
+      }
+    });
+    return xDates;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,6 +153,7 @@ class _PatientSelectDateState extends State<PatientSelectDate> {
           startingDayOfWeek: StartingDayOfWeek.saturday,
           wholeDayIsBookedWidget:
               const Text('Sorry, for this day everything is booked'),
+          disabledDates: xDates,
           // disabledDates: [DateTime(2023, 5, 15)],
           // disabledDays: const [16, 19],
         ),

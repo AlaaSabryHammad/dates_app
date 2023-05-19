@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
+import 'package:dates_app/patient_screens/patient_show_medical.dart';
+import 'package:dates_app/screens/choose_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +17,12 @@ class _PatientProfileState extends State<PatientProfile> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String? password, newPassword, confirm;
-  resetPass() {
-    firebaseAuth.currentUser!.updatePassword(newPassword!);
-    firebaseFirestore
+  TextEditingController passController = TextEditingController();
+  TextEditingController newController = TextEditingController();
+  TextEditingController confirmController = TextEditingController();
+  resetPass() async {
+    await firebaseAuth.currentUser!.updatePassword(newController.text);
+    await firebaseFirestore
         .collection('patients')
         .doc(firebaseAuth.currentUser!.uid)
         .update({'password': newPassword});
@@ -25,7 +30,6 @@ class _PatientProfileState extends State<PatientProfile> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(
         child: Padding(
@@ -68,6 +72,31 @@ class _PatientProfileState extends State<PatientProfile> {
                     fontWeight: FontWeight.bold,
                     fontSize: 14),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Medical File Number : ',
+                    style: TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14),
+                  ),
+                  widget.patientDocument['medicalFileNumber'] == ""
+                      ? const Text(
+                          'Has no MFN',
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          widget.patientDocument['medicalFileNumber'],
+                          style: TextStyle(
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
+                ],
+              ),
               Text(
                 'Age : ${widget.patientDocument['age']}',
                 style: TextStyle(
@@ -78,70 +107,86 @@ class _PatientProfileState extends State<PatientProfile> {
               const SizedBox(
                 height: 30,
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                width: 135,
-                height: 135,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: mainColor, width: 2, style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [customBoxShadow],
-                    color: Colors.white),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.person,
-                        size: 50,
-                        color: mainColor,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Update profile Info.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: textColor, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => const PatientUpdateProfile()));
+              //   },
+              //   child: Container(
+              //     padding: const EdgeInsets.all(10),
+              //     width: 135,
+              //     height: 135,
+              //     decoration: BoxDecoration(
+              //         border: Border.all(
+              //             color: mainColor, width: 2, style: BorderStyle.solid),
+              //         borderRadius: BorderRadius.circular(10),
+              //         boxShadow: [customBoxShadow],
+              //         color: Colors.white),
+              //     child: Center(
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Icon(
+              //             Icons.person,
+              //             size: 50,
+              //             color: mainColor,
+              //           ),
+              //           const SizedBox(
+              //             height: 10,
+              //           ),
+              //           Text(
+              //             'Update profile Info.',
+              //             textAlign: TextAlign.center,
+              //             style: TextStyle(
+              //                 color: textColor, fontWeight: FontWeight.bold),
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                width: 135,
-                height: 135,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: mainColor, width: 2, style: BorderStyle.solid),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [customBoxShadow],
-                    color: Colors.white),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.file_copy,
-                        size: 50,
-                        color: mainColor,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'View Medical File',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: textColor, fontWeight: FontWeight.bold),
-                      )
-                    ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PatientShowMedical()));
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  width: 135,
+                  height: 135,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: mainColor, width: 2, style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [customBoxShadow],
+                      color: Colors.white),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.file_copy,
+                          size: 50,
+                          color: mainColor,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'View Medical File',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: textColor, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -218,6 +263,7 @@ class _PatientProfileState extends State<PatientProfile> {
                     height: 30,
                   ),
                   TextField(
+                    controller: passController,
                     onChanged: (value) {
                       password = value;
                     },
@@ -225,6 +271,7 @@ class _PatientProfileState extends State<PatientProfile> {
                         hintText: 'write old password ....'),
                   ),
                   TextField(
+                    controller: newController,
                     onChanged: (value) {
                       newPassword = value;
                     },
@@ -232,6 +279,7 @@ class _PatientProfileState extends State<PatientProfile> {
                         hintText: 'write new password ....'),
                   ),
                   TextField(
+                    controller: confirmController,
                     onChanged: (value) {
                       confirm = value;
                     },
@@ -250,9 +298,15 @@ class _PatientProfileState extends State<PatientProfile> {
                           .doc(firebaseAuth.currentUser!.uid)
                           .get()
                           .then((value) async {
-                        if (password == value.get('password')) {
-                          if (newPassword == confirm) {
+                        if (passController.text == value.get('password')) {
+                          if (newController.text == confirmController.text) {
                             await resetPass();
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChooseLoginScreen()));
                             var snackBar = const SnackBar(
                                 content:
                                     Text('Password reset successfully ...'));

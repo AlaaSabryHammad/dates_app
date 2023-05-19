@@ -1,30 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dates_app/constants.dart';
-import 'package:dates_app/doctor_screens/doctor_show_completed_app_details.dart';
-import 'package:dates_app/doctor_screens/doctor_show_medical.dart';
+import 'package:dates_app/lap_doctor_screens/lap_record_test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'doctor_show_app.dart';
-import 'refer_screens/refer_select_clinic.dart';
+import '../constants.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-class DoctorAppointments extends StatefulWidget {
-  const DoctorAppointments({super.key});
+class LapViewRequests extends StatefulWidget {
+  const LapViewRequests({super.key});
 
   @override
-  State<DoctorAppointments> createState() => _DoctorAppointmentsState();
+  State<LapViewRequests> createState() => _LapViewRequestsState();
 }
 
-class _DoctorAppointmentsState extends State<DoctorAppointments> {
+class _LapViewRequestsState extends State<LapViewRequests> {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   bool? isCompleted;
   PageController pageController = PageController(initialPage: 0);
-  List<Widget> appScreens = [const UpcommingWidget(), const CompletedWidget()];
+  List<Widget> appScreens = [const NextWidget(), const FinishedWidget()];
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
@@ -33,7 +33,7 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                'View Appointments',
+                'View Lap Requests',
                 style: TextStyle(
                   color: mainColor,
                   fontSize: 28,
@@ -101,8 +101,8 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
   }
 }
 
-class UpcommingWidget extends StatelessWidget {
-  const UpcommingWidget({super.key});
+class NextWidget extends StatelessWidget {
+  const NextWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +111,7 @@ class UpcommingWidget extends StatelessWidget {
     return StreamBuilder(
         stream: firebaseFirestore
             .collection('bookings')
-            .where('doctorID', isEqualTo: firebaseAuth.currentUser!.uid)
-            .where('status', isEqualTo: 'active')
+            .where('testSend', isEqualTo: 'send')
             .orderBy('startTime', descending: false)
             .snapshots(),
         builder: (context, snapshot) {
@@ -177,22 +176,6 @@ class UpcommingWidget extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Waiting ....',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey),
-                                    ),
-                                    Text(
-                                      'Not Refered',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                )
                               ],
                             ),
                           ],
@@ -201,112 +184,22 @@ class UpcommingWidget extends StatelessWidget {
                       Positioned(
                         bottom: 15,
                         right: 20,
-                        top: 0,
-                        child: Container(
-                          width: 150,
+                        child: MaterialButton(
+                          minWidth: 140,
                           color: mainColor,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              MaterialButton(
-                                minWidth: 140,
-                                color: Colors.white,
-                                onPressed: () {
-                                  if (item['medicalFileNumber'] == "") {
-                                    var snackBar = const SnackBar(
-                                        content: Text(
-                                            'Patient has no medical file number'));
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  } else {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            DoctorShowApp(item: item),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  'Open',
-                                  style: TextStyle(
-                                      color: mainColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LapRecordTest(item: item),
                               ),
-                              MaterialButton(
-                                minWidth: 140,
+                            );
+                          },
+                          child: const Text(
+                            'Open',
+                            style: TextStyle(
                                 color: Colors.white,
-                                onPressed: () {
-                                  if (item['medicalFileNumber'] == "") {
-                                    var snackBar = const SnackBar(
-                                        content: Text(
-                                            'Patient has no medical file number'));
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  } else {
-                                    firebaseFirestore
-                                        .collection('patients')
-                                        .doc(item['patientId'])
-                                        .get()
-                                        .then((value) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              DoctorShowMedical(
-                                            patient: value.data()!,
-                                            patientId: item['patientId'],
-                                          ),
-                                        ),
-                                      );
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  'Medical File',
-                                  style: TextStyle(
-                                      color: mainColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              MaterialButton(
-                                minWidth: 140,
-                                color: Colors.white,
-                                onPressed: () {
-                                  if (item['medicalFileNumber'] == "") {
-                                    var snackBar = const SnackBar(
-                                        content: Text(
-                                            'Patient has no medical file number'));
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  } else {
-                                    firebaseFirestore
-                                        .collection('patients')
-                                        .doc(item['patientId'])
-                                        .snapshots()
-                                        .listen((value) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ReferSelectClinic(
-                                                  oldApp: item,
-                                                  patient: value.data()!),
-                                        ),
-                                      );
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  'Refer',
-                                  style: TextStyle(
-                                      color: mainColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            ],
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -323,8 +216,8 @@ class UpcommingWidget extends StatelessWidget {
   }
 }
 
-class CompletedWidget extends StatelessWidget {
-  const CompletedWidget({super.key});
+class FinishedWidget extends StatelessWidget {
+  const FinishedWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -333,8 +226,7 @@ class CompletedWidget extends StatelessWidget {
     return StreamBuilder(
         stream: firebaseFirestore
             .collection('bookings')
-            .where('doctorID', isEqualTo: firebaseAuth.currentUser!.uid)
-            .where('status', isEqualTo: 'completed')
+            .where('testCompleted', isEqualTo: true)
             .orderBy('startTime', descending: false)
             .snapshots(),
         builder: (context, snapshot) {
@@ -399,46 +291,31 @@ class CompletedWidget extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item['isRefered']
-                                          ? 'Refered'
-                                          : 'Not Refered',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: item['isRefered']
-                                              ? Colors.blue
-                                              : Colors.black),
-                                    ),
-                                  ],
-                                )
                               ],
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                MaterialButton(
-                                  minWidth: 120,
-                                  color: mainColor,
-                                  elevation: 5,
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DoctorShowCompletedAppDetails(
-                                                    item: item)));
-                                  },
-                                  child: const Text(
-                                    'Show',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                )
-                              ],
-                            )
                           ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 15,
+                        right: 20,
+                        child: MaterialButton(
+                          minWidth: 140,
+                          color: mainColor,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LapRecordTest(item: item),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Edit',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ],
