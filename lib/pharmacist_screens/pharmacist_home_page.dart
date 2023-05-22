@@ -1,13 +1,37 @@
 import 'package:dates_app/pharmacist_screens/prescriptions/pharmacist_prescriptions_search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/appointment_action.dart';
 import '../widgets/custom_icon.dart';
 import '../widgets/user_action.dart';
 
-class PharmacistHomePage extends StatelessWidget {
+class PharmacistHomePage extends StatefulWidget {
   const PharmacistHomePage({super.key});
+
+  @override
+  State<PharmacistHomePage> createState() => _PharmacistHomePageState();
+}
+
+class _PharmacistHomePageState extends State<PharmacistHomePage> {
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  getAndSaveToken() async {
+    await firebaseMessaging.getToken().then((value) {
+      firebaseFirestore
+          .collection('pharmacists')
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({'token': value});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAndSaveToken();
+  }
 
   @override
   Widget build(BuildContext context) {

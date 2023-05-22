@@ -154,6 +154,7 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 1),
                     child: DropdownButtonFormField(
+                      isExpanded: true,
                       decoration: const InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           //<-- SEE HERE

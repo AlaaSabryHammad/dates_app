@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "302947897798",
+    "project_id": "dates-app-f61ea",
+    "storage_bucket": "dates-app-f61ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302947897798:android:3c6df80fdea786392362c7",
+        "android_client_info": {
+          "package_name": "com.example.dates_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302947897798-ni12j6joebpknq88rkv1s02dvmp4bn2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dates_app",
+            "certificate_hash": "fb856997d4aecc7d76acea844edb87ce4eaf36a9"
+          }
+        },
+        {
+          "client_id": "302947897798-arke9h8o5hrdcnm4dnkrl6qlq0prnhvt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmGRUkLGLlE7ggDovWs_vkqKzybBdX92U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302947897798-arke9h8o5hrdcnm4dnkrl6qlq0prnhvt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

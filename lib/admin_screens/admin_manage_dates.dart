@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
 class AdminManagaDates extends StatefulWidget {
   const AdminManagaDates({super.key});
 
@@ -108,8 +107,8 @@ class DoctorWidget extends StatefulWidget {
 class _DoctorWidgetState extends State<DoctorWidget> {
   String name = "";
   TextEditingController searchController = TextEditingController();
-  List<QueryDocumentSnapshot> qDoctors = [];
-  List<String> ids = [];
+  // List<QueryDocumentSnapshot> qDoctors = [];
+  // List<String> ids = [];
   List<Map<String, dynamic>> xDoctors = [];
   getDoctors() async {
     await firebaseFirestore.collection('doctors').get().then((value) {
@@ -267,7 +266,7 @@ class _DoctorWidgetState extends State<DoctorWidget> {
                     width: 10,
                   ),
                   Text(
-                    textDate,
+                    textDate ?? 'Select Date to be Cancelled',
                     style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -280,18 +279,35 @@ class _DoctorWidgetState extends State<DoctorWidget> {
               color: mainColor,
               minWidth: width - 50,
               onPressed: () async {
-                xDoctors.forEach((element) async {
-                  await firebaseFirestore.collection('cancelledDates').add({
-                    'doctor': element['name'],
-                    'doctorId': element['doctorId'],
-                    'clinic': element['clinic'],
-                    'date': dateTime
-                  });
-                });
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AdminCancelDatesSuccess()));
+                if (xDoctors.isEmpty) {
+                  var snackBar =
+                      const SnackBar(content: Text('Select Doctor ...'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                } else {
+                  if (dateTime == null) {
+                    var snackBar =
+                        const SnackBar(content: Text('Select date ...'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    xDoctors.forEach((element) async {
+                      if (element['selected'] == true) {
+                        await firebaseFirestore
+                            .collection('cancelledDates')
+                            .add({
+                          'doctor': element['name'],
+                          'doctorId': element['doctorId'],
+                          'clinic': element['clinic'],
+                          'date': dateTime
+                        });
+                      }
+                    });
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const AdminCancelDatesSuccess()));
+                  }
+                }
               },
               child: const Text(
                 'Save Cancelled dates',

@@ -8,10 +8,13 @@ class UserCard extends StatelessWidget {
       required this.label,
       required this.date,
       required this.time,
-      required this.onPressed, required this.update});
+      required this.onPressed,
+      required this.update,
+      required this.send});
   final String name, label, date, time;
   final VoidCallback onPressed;
   final VoidCallback update;
+  final VoidCallback send;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class UserCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
@@ -66,42 +69,47 @@ class UserCard extends StatelessWidget {
                     style: TextStyle(
                         color: mainColor, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(
-                    height: 6,
-                  ),
                   Text(
                     time,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  TextButton(
+                      onPressed: send, child: const Text('Send Notification'))
                 ],
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                MaterialButton(
-                  onPressed: update,
-                  color: const Color(0xff04c0c9),
-                  elevation: 5,
-                  child: const Text(
-                    'Update',
-                    style: TextStyle(color: Colors.white),
-                  ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MaterialButton(
+                onPressed: update,
+                color: const Color(0xff04c0c9),
+                elevation: 5,
+                child: const Text(
+                  'Update',
+                  style: TextStyle(color: Colors.white),
                 ),
-                MaterialButton(
-                  onPressed: onPressed,
-                  color: const Color(0xff04c0c9),
-                  elevation: 5,
-                  child: const Text(
-                    'Delete',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ],
-            ),
+              ),
+              MaterialButton(
+                onPressed: onPressed,
+                color: const Color(0xff04c0c9),
+                elevation: 5,
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              // MaterialButton(
+              //   onPressed: onPressed,
+              //   color: const Color(0xff04c0c9),
+              //   elevation: 5,
+              //   child: const Text(
+              //     'Send',
+              //     style: TextStyle(color: Colors.white),
+              //   ),
+              // )
+            ],
           )
         ],
       ),

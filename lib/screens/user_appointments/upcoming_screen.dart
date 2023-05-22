@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/admin_screens/admin_update_app.dart';
 import 'package:flutter/material.dart';
 import 'package:dates_app/screens/user_appointments/widgets/user_card_upcoming.dart';
-
+import 'package:http/http.dart' as http;
 import '../../constants.dart';
 import '../../widgets/user_action.dart';
 
@@ -15,6 +17,32 @@ class UpcomingScreen extends StatefulWidget {
 
 class _UpcomingScreenState extends State<UpcomingScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  String serverToken =
+      'AAAARokaEcY:APA91bFXjO_7-DiF98siS8j9XF4cJ3qkjsGPoXQOqfmzKrnFw-FUpRx_WwnWkcDlYl-bZi7UMEdaxwyarScwLSghyLej5G-lu7scseqZgFVntvgtN9z9lI-Pce4Ccg3GnVjh5YeWKQX1';
+  sendNotification(String token, String doctor, DateTime startTime) async {
+    await http.post(
+      Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': 'you have an appointment with $doctor at $startTime',
+            'title': 'Appointment Notification'
+          },
+          'priority': 'high',
+          'data': <String, dynamic>{
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'id': '1',
+            'status': 'done'
+          },
+          'to': token,
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +85,18 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                           MaterialPageRoute(
                               builder: (context) => const AdminUpdateApp()),
                         );
+                      },
+                      send: () {
+                        firebaseFirestore
+                            .collection('patients')
+                            .doc(item['patientId'])
+                            .get()
+                            .then((value) {
+                          sendNotification(value.data()!['token'],
+                              item['doctor'], item['startTime'].toDate());
+                        });
+                        // firebaseFirestore.collection('bookings').doc(item.id).
+                        // sendNotification(item.get('field'))
                       },
                     );
                   });

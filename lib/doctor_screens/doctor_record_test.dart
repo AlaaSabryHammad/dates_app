@@ -179,10 +179,10 @@ class _DoctorRecordTestScreenState extends State<DoctorRecordTestScreen> {
                     });
                   }
                 });
-                // await firebaseFirestore
-                //     .collection('bookings')
-                //     .doc(widget.item.id)
-                //     .update({'tests': testItems});
+                await firebaseFirestore
+                    .collection('bookings')
+                    .doc(widget.item.id)
+                    .update({'tests': true});
                 testItems.clear();
                 Navigator.pop(context);
               },

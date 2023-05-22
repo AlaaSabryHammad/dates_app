@@ -1,4 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/admin_screens/home_screen.dart';
+import 'package:dates_app/doctor_screens/doctor_home_screen.dart';
+import 'package:dates_app/lap_doctor_screens/lap_home_screen.dart';
+import 'package:dates_app/patient_screens/patient_home_screen.dart';
+import 'package:dates_app/pharmacist_screens/pharmacist_home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +18,112 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
+
+  checkTypeOfUser() {
+    if (user != null) {
+      String userId = user!.uid;
+      firebaseFirestore.collection('patients').doc(userId).get().then((value) {
+        if (value.exists) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const PatientHomeScreen()));
+        } else {
+          firebaseFirestore
+              .collection('doctors')
+              .doc(userId)
+              .get()
+              .then((value) {
+            if (value.exists) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DoctorHomeScreen()));
+            } else {
+              firebaseFirestore
+                  .collection('lapDoctors')
+                  .doc(userId)
+                  .get()
+                  .then((value) {
+                if (value.exists) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LapHomeScreen()));
+                } else {
+                  firebaseFirestore
+                      .collection('pharmacists')
+                      .doc(userId)
+                      .get()
+                      .then((value) {
+                    if (value.exists) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const PharmacistHomePage()));
+                    } else {
+                      firebaseFirestore
+                          .collection('admins')
+                          .doc(userId)
+                          .get()
+                          .then((value) {
+                        if (value.exists) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()));
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, '/choose-login');
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+      // firebaseFirestore.collection('doctors').doc(userId).get().then((value) {
+      //   if (value.exists) {
+      //     Navigator.pushReplacement(
+      //         context,
+      //         MaterialPageRoute(
+      //             builder: (context) => const DoctorHomeScreen()));
+      //   }
+      // });
+      // firebaseFirestore
+      //     .collection('lapDoctors')
+      //     .doc(userId)
+      //     .get()
+      //     .then((value) {
+      //   if (value.exists) {
+      //     Navigator.pushReplacement(context,
+      //         MaterialPageRoute(builder: (context) => const LapHomeScreen()));
+      //   }
+      // });
+      // firebaseFirestore
+      //     .collection('pharmacists')
+      //     .doc(userId)
+      //     .get()
+      //     .then((value) {
+      //   if (value.exists) {
+      //     Navigator.pushReplacement(
+      //         context,
+      //         MaterialPageRoute(
+      //             builder: (context) => const PharmacistHomePage()));
+      //   }
+      // });
+      // firebaseFirestore.collection('admins').doc(userId).get().then((value) {
+      //   if (value.exists) {
+      //     Navigator.pushReplacement(context,
+      //         MaterialPageRoute(builder: (context) => const HomeScreen()));
+      //   }
+      // });
+    }
+  }
 
   saveAdmin() async {
     await FirebaseFirestore.instance
@@ -39,18 +150,14 @@ class _SplashScreenState extends State<SplashScreen> {
           Future.delayed(const Duration(seconds: 2), () {
             Navigator.pushReplacementNamed(context, '/choose-login');
           });
-        } on FirebaseAuthException {
-          // Do something with exception. This try/catch is here to make sure
-          // that even if the user creation fails, app.delete() runs, if is not,
-          // next time Firebase.initializeApp() will fail as the previous one was
-          // not deleted.
-        }
+        } on FirebaseAuthException {}
         await app.delete();
       }
 
       //
       Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushReplacementNamed(context, '/choose-login');
+        checkTypeOfUser();
+        // Navigator.pushReplacementNamed(context, '/choose-login');
       });
     });
   }

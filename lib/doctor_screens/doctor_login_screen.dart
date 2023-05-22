@@ -95,12 +95,27 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                         final credential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: emailAddress!, password: password!);
-                        Navigator.pushReplacementNamed(context, '/doctor-home');
+                        await firebaseFirestore
+                            .collection('doctors')
+                            .doc(credential.user!.uid)
+                            .get()
+                            .then((value) {
+                          if (value.exists) {
+                            Navigator.pushReplacementNamed(
+                                context, '/doctor-home');
+                          } else {
+                            const snackBar = SnackBar(
+                                content: Text('login data not correct ...'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        });
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
-                          print('No user found for that email.');
+                          const snackBar = SnackBar(
+                              content: Text('No user found for that email.'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (e.code == 'wrong-password') {
-                          print('Wrong password provided for that user.');
                           const snackBar = SnackBar(
                               content: Text('login data not correct ...'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);

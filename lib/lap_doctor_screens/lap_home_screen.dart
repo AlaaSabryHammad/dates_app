@@ -1,12 +1,34 @@
 import 'package:dates_app/lap_doctor_screens/lap_view_requests.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
 import '../widgets/custom_icon.dart';
 
-class LapHomeScreen extends StatelessWidget {
+class LapHomeScreen extends StatefulWidget {
   const LapHomeScreen({super.key});
+
+  @override
+  State<LapHomeScreen> createState() => _LapHomeScreenState();
+}
+
+class _LapHomeScreenState extends State<LapHomeScreen> {
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+  getAndSaveToken() async {
+    await firebaseMessaging.getToken().then((value) {
+      firebaseFirestore
+          .collection('lapDoctors')
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({'token': value});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAndSaveToken();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -96,12 +96,24 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                         final credential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: emailAddress!, password: password!);
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const PharmacistHomePage()));
+                        await firebaseFirestore
+                            .collection('pharmacists')
+                            .doc(credential.user!.uid)
+                            .get()
+                            .then((value) {
+                          if (value.exists) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PharmacistHomePage()));
+                          } else {
+                            const snackBar = SnackBar(
+                                content: Text('login data not correct ...'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        });
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           const snackBar = SnackBar(
@@ -109,7 +121,8 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else if (e.code == 'wrong-password') {
                           const snackBar = SnackBar(
-                              content: Text('Wrong password provided for that user.'));
+                              content: Text(
+                                  'Wrong password provided for that user.'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }

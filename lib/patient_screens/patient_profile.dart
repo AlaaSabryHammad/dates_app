@@ -3,7 +3,10 @@ import 'package:dates_app/constants.dart';
 import 'package:dates_app/patient_screens/patient_show_medical.dart';
 import 'package:dates_app/screens/choose_login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+
+FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({super.key, required this.patientDocument});
@@ -26,6 +29,15 @@ class _PatientProfileState extends State<PatientProfile> {
         .collection('patients')
         .doc(firebaseAuth.currentUser!.uid)
         .update({'password': newPassword});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    firebaseMessaging.getToken().then((value) {
+      print('**********');
+      print(value);
+    });
   }
 
   @override

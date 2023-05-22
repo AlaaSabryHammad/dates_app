@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/patient_screens/patient_profile.dart';
 import 'package:dates_app/patient_screens/patient_view_doctor_evaluations.dart';
+import 'package:dates_app/patient_screens/patient_view_tests.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/appointment_action.dart';
@@ -31,10 +33,45 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
     });
   }
 
+  getAndSaveToken() async {
+    await firebaseMessaging.getToken().then((value) {
+      firebaseFirestore
+          .collection('patients')
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({'token': value});
+    });
+  }
+
+  // getNotification() async {
+  //   FirebaseMessaging.onMessage.listen((event) {
+  //     // print('===========');
+  //     showDialog(
+  //         context: context,
+  //         builder: (context) => const AlertDialog(
+  //               content: Text('ddddddd'),
+  //             ));
+  //   });
+  // }
+  initialMessage() async {
+    var message = await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const PatientHomeScreen()));
+      print('++++++++++++++++++++${message.notification!.body}');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    initialMessage();
     getPatientDocument();
+    getAndSaveToken();
+    // getNotification();
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      print(event.notification);
+      print('****************');
+    });
   }
 
   @override
@@ -96,7 +133,11 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                       ),
                       CustomIcon(
                         onPressed: () {
-                          print('object');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PatientViewTests()));
                         },
                         label: "Test Results",
                         icon: Icons.analytics_rounded,
@@ -120,7 +161,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/patient-home-chat');
                         },
-                        label: "Send Email",
+                        label: "Chat",
                         icon: Icons.email,
                       ),
                     ],

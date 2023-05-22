@@ -94,22 +94,20 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         final credential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: emailAddress!, password: password!);
-                        List admin = await firebaseFirestore
+                        await firebaseFirestore
                             .collection('admins')
+                            .doc(credential.user!.uid)
                             .get()
                             .then((value) {
-                          return [
-                            value.docs.first['email'],
-                            value.docs.first['password']
-                          ];
+                          if (value.exists) {
+                            Navigator.pushReplacementNamed(context, '/home');
+                          } else {
+                            const snackBar = SnackBar(
+                                content: Text('login data not correct ...'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
                         });
-                        if (emailAddress == admin[0] && password == admin[1]) {
-                          Navigator.pushNamed(context, '/home');
-                        } else {
-                          const snackBar = SnackBar(
-                              content: Text('login data not correct ...'));
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        }
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           print('No user found for that email.');

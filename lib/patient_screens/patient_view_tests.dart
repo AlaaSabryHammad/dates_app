@@ -1,26 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class PatientViewDescriptions extends StatefulWidget {
-  const PatientViewDescriptions({super.key});
+import '../constants.dart';
+
+class PatientViewTests extends StatefulWidget {
+  const PatientViewTests({super.key});
 
   @override
-  State<PatientViewDescriptions> createState() =>
-      _PatientViewDescriptionsState();
+  State<PatientViewTests> createState() => _PatientViewTestsState();
 }
 
-class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
+class _PatientViewTestsState extends State<PatientViewTests> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   List<QueryDocumentSnapshot> queryItems = [];
 
-  getPrescription() async {
+  getTests() async {
     await firebaseFirestore
         .collection('bookings')
         .where('patientId', isEqualTo: firebaseAuth.currentUser!.uid)
-        .where('prescriptions', isEqualTo: true)
+        .where('tests', isEqualTo: true)
         .get()
         .then((value) async {
       for (var item in value.docs) {
@@ -34,7 +34,7 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
   @override
   void initState() {
     super.initState();
-    getPrescription();
+    getTests();
   }
 
   @override
@@ -50,7 +50,7 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                'My Prescriptions',
+                'My Lap. Records',
                 style: mainHeaderStyle,
               ),
             ),
@@ -61,7 +61,7 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
                 ? Expanded(
                     child: Center(
                       child: Text(
-                        'No Prescriptions',
+                        'No Tests',
                         style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
                                         stream: firebaseFirestore
                                             .collection('bookings')
                                             .doc(queryItems[index].id)
-                                            .collection('prescription')
+                                            .collection('tests')
                                             .snapshots(),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData) {
@@ -134,7 +134,7 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
                                                     elevation: 10,
                                                     child: ListTile(
                                                       title: Text(
-                                                        "Item :${xData['item']}",
+                                                        "Test :${xData['name']}",
                                                         style: TextStyle(
                                                             color: mainColor,
                                                             fontSize: 16,
@@ -143,7 +143,9 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
                                                                     .bold),
                                                       ),
                                                       subtitle: Text(
-                                                        'Desc : ${xData['desc']}',
+                                                        xData['result'] == ""
+                                                            ? 'Not Recorded'
+                                                            : 'Result : ${xData['result']}',
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: TextStyle(
@@ -153,17 +155,6 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
                                                                 FontWeight
                                                                     .bold),
                                                       ),
-                                                      trailing: xData[
-                                                                  'remain'] ==
-                                                              0
-                                                          ? const Text(
-                                                              'Completed',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .blue),
-                                                            )
-                                                          : Text(
-                                                              "remain : ${xData['remain']}"),
                                                     ),
                                                   );
                                                 });

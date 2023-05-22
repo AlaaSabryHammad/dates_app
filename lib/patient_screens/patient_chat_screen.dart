@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.receiverDocument});
@@ -45,12 +46,17 @@ class _ChatScreenState extends State<ChatScreen> {
                       if (snapshot.hasData) {
                         List<MessageWidget> messages = [];
                         for (var message in snapshot.data!.docs) {
-                          messages.add(MessageWidget(mDocument: message));
+                          messages.add(MessageWidget(
+                            mDocument: message,
+                            doctor1: widget.receiverDocument['name'],
+                          ));
                         }
-                        return ListView(
-                          reverse: true,
-                          children: messages,
-                        );
+                        return messages.isEmpty
+                            ? const CircularProgressIndicator()
+                            : ListView(
+                                reverse: true,
+                                children: messages,
+                              );
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                       }
@@ -134,8 +140,10 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 class MessageWidget extends StatelessWidget {
-  const MessageWidget({super.key, required this.mDocument});
+  const MessageWidget(
+      {super.key, required this.mDocument, required this.doctor1});
   final QueryDocumentSnapshot mDocument;
+  final String doctor1;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -146,8 +154,8 @@ class MessageWidget extends StatelessWidget {
             : CrossAxisAlignment.end,
         children: [
           Text(mDocument['sender'] == 'patient'
-              ? mDocument['patientEmail']
-              : mDocument['doctorEmail']),
+              ? FirebaseAuth.instance.currentUser!.displayName!
+              : doctor1),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Material(
@@ -168,6 +176,7 @@ class MessageWidget extends StatelessWidget {
               ),
             ),
           ),
+          Text(timeago.format(mDocument['time'].toDate()))
         ],
       ),
     );

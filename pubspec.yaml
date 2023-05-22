@@ -32,16 +32,20 @@ dependencies:
   calendar_timeline: ^1.1.2
   cloud_firestore: ^4.5.3
   cupertino_icons: ^1.0.2
+  date_picker_timeline: ^1.2.3
+  firebase_analytics: ^10.4.1
   firebase_auth: ^4.4.2
   firebase_core: ^2.10.0
+  firebase_messaging: ^14.6.1
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.1
+  http: ^0.13.6
   intl: ^0.17.0
   jiffy: ^5.0.0
   json_annotation: ^4.8.0
-  date_picker_timeline: ^1.2.3
-  flutter_rating_bar: ^4.0.1
   percent_indicator: ^4.0.1
+  timeago: ^3.3.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

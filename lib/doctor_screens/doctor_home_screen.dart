@@ -1,14 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/doctor_screens/doctor_chat_home.dart';
 import 'package:dates_app/doctor_screens/doctor_view_evaluations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/appointment_action.dart';
 import '../widgets/custom_icon.dart';
 import '../widgets/user_action.dart';
 
-class DoctorHomeScreen extends StatelessWidget {
+class DoctorHomeScreen extends StatefulWidget {
   const DoctorHomeScreen({super.key});
+
+  @override
+  State<DoctorHomeScreen> createState() => _DoctorHomeScreenState();
+}
+
+class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  getAndSaveToken() async {
+    await firebaseMessaging.getToken().then((value) {
+      firebaseFirestore
+          .collection('doctors')
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({'token': value});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAndSaveToken();
+  }
 
   @override
   Widget build(BuildContext context) {

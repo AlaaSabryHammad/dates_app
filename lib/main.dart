@@ -27,6 +27,7 @@ import 'package:dates_app/screens/splash_screen/splash_screen.dart';
 import 'package:dates_app/screens/user_appointments/user_appointments.dart';
 import 'package:dates_app/admin_screens/admin_view_doctors_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'admin_screens/admin_add_clinic_screen.dart';
@@ -36,11 +37,15 @@ import 'patient_screens/patient_register_screen.dart';
 import 'patient_screens/patient_view_prescription.dart';
 import 'patient_screens/view_pateint_appointments_screen.dart';
 
+Future onGetMessage(RemoteMessage message) async {
+  print(message.notification!.body);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(onGetMessage);
   initializeDateFormatting().then((_) => runApp(const MyApp()));
-  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -70,7 +75,6 @@ class MyApp extends StatelessWidget {
         '/patient-register-success': (context) =>
             const PatientRegisterSuccess(),
         '/patient-home': (context) => const PatientHomeScreen(),
-        // '/patient-profile': (context) => const PatientProfile(),
         '/patient-add-evaluation-success': (context) =>
             const PatientAddEvaluationSuccess(),
         '/book-patient-app': (context) => const BookPatientAppointments(),
@@ -88,8 +92,6 @@ class MyApp extends StatelessWidget {
         '/admin-add-doctor-success': (context) => const AdminAddDoctorSuccess(),
         '/admin-add-patient-success': (context) =>
             const AdminAddPatientSuccess(),
-        // '/admin-view-evaluation-details': (context) =>
-        //     const AdminViewEvaluationDetails(),
         '/admin-add-pharmacian': (context) => const AdminAddPharmacian(),
         '/admin-view-pharmacists': (context) => const AdminViewPharmacists(),
         '/user-appointments': (context) => const UserAppointmentsScreen(),

@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_textfield.dart';
 
+FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
 class PatientLoginScreen extends StatefulWidget {
   const PatientLoginScreen({super.key});
 
@@ -94,34 +96,24 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                         final credential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: emailAddress!, password: password!);
-                        DocumentSnapshot ds = await FirebaseFirestore.instance
+                        await firebaseFirestore
                             .collection('patients')
                             .doc(credential.user!.uid)
-                            .get();
-                        if (ds.exists) {
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacementNamed(
-                              context, '/patient-home');
-                        } else {
-                          // ignore: use_build_context_synchronously
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         CompletePatientProfileScreen(
-                          //       patientEmail: emailAddress!,
-                          //       password: password!,
-                          //     ),
-                          //   ),
-                          // );
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PatientHomeScreen()),
-                              (route) => false);
-                        }
+                            .get()
+                            .then((value) {
+                          if (value.exists) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PatientHomeScreen()));
+                          } else {
+                            const snackBar = SnackBar(
+                                content: Text('login data not correct ...'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        });
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           const snackBar = SnackBar(

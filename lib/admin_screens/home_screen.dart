@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/admin_screens/admin_add_lap.dart';
 import 'package:dates_app/admin_screens/admin_manage_dates.dart';
+import 'package:dates_app/admin_screens/admin_view_lap_doctors.dart';
 import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../screens/choose_login_screen.dart';
 import '../widgets/appointment_action.dart';
@@ -27,6 +29,22 @@ class _HomeScreenState extends State<HomeScreen> {
         .collection('admins')
         .doc(firebaseAuth.currentUser!.uid)
         .update({'password': newPassword});
+  }
+
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  getAndSaveToken() async {
+    await firebaseMessaging.getToken().then((value) {
+      firebaseFirestore
+          .collection('admins')
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({'token': value});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAndSaveToken();
   }
 
   @override
@@ -274,6 +292,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 UserAction(
                   onPressed: () {
                     Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AdminViewLapDoctors()));
+
                     // Navigator.pushNamed(context, '/admin-view-pharmacists');
                   },
                   label: 'View Lap. Doctors',

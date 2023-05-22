@@ -277,6 +277,10 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                         });
                         description = null;
                         numberOfItems = null;
+                        firebaseFirestore
+                            .collection('bookings')
+                            .doc(widget.item.id)
+                            .update({'prescriptions': true});
                       }
                       Navigator.pop(context);
                     },
