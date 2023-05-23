@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:flutter/material.dart';
+import '../data.dart';
+
 
 class AddClinicScreen extends StatefulWidget {
   const AddClinicScreen({super.key});
@@ -23,6 +25,47 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
         'time': FieldValue.serverTimestamp()
       });
     }
+  }
+
+  saveClinics() async {
+    await firebaseFirestore.collection('clinics').get().then((value) {
+      if (value.docs.isEmpty) {
+        for (var element in clinics) {
+          firebaseFirestore.collection('clinics').add(
+              {'clinic_name': element, 'time': FieldValue.serverTimestamp()});
+        }
+      }
+    });
+  }
+
+  savePreItems() async {
+    await firebaseFirestore.collection('preItems').get().then((value) {
+      if (value.docs.isEmpty) {
+        for (var element in preItems) {
+          firebaseFirestore.collection('preItems').add({'itemName': element});
+        }
+      }
+    });
+  }
+
+  saveTestResults() async {
+    await firebaseFirestore.collection('tests').get().then((value) {
+      if (value.docs.isEmpty) {
+        for (var element in results) {
+          firebaseFirestore
+              .collection('tests')
+              .add({'name': element['testName'], 'result': ""});
+        }
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    saveClinics();
+    savePreItems();
+    saveTestResults();
   }
 
   @override
@@ -90,7 +133,7 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
                                 margin: const EdgeInsets.only(bottom: 10),
                                 padding: const EdgeInsets.all(10),
                                 width: width - 70,
-                                height: 120,
+                                // height: 120,
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: mainColor,

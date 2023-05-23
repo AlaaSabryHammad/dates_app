@@ -69,7 +69,9 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
     getAndSaveToken();
     // getNotification();
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      print(event.notification);
+      print(event.notification!.body);
+      print(event.notification!.title);
+      print(event.data['name']);
       print('****************');
     });
   }

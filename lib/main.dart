@@ -39,6 +39,7 @@ import 'patient_screens/view_pateint_appointments_screen.dart';
 
 Future onGetMessage(RemoteMessage message) async {
   print(message.notification!.body);
+  // Navigator.pushNamed(context, routeName)
 }
 
 void main() async {

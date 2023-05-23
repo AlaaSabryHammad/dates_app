@@ -168,3 +168,28 @@ List results = [
 List<String> preItems = [
   'Chlorphenamine','Dexamethasone','Epinepheine','Hydrocortisone','Prednisolone','Activated Carbon','Acetylcysteine','Atropine','Calcium Gluconate','Deferoxamine','Dimercaprol','Dl-Methionine','Methylthioninium Cloride','Naloxone','Penicillamine','Sodium Calcium Ededate','Sodium nitrite','Sodium Thiosulfate','Carbamazepine','Diazepam','Ethosuximide','Magnsium Sulfate','Phenobarbital','Phenytoin','Valproic Acid','Albendazole','Levamisole','Mebendazole','Niclosamide','Praziquantel','Pyrantel','Antifilarials','Diethylcarbamazine','lvermectin','Suramin Sodium','Oxamniquine','Praziquantel','Triclabendazole','Amoxicillin','Ampicillin','Benzylpenicillin','Benzathine Benzylpenicillin','Cefazolin','Cefixime','Ceftazidime','Ceftriaxone','Cloxacillin','Co-amoxiclav','Imipenem','Phenoxymethylpenicillin','Procaine Benzylpenicillin','Erythromycin','Azithomycin','Doxycycline','Ciprofloxacin','Chloramphenicol','Gentamicin','Spectinomycin','Clindamycin','Sulfadiazine','Trimethoprim','Trimethoprim','Metronidazole','Nitrofurantoin','Vancomycin'
 ];
+
+List<String> clinics = [
+  'Psychology Clinic',
+  'Pediatric Endocrinology Clinic',
+  'Rays Clinic',
+  'General Medicine Clinic',
+  'Social Specialist Clinic',
+  'Physical Therapy Clinic',
+  'Chronic Diseases Clinic',
+  'Infertility and In-vitro-fertilization Clinic',
+  'Pregnant Follow-up Clinic',
+  'Health Education Clinic',
+  'Family Medicine Clinic',
+  'Pediatrician Clinic',
+  'Otolaryngology Clinic',
+  'Adult Diseases and Aging Clinic',
+  'Orthopedics Clinic',
+  'Gynecology and Obstetrics and Infertility and In-vitro-fertilization Clinic',
+  'Obesity Clinic',
+  'Anti-smoking Clinic',
+  'Preventive Medicine Clinic',
+  "Children's Immunity and Allergies Clinic",
+  'Therapeutic Feeding Clinic'
+];
+

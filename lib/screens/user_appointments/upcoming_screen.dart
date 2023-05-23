@@ -36,7 +36,8 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
           'data': <String, dynamic>{
             'click_action': 'FLUTTER_NOTIFICATION_CLICK',
             'id': '1',
-            'status': 'done'
+            'status': 'done',
+            'name': 'Alaaaaaaaaaaaaaaaa'
           },
           'to': token,
         },

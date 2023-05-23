@@ -22,7 +22,7 @@ class _DoctorChatHomeState extends State<DoctorChatHome> {
           Container(
             padding: const EdgeInsets.all(30),
             width: width,
-            height: 200,
+            height: 150,
             decoration: BoxDecoration(color: mainColor),
             child: const Center(
               child: Align(
