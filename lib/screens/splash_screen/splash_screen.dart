@@ -156,8 +156,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
       //
       Future.delayed(const Duration(seconds: 2), () {
-        checkTypeOfUser();
-        // Navigator.pushReplacementNamed(context, '/choose-login');
+        // checkTypeOfUser();
+        Navigator.pushReplacementNamed(context, '/choose-login');
       });
     });
   }
