@@ -20,6 +20,7 @@ class PatientHomeScreen extends StatefulWidget {
 class _PatientHomeScreenState extends State<PatientHomeScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   Map<String, dynamic>? patientDocument;
   getPatientDocument() async {
     await firebaseFirestore
@@ -52,28 +53,28 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
   //             ));
   //   });
   // }
-  initialMessage() async {
-    var message = await FirebaseMessaging.instance.getInitialMessage();
-    if (message != null) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const PatientHomeScreen()));
-      print('++++++++++++++++++++${message.notification!.body}');
-    }
-  }
+  // initialMessage() async {
+  //   var message = await FirebaseMessaging.instance.getInitialMessage();
+  //   if (message != null) {
+  //     Navigator.push(context,
+  //         MaterialPageRoute(builder: (context) => const PatientHomeScreen()));
+  //     print('++++++++++++++++++++${message.notification!.body}');
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    initialMessage();
+    // initialMessage();
     getPatientDocument();
     getAndSaveToken();
     // getNotification();
-    FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      print(event.notification!.body);
-      print(event.notification!.title);
-      print(event.data['name']);
-      print('****************');
-    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    //   print(event.notification!.body);
+    //   print(event.notification!.title);
+    //   print(event.data['name']);
+    //   print('****************');
+    // });
   }
 
   @override
@@ -372,4 +373,8 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
           );
         });
   }
+
+  // void callBacks() {
+  //   firebaseMessaging.
+  // }
 }
