@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -86,42 +87,6 @@ class _SplashScreenState extends State<SplashScreen> {
           });
         }
       });
-      // firebaseFirestore.collection('doctors').doc(userId).get().then((value) {
-      //   if (value.exists) {
-      //     Navigator.pushReplacement(
-      //         context,
-      //         MaterialPageRoute(
-      //             builder: (context) => const DoctorHomeScreen()));
-      //   }
-      // });
-      // firebaseFirestore
-      //     .collection('lapDoctors')
-      //     .doc(userId)
-      //     .get()
-      //     .then((value) {
-      //   if (value.exists) {
-      //     Navigator.pushReplacement(context,
-      //         MaterialPageRoute(builder: (context) => const LapHomeScreen()));
-      //   }
-      // });
-      // firebaseFirestore
-      //     .collection('pharmacists')
-      //     .doc(userId)
-      //     .get()
-      //     .then((value) {
-      //   if (value.exists) {
-      //     Navigator.pushReplacement(
-      //         context,
-      //         MaterialPageRoute(
-      //             builder: (context) => const PharmacistHomePage()));
-      //   }
-      // });
-      // firebaseFirestore.collection('admins').doc(userId).get().then((value) {
-      //   if (value.exists) {
-      //     Navigator.pushReplacement(context,
-      //         MaterialPageRoute(builder: (context) => const HomeScreen()));
-      //   }
-      // });
     }
   }
 
