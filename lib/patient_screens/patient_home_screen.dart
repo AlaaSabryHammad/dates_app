@@ -128,13 +128,13 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomIcon(
-                        onPressed: () {
-                          // customShowModalSheet(context);
-                        },
-                        label: 'Book Health Awareness Session',
-                        icon: Icons.menu_book_rounded,
-                      ),
+                      // CustomIcon(
+                      //   onPressed: () {
+                      //     // customShowModalSheet(context);
+                      //   },
+                      //   label: 'Book Health Awareness Session',
+                      //   icon: Icons.menu_book_rounded,
+                      // ),
                       CustomIcon(
                         onPressed: () {
                           Navigator.push(
@@ -146,14 +146,6 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                         label: "Test Results",
                         icon: Icons.analytics_rounded,
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
                       CustomIcon(
                         onPressed: () {
                           customShowModalSheetServiceEvaluation(context);
@@ -161,13 +153,6 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                         label: 'Service Evaluation',
                         icon: Icons.medical_services_rounded,
                       ),
-                      CustomIcon(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/patient-home-chat');
-                        },
-                        label: "Chat",
-                        icon: Icons.email,
-                      ),
                     ],
                   ),
                   const SizedBox(
@@ -176,6 +161,13 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      CustomIcon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/patient-home-chat');
+                        },
+                        label: "Chat",
+                        icon: Icons.email,
+                      ),
                       CustomIcon(
                         onPressed: () {
                           // Navigator.pushNamed(context, '/patient-profile');
@@ -188,6 +180,14 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                         label: 'Profile',
                         icon: Icons.person,
                       ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       CustomIcon(
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
@@ -325,7 +325,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                 Text(
                   'Manage Evaluations',
                   style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 22,
                       color: mainColor,
                       fontWeight: FontWeight.bold),
                 ),

@@ -58,14 +58,14 @@ class _PatientViewEvaluationDetailsState
                 Container(
                   width: width - 40,
                   height: 50,
-                  decoration: BoxDecoration(color: mainColor),
+                  decoration: const BoxDecoration(color: Color(0xffcaf0f8)),
                   child: Center(
                     child: Text(
                       widget.item['clinicName'],
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 18),
                     ),
                   ),
                 ),
@@ -85,14 +85,14 @@ class _PatientViewEvaluationDetailsState
                 Container(
                   width: width - 40,
                   height: 50,
-                  decoration: BoxDecoration(color: mainColor),
+                  decoration: const BoxDecoration(color: Color(0xffcaf0f8)),
                   child: Center(
                     child: Text(
                       widget.item['doctorName'],
                       style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                          fontSize: 18),
                     ),
                   ),
                 ),
@@ -113,7 +113,7 @@ class _PatientViewEvaluationDetailsState
                   padding: const EdgeInsets.all(10),
                   height: 250,
                   decoration: BoxDecoration(
-                      color: mainColor,
+                      color: const Color(0xffcaf0f8),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.black)),
                   child: TextField(

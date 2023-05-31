@@ -266,7 +266,7 @@ class _DoctorWidgetState extends State<DoctorWidget> {
                     width: 10,
                   ),
                   Text(
-                    textDate ?? 'Select Date to be Cancelled',
+                    textDate,
                     style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
