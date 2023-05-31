@@ -176,7 +176,9 @@ class MessageWidget extends StatelessWidget {
               ),
             ),
           ),
-          Text(timeago.format(mDocument['time'].toDate()))
+          mDocument['time'] != null
+              ? Text(timeago.format(mDocument['time'].toDate()))
+              : const SizedBox()
         ],
       ),
     );
