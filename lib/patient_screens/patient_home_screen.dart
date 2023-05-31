@@ -366,9 +366,9 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                   label: 'Doctor Evaluations',
                   icon: Icons.note_alt,
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                // const SizedBox(
+                //   height: 30,
+                // ),
               ],
             ),
           );
