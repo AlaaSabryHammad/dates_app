@@ -44,7 +44,7 @@ class _AdminAddLapState extends State<AdminAddLap> {
                     height: 10,
                   ),
                   Text(
-                    'Add Lap. Doctor',
+                    'Add Lab. Specialist',
                     style: mainHeaderStyle,
                   ),
                   const SizedBox(
@@ -52,19 +52,19 @@ class _AdminAddLapState extends State<AdminAddLap> {
                   ),
                   AddDoctorTextField(
                     controller: userNameController,
-                    hint: 'Doctor User Name ...',
+                    hint: 'User Name ...',
                     icon: Icons.person,
                     label: 'User Name',
                   ),
                   AddDoctorTextField(
                     controller: emailController,
-                    hint: 'Doctor Email Address ...',
+                    hint: 'Email Address ...',
                     icon: Icons.email,
                     label: 'Email Address',
                   ),
                   AddDoctorTextField(
                     controller: passwordController,
-                    hint: 'Doctor password ...',
+                    hint: 'password ...',
                     icon: Icons.lock,
                     label: 'Password',
                   ),

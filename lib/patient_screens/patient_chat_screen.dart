@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.receiverDocument});
@@ -52,7 +51,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           ));
                         }
                         return messages.isEmpty
-                            ? const CircularProgressIndicator()
+                            ? const SizedBox()
                             : ListView(
                                 reverse: true,
                                 children: messages,
@@ -60,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(child: SizedBox());
                     }),
               ),
               Row(
@@ -176,9 +175,9 @@ class MessageWidget extends StatelessWidget {
               ),
             ),
           ),
-          mDocument['time'] != null
-              ? Text(timeago.format(mDocument['time'].toDate()))
-              : const SizedBox()
+          // mDocument['time'] != null
+          //     ? Text(timeago.format(mDocument['time'].toDate()))
+          //     : const SizedBox()
         ],
       ),
     );

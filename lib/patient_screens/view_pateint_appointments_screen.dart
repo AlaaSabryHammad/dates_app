@@ -93,6 +93,7 @@ class _ViewPatientAppointmentsState extends State<ViewPatientAppointments> {
                                           elevation: 5,
                                           color: textColor,
                                           onPressed: () {
+                                            Navigator.pop(context);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -145,6 +146,22 @@ class _ViewPatientAppointmentsState extends State<ViewPatientAppointments> {
                                                 .collection('bookings')
                                                 .doc(item.id)
                                                 .update({'status': 'canceled'});
+                                            firebaseFirestore
+                                                .collection('doctors')
+                                                .doc(item.get('doctorID'))
+                                                .collection('appointments')
+                                                .get()
+                                                .then((value) {
+                                              for (var doc in value.docs) {
+                                                firebaseFirestore
+                                                    .collection('doctors')
+                                                    .doc(item.get('doctorID'))
+                                                    .collection('appointments')
+                                                    .doc(doc.id)
+                                                    .update(
+                                                        {'status': 'canceled'});
+                                              }
+                                            });
                                             Navigator.pop(context);
                                           },
                                           child: const Text(

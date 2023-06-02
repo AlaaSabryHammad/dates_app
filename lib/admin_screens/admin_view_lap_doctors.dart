@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/admin_screens/admin_lab_details_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
+
+FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 class AdminViewLapDoctors extends StatefulWidget {
   const AdminViewLapDoctors({super.key});
@@ -21,15 +24,16 @@ class _AdminViewLapDoctorsState extends State<AdminViewLapDoctors> {
           child: Column(
             children: [
               Text(
-                'Manage Doctors',
+                'Manage Lab. Specialists',
                 style: TextStyle(
                     color: mainColor,
-                    fontSize: 25,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold),
               ),
               Expanded(
                 child: StreamBuilder(
-                    stream: firebaseFirestore.collection('lapDoctors').snapshots(),
+                    stream:
+                        firebaseFirestore.collection('lapDoctors').snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data!.docs.isEmpty) {
@@ -48,8 +52,14 @@ class _AdminViewLapDoctorsState extends State<AdminViewLapDoctors> {
                             itemBuilder: (context, index) {
                               var item = snapshot.data!.docs[index];
                               if (snapshot.data!.docs.isEmpty) {
-                                return  Center(
-                                  child: Text('No Doctors',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textColor),),
+                                return Center(
+                                  child: Text(
+                                    'No Doctors',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: textColor),
+                                  ),
                                 );
                               } else {
                                 return LapCard(
@@ -57,18 +67,88 @@ class _AdminViewLapDoctorsState extends State<AdminViewLapDoctors> {
                                   image: item['sex'] == 'male' ? 'man' : 'girl',
                                   name: item['name'],
                                   delete: () {
-                                    print('ddddddddddddd');
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text(
+                                          'Delete Lab. Specialist',
+                                          style: TextStyle(
+                                              color: mainColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        content: Text(
+                                          'Do tou want to remove the Lab. Specialist?',
+                                          style: TextStyle(
+                                              color: textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        actions: [
+                                          MaterialButton(
+                                            color: mainColor,
+                                            elevation: 5,
+                                            onPressed: () async {
+                                              await firebaseFirestore
+                                                  .collection('lapDoctors')
+                                                  .doc(item.id)
+                                                  .delete();
+                                              firebaseAuth.signOut();
+                                              final credential =
+                                                  await firebaseAuth
+                                                      .signInWithEmailAndPassword(
+                                                          email:
+                                                              item.get('email'),
+                                                          password: item
+                                                              .get('password'));
+                                              await credential.user!.delete();
+                                              await firebaseAuth
+                                                  .signInWithEmailAndPassword(
+                                                      email:
+                                                          'admin@taibahu.edu.sa',
+                                                      password: '123456789');
+                                              Navigator.pop(context);
+                                              var snackBar = const SnackBar(
+                                                  content: Text(
+                                                      'Deleted Successfully ...'));
+                                              // ignore: use_build_context_synchronously
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            },
+                                            child: const Text(
+                                              'Ok',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          MaterialButton(
+                                            color: Colors.red,
+                                            elevation: 5,
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
                                   },
                                   update: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) =>
-                                    //         DoctorDetailsScreen(
-                                    //       ds: item,
-                                    //     ),
-                                    //   ),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AdminLabDetailsScreen(
+                                          item: item,
+                                        ),
+                                      ),
+                                    );
                                   },
                                 );
                               }
@@ -91,7 +171,6 @@ class _AdminViewLapDoctorsState extends State<AdminViewLapDoctors> {
   }
 }
 
-
 class LapCard extends StatelessWidget {
   const LapCard({
     super.key,
@@ -102,7 +181,7 @@ class LapCard extends StatelessWidget {
     required this.image,
   });
   final VoidCallback update, delete;
-  final String name, email,  image;
+  final String name, email, image;
 
   @override
   Widget build(BuildContext context) {

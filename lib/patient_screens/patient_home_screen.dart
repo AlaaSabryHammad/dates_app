@@ -67,6 +67,10 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
   void initState() {
     super.initState();
     // initialMessage();
+    print('***********');
+
+    print(firebaseAuth.currentUser);
+    print('***********');
     getPatientDocument();
     getAndSaveToken();
     // getNotification();
@@ -170,7 +174,6 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                       ),
                       CustomIcon(
                         onPressed: () {
-                          // Navigator.pushNamed(context, '/patient-profile');
                           Navigator.push(
                               context,
                               MaterialPageRoute(

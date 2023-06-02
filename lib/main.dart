@@ -45,6 +45,25 @@ Future onGetMessage(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // var credential = Credentials.applicationDefault();
+  // credential ??= await Credentials.login();
+  // var app = FirebaseAdmin.instance.initializeApp(
+  // AppOptions(credential: credential, projectId: 'some-project'));
+  // // get a user by email
+  // var v = await app.auth().getUserByEmail('nouf@taibahu.edu.sa');
+  // print(v.toJson());
+
+  // // var app =await FirebaseAdmin.instance.initializeApp(
+  // //   AppOptions(credential: FirebaseAdmin.instance.certFromPath('service-account.json'),)
+  // //   AppOptions(
+  // //   // credential: ServiceAccountCredential('service-account.json'),
+  // // )
+  // // );
+  // // var link = await app.auth().getUserByEmail('nouf@taibahu.edu.sa');
+  // // print(link.uid);
+
+  // // print(link);
   FirebaseMessaging.onBackgroundMessage(onGetMessage);
   initializeDateFormatting().then((_) => runApp(const MyApp()));
 }

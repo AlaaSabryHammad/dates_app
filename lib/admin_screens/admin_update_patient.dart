@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 class AdminUpdatePatient extends StatefulWidget {
   const AdminUpdatePatient({super.key, required this.patient});
@@ -109,6 +112,14 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                           content: Text('Complete patient data ...'));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else {
+                      User? adminUser = firebaseAuth.currentUser;
+                      await firebaseAuth.signOut();
+                      UserCredential credential = await FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                              email: widget.patient.get('email'),
+                              password: widget.patient.get('password'));
+                      print(credential);
+                      print('patinet suceesssssss');
                       await FirebaseFirestore.instance
                           .collection('patients')
                           .doc(widget.patient.id)
@@ -119,12 +130,20 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                         'password': passwordController.text,
                         'medicalFileNumber': idController.text
                       });
+                      firebaseAuth.currentUser!
+                          .updateEmail(emailController.text);
+                      firebaseAuth.currentUser!
+                          .updatePassword(passwordController.text);
+                      firebaseAuth.currentUser!.updateDisplayName(
+                          '${fnameController.text} ${lnameController.text}');
                       await FirebaseFirestore.instance
                           .collection('bookings')
                           .where('patientId', isEqualTo: widget.patient.id)
                           .get()
                           .then((value) async {
-                        for (var doc in value.docs) {
+                        await firebaseAuth.signOut();
+                        final user = await adminLogin('123456789');
+                           for (var doc in value.docs) {
                           await FirebaseFirestore.instance
                               .collection('bookings')
                               .doc(doc.id)

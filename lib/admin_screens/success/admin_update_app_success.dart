@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
+import '../home_screen.dart';
 
-class PatientRegisterSuccess extends StatelessWidget {
-  const PatientRegisterSuccess({super.key});
+class AdminUpdateAppSuccess extends StatelessWidget {
+  const AdminUpdateAppSuccess({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,11 @@ class PatientRegisterSuccess extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Welcome ...',
+                      'appointment has been updated successfully',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: mainColor,
-                          fontSize: 24,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -49,11 +49,13 @@ class PatientRegisterSuccess extends StatelessWidget {
                 elevation: 10,
                 color: textColor,
                 onPressed: () {
-                  print(FirebaseAuth.instance.currentUser);
-                  Navigator.pushReplacementNamed(context, '/patient-home');
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()));
                 },
                 child: const Text(
-                  'Start',
+                  'Done',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

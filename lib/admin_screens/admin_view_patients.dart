@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dates_app/admin_screens/admin_update_patient.dart';
 import 'package:dates_app/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
 class AdminViewPatients extends StatelessWidget {
   const AdminViewPatients({super.key});
@@ -65,7 +69,30 @@ class AdminViewPatients extends StatelessWidget {
                                       MaterialButton(
                                         color: mainColor,
                                         elevation: 5,
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          await firebaseFirestore
+                                              .collection('patients')
+                                              .doc(item.id)
+                                              .delete();
+                                          firebaseAuth.signOut();
+                                          final credential = await firebaseAuth
+                                              .signInWithEmailAndPassword(
+                                                  email: item.get('email'),
+                                                  password:
+                                                      item.get('password'));
+                                          await credential.user!.delete();
+                                          await firebaseAuth
+                                              .signInWithEmailAndPassword(
+                                                  email: 'admin@taibahu.edu.sa',
+                                                  password: '123456789');
+                                          Navigator.pop(context);
+                                          var snackBar = const SnackBar(
+                                              content: Text(
+                                                  'Deleted Successfully ...'));
+                                          // ignore: use_build_context_synchronously
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        },
                                         child: const Text(
                                           'Ok',
                                           style: TextStyle(

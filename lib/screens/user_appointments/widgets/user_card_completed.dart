@@ -17,6 +17,8 @@ class UserCardCompleted extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 20),
       height: 180,
       decoration: BoxDecoration(
+          border:
+              Border.all(color: mainColor, style: BorderStyle.solid, width: 1),
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [

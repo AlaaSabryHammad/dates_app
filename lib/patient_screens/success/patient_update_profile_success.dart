@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 
-class PatientRegisterSuccess extends StatelessWidget {
-  const PatientRegisterSuccess({super.key});
+class PatientUpdateProfileSuccess extends StatelessWidget {
+  const PatientUpdateProfileSuccess({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +27,11 @@ class PatientRegisterSuccess extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Welcome ...',
+                      'Profile has been Updated',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: mainColor,
-                          fontSize: 24,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -49,11 +48,10 @@ class PatientRegisterSuccess extends StatelessWidget {
                 elevation: 10,
                 color: textColor,
                 onPressed: () {
-                  print(FirebaseAuth.instance.currentUser);
                   Navigator.pushReplacementNamed(context, '/patient-home');
                 },
                 child: const Text(
-                  'Start',
+                  'Finish',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

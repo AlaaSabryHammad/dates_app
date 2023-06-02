@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dates_app/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../constants.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-class PatientAppDetails extends StatelessWidget {
-  const PatientAppDetails(
+class PatientAppUpdateDetails extends StatelessWidget {
+  const PatientAppUpdateDetails(
       {super.key,
-      required this.clinicDocument,
-      required this.doctorDocument,
+      required this.oldApp,
       required this.startDate,
       required this.endDate});
-  final QueryDocumentSnapshot clinicDocument;
-  final QueryDocumentSnapshot doctorDocument;
+  final QueryDocumentSnapshot oldApp;
   final DateTime startDate;
   final DateTime endDate;
 
@@ -61,7 +58,7 @@ class PatientAppDetails extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${clinicDocument.get('clinic_name')}",
+                    "${oldApp.get('clinic')}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 20,
@@ -82,7 +79,7 @@ class PatientAppDetails extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${doctorDocument.get('name')}",
+                    "${oldApp.get('doctor')}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 20,
@@ -142,36 +139,62 @@ class PatientAppDetails extends StatelessWidget {
               onPressed: () async {
                 await firebaseFirestore
                     .collection('doctors')
-                    .doc(doctorDocument.id)
+                    .doc(oldApp.get('doctorID'))
                     .collection('appointments')
-                    .add({
-                  'startTime': startDate,
-                  'endTime': endDate,
-                  'status': 'booked'
-                });
-                await firebaseFirestore
-                    .collection('patients')
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .where('startTime', isEqualTo: oldApp.get('startTime'))
                     .get()
                     .then((value) async {
-                  await firebaseFirestore.collection('bookings').add({
-                    'patientId': FirebaseAuth.instance.currentUser!.uid,
-                    'medicalFileNumber': value.get('medicalFileNumber'),
-                    'patientName':
-                        FirebaseAuth.instance.currentUser!.displayName,
-                    'startTime': startDate,
-                    'endTime': endDate,
-                    'clinic': clinicDocument.get('clinic_name'),
-                    'clinicID': clinicDocument.id,
-                    'doctor': doctorDocument.get('name'),
-                    'doctorID': doctorDocument.id,
-                    'status': 'active',
-                    'isWaiting': true,
-                    'isRefered': false,
-                    'testCompleted': false,
-                    'preCompleted': false
-                  });
+                  for (var doc in value.docs) {
+                    await firebaseFirestore
+                        .collection('doctors')
+                        .doc(oldApp.get('doctorID'))
+                        .collection('appointments')
+                        .doc(doc.id)
+                        .update({
+                      'startTime': startDate,
+                      'endTime': endDate,
+                    });
+                  }
                 });
+                await firebaseFirestore
+                    .collection('bookings')
+                    .doc(oldApp.id)
+                    .update({
+                  'startTime': startDate,
+                  'endTime': endDate,
+                });
+                // await firebaseFirestore
+                //     .collection('doctors')
+                //     .doc(doctorDocument.id)
+                //     .collection('appointments')
+                //     .add({
+                //   'startTime': startDate,
+                //   'endTime': endDate,
+                //   'status': 'booked'
+                // });
+                // await firebaseFirestore
+                //     .collection('patients')
+                //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                //     .get()
+                //     .then((value) async {
+                //   await firebaseFirestore.collection('bookings').add({
+                //     'patientId': FirebaseAuth.instance.currentUser!.uid,
+                //     'medicalFileNumber': value.get('medicalFileNumber'),
+                //     'patientName':
+                //         FirebaseAuth.instance.currentUser!.displayName,
+                //     'startTime': startDate,
+                //     'endTime': endDate,
+                //     'clinic': clinicDocument.get('clinic_name'),
+                //     'clinicID': clinicDocument.id,
+                //     'doctor': doctorDocument.get('name'),
+                //     'doctorID': doctorDocument.id,
+                //     'status': 'active',
+                //     'isWaiting': true,
+                //     'isRefered': false,
+                //     'testCompleted': false,
+                //     'preCompleted': false
+                //   });
+                // });
                 Navigator.pushReplacementNamed(
                     context, '/patient-book-app-success');
               },

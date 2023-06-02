@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
@@ -14,6 +15,7 @@ class PatientViewEvaluationDetails extends StatefulWidget {
 class _PatientViewEvaluationDetailsState
     extends State<PatientViewEvaluationDetails> {
   TextEditingController evalConroller = TextEditingController();
+
 
   @override
   void initState() {

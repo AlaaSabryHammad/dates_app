@@ -28,7 +28,7 @@ class _CompletePatientProfileScreenState
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   saveUserData() async {
     try {
-      UserCredential credential =
+      final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: widget.patientEmail,
         password: widget.password,

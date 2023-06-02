@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         customShowModalLap(context);
                       },
-                      label: "Manage Lap. Doctors",
+                      label: "Manage Lab. Specialists",
                       icon: Icons.groups_2_rounded,
                     ),
                   ],
@@ -146,7 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     CustomIcon(
                       onPressed: () {
-                        // customShowModalSheet(context);
                         Navigator.pushNamed(context, '/add-clinic');
                       },
                       label: 'Manage Clinics',
@@ -167,13 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomIcon(
-                      onPressed: () {
-                        resetPassword(context);
-                      },
-                      label: 'Reset Password',
-                      icon: Icons.password,
-                    ),
+                    // CustomIcon(
+                    //   onPressed: () {
+                    //     resetPassword(context);
+                    //   },
+                    //   label: 'Reset Password',
+                    //   icon: Icons.password,
+                    // ),
                     CustomIcon(
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
@@ -263,9 +262,9 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Manage Lap Doctors',
+                  'Manage Lab Specialists',
                   style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 18,
                       color: mainColor,
                       fontWeight: FontWeight.bold),
                 ),
@@ -281,9 +280,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context) => const AdminAddLap(),
                       ),
                     );
-                    // Navigator.pushNamed(context, '/admin-add-pharmacian');
                   },
-                  label: 'Add Lap. Doctor',
+                  label: 'Add Lab. Specialist',
                   icon: Icons.person_add_alt_1,
                 ),
                 const SizedBox(
@@ -296,20 +294,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const AdminViewLapDoctors()));
-
-                    // Navigator.pushNamed(context, '/admin-view-pharmacists');
                   },
-                  label: 'View Lap. Doctors',
+                  label: 'View Lab. Specialists',
                   icon: Icons.groups_2_rounded,
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                // UserAction(
-                //   onPressed: () {},
-                //   label: 'Update Patient',
-                //   icon: Icons.manage_accounts_rounded,
-                // ),
                 const SizedBox(
                   height: 30,
                 ),

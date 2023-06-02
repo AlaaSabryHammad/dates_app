@@ -84,7 +84,9 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AdminUpdateApp()),
+                              builder: (context) => AdminUpdateApp(
+                                    item: item,
+                                  )),
                         );
                       },
                       send: () {

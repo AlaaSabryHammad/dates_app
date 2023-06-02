@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dates_app/admin_screens/admin_view_pharm_details.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../screens/view_screens/view_doctors_screen/doctor_details_screen.dart';
+
+FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 class AdminViewPharmacists extends StatefulWidget {
   const AdminViewPharmacists({super.key});
@@ -43,19 +47,87 @@ class _AdminViewPharmacistsState extends State<AdminViewPharmacists> {
                                   email: item['email'],
                                   image: 'girl',
                                   name: item['name'],
-                                  onPressed: () {
+                                  delete: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text(
+                                          'Delete Doctor',
+                                          style: TextStyle(
+                                              color: mainColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        content: Text(
+                                          'Do tou want to remove the doctor?',
+                                          style: TextStyle(
+                                              color: textColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        actions: [
+                                          MaterialButton(
+                                            color: mainColor,
+                                            elevation: 5,
+                                            onPressed: () async {
+                                              await firebaseFirestore
+                                                  .collection('pharmacists')
+                                                  .doc(item.id)
+                                                  .delete();
+                                              firebaseAuth.signOut();
+                                              final credential =
+                                                  await firebaseAuth
+                                                      .signInWithEmailAndPassword(
+                                                          email:
+                                                              item.get('email'),
+                                                          password: item
+                                                              .get('password'));
+                                              await credential.user!.delete();
+                                              await firebaseAuth
+                                                  .signInWithEmailAndPassword(
+                                                      email:
+                                                          'admin@taibahu.edu.sa',
+                                                      password: '123456789');
+                                              Navigator.pop(context);
+                                              var snackBar = const SnackBar(
+                                                  content: Text(
+                                                      'Deleted Successfully ...'));
+                                              // ignore: use_build_context_synchronously
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            },
+                                            child: const Text(
+                                              'Ok',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          MaterialButton(
+                                            color: Colors.red,
+                                            elevation: 5,
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  update: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                DoctorDetailsScreen(
-                                                  ds: item,
-                                                )));
+                                                AdminViewPharmDetails(
+                                                    ds: item)));
                                   },
-                                  delete: () {
-                                    print('ddddddddddddd');
-                                  },
-                                  update: () {},
                                 );
                               });
                         } else if (snapshot.hasError) {
@@ -78,14 +150,13 @@ class _AdminViewPharmacistsState extends State<AdminViewPharmacists> {
 class PharmacistCard extends StatelessWidget {
   const PharmacistCard({
     super.key,
-    required this.onPressed,
     required this.update,
     required this.delete,
     required this.name,
     required this.email,
     required this.image,
   });
-  final VoidCallback onPressed, update, delete;
+  final VoidCallback update, delete;
   final String name, email, image;
 
   @override
@@ -145,16 +216,16 @@ class PharmacistCard extends StatelessWidget {
               MaterialButton(
                 elevation: 5,
                 color: mainColor,
-                onPressed: () {},
+                onPressed: update,
                 child: const Text(
-                  'Update',
+                  'View',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
               MaterialButton(
                 elevation: 5,
                 color: Colors.red,
-                onPressed: () {},
+                onPressed: delete,
                 child: const Text(
                   'Delete',
                   style: TextStyle(color: Colors.white),
