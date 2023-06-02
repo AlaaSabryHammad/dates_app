@@ -105,7 +105,7 @@ class _ChooseLoginScreenState extends State<ChooseLoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ChooseIcon(
-                            label: 'Lap. Doctor',
+                            label: 'Lab Specialist',
                             image: 'images/lap.png',
                             onPressed: () {
                               Navigator.push(

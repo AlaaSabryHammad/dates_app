@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         customShowModalLap(context);
                       },
-                      label: "Manage Lab. Specialists",
+                      label: "Manage Lab Specialists",
                       icon: Icons.groups_2_rounded,
                     ),
                   ],
@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                  label: 'Add Lab. Specialist',
+                  label: 'Add Lab Specialist',
                   icon: Icons.person_add_alt_1,
                 ),
                 const SizedBox(

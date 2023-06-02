@@ -45,7 +45,7 @@ class _LapLoginScreenState extends State<LapLoginScreen> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Lap. Doctor Login',
+                      'Lab Specialist',
                       style: TextStyle(
                           color: textColor,
                           fontSize: 22,

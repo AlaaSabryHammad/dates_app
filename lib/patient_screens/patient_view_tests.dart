@@ -50,7 +50,7 @@ class _PatientViewTestsState extends State<PatientViewTests> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                'My Lap. Records',
+                'My Lab Records',
                 style: mainHeaderStyle,
               ),
             ),

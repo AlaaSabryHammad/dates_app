@@ -60,205 +60,245 @@ class _PharmacistPrescriptionSearchState
                   border: const OutlineInputBorder()),
             ),
             Expanded(
-                child: StreamBuilder(
-                    stream: firebaseFirestore
-                        .collection('bookings')
-                        .where('prescriptions', isEqualTo: true)
-                        .orderBy('startTime', descending: true)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              var xItem = snapshot.data!.docs[index];
-                              if (name.isEmpty) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PharmacistPrescriptionDetails(
-                                                    item: xItem)));
-                                  },
-                                  child: Container(
-                                      margin: const EdgeInsets.only(bottom: 10),
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: mainColor,
-                                              style: BorderStyle.solid,
-                                              width: 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: [customBoxShadow],
-                                          color: Colors.white),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    xItem['patientName'],
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: mainColor),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    xItem['medicalFileNumber'],
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: textColor),
-                                                  ),
-                                                ],
-                                              ),
-                                              Text(
-                                                xItem['doctor'],
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: textColor),
-                                              ),
-                                              Text(
-                                                xItem['clinic'],
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: textColor),
-                                              ),
-                                              Text(
-                                                '${xItem['startTime'].toDate()}',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: textColor),
-                                              ),
-                                            ],
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 25,
+              child: StreamBuilder(
+                  stream: firebaseFirestore
+                      .collection('bookings')
+                      .where('prescriptions', isEqualTo: true)
+                      .orderBy('startTime', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var xItem = snapshot.data!.docs[index];
+                            if (name.isEmpty) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PharmacistPrescriptionDetails(
+                                                  item: xItem)));
+                                },
+                                child: Container(
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
                                             color: mainColor,
-                                          )
-                                        ],
-                                      )),
-                                );
-                              }
-                              if (xItem['medicalFileNumber']
-                                  .toString()
-                                  .toLowerCase()
-                                  .contains(name.toLowerCase())) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PharmacistPrescriptionDetails(
-                                                    item: xItem)));
-                                  },
-                                  child: Container(
-                                      margin: const EdgeInsets.only(bottom: 10),
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: mainColor,
-                                              style: BorderStyle.solid,
-                                              width: 1),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          boxShadow: [customBoxShadow],
-                                          color: Colors.white),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    xItem['patientName'],
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: mainColor),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    xItem['medicalFileNumber'],
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: textColor),
-                                                  ),
-                                                ],
-                                              ),
-                                              Text(
-                                                xItem['doctor'],
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: textColor),
-                                              ),
-                                              Text(
-                                                xItem['clinic'],
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: textColor),
-                                              ),
-                                              Text(
-                                                '${xItem['startTime'].toDate()}',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: textColor),
-                                              ),
-                                            ],
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 25,
+                                            style: BorderStyle.solid,
+                                            width: 1),
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [customBoxShadow],
+                                        color: Colors.white),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  xItem['patientName'],
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: mainColor),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  xItem['medicalFileNumber'],
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: textColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              xItem['doctor'],
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textColor),
+                                            ),
+                                            Text(
+                                              xItem['clinic'],
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textColor),
+                                            ),
+                                            Text(
+                                              '${xItem['startTime'].toDate()}',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textColor),
+                                            ),
+                                            Text(
+                                              '${xItem['patientDiagnosis']}',
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 25,
+                                          color: mainColor,
+                                        )
+                                      ],
+                                    )),
+                              );
+                            }
+                            if (xItem['medicalFileNumber']
+                                .toString()
+                                .toLowerCase()
+                                .contains(name.toLowerCase())) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PharmacistPrescriptionDetails(
+                                                  item: xItem)));
+                                },
+                                child: Container(
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
                                             color: mainColor,
-                                          )
-                                        ],
-                                      )),
-                                );
-                              }
-                              return Container();
-                            });
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    }))
+                                            style: BorderStyle.solid,
+                                            width: 1),
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [customBoxShadow],
+                                        color: Colors.white),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  xItem['patientName'],
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: mainColor),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  xItem['medicalFileNumber'],
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: textColor),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              xItem['doctor'],
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textColor),
+                                            ),
+                                            Text(
+                                              xItem['clinic'],
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textColor),
+                                            ),
+                                            Text(
+                                              '${xItem['startTime'].toDate()}',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: textColor),
+                                            ),
+                                            Text(
+                                              '${xItem['patientDiagnosis']}',
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blue),
+                                            ),
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 25,
+                                          color: mainColor,
+                                        )
+                                      ],
+                                    )),
+                              );
+                            }
+                            return Container();
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  }),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class PreWidgetDetail extends StatefulWidget {
+  const PreWidgetDetail({
+    super.key,
+    required this.item,
+  });
+  final QueryDocumentSnapshot item;
+
+  @override
+  State<PreWidgetDetail> createState() => _PreWidgetDetailState();
+}
+
+class _PreWidgetDetailState extends State<PreWidgetDetail> {
+  String pre = '';
+  setPre() async {
+    // firebaseFirestore.collection('collectionPath')
+  }
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

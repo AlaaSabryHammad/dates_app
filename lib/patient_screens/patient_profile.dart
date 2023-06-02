@@ -166,7 +166,7 @@ class _PatientProfileState extends State<PatientProfile> {
                           height: 10,
                         ),
                         Text(
-                          'Update profile Info.',
+                          'Update profile Information',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: textColor, fontWeight: FontWeight.bold),

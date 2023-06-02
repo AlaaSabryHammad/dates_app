@@ -65,6 +65,16 @@ class PharmacistPrescriptionDetails extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Text(
+                                  xItem['desc'],
+                                  style: TextStyle(
+                                      color: textColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
