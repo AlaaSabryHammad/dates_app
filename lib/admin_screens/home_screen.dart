@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         MaterialPageRoute(
                             builder: (context) => const AdminViewLapDoctors()));
                   },
-                  label: 'View Lab. Specialists',
+                  label: 'View Lab Specialists',
                   icon: Icons.groups_2_rounded,
                 ),
                 const SizedBox(

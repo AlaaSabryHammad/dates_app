@@ -44,7 +44,7 @@ class _AdminAddLapState extends State<AdminAddLap> {
                     height: 10,
                   ),
                   Text(
-                    'Add Lab. Specialist',
+                    'Add Lab Specialist',
                     style: mainHeaderStyle,
                   ),
                   const SizedBox(

@@ -33,7 +33,7 @@ class _LapViewRequestsState extends State<LapViewRequests> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                'View Lap Requests',
+                'View Lab Requests',
                 style: TextStyle(
                   color: mainColor,
                   fontSize: 28,

@@ -24,7 +24,7 @@ class _AdminViewLapDoctorsState extends State<AdminViewLapDoctors> {
           child: Column(
             children: [
               Text(
-                'Manage Lab. Specialists',
+                'Manage Lab Specialists',
                 style: TextStyle(
                     color: mainColor,
                     fontSize: 22,

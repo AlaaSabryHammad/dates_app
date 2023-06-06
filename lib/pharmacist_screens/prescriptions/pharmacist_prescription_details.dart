@@ -3,7 +3,6 @@ import 'package:dates_app/constants.dart';
 import 'package:flutter/material.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
 class PharmacistPrescriptionDetails extends StatelessWidget {
   const PharmacistPrescriptionDetails({super.key, required this.item});
   final QueryDocumentSnapshot item;

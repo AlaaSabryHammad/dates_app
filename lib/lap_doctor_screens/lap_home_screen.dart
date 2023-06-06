@@ -64,7 +64,7 @@ class _LapHomeScreenState extends State<LapHomeScreen> {
                                   builder: (context) =>
                                       const LapViewRequests()));
                         },
-                        label: "Lap Requests",
+                        label: "Lab Requests",
                         icon: Icons.book_rounded,
                       ),
                       CustomIcon(
