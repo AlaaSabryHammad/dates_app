@@ -58,7 +58,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login to continue ...... !',
+                      'Login to continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -67,9 +67,9 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                     height: 30,
                   ),
                   CustomTextField(
-                    hint: 'Enter your email address',
+                    hint: 'Enter your Email Address',
                     icon: Icons.email,
-                    label: 'Email Adress',
+                    label: 'Email Address',
                     onPressed: (value) {
                       emailAddress = value;
                     },
@@ -109,7 +109,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                                         const PatientHomeScreen()));
                           } else {
                             const snackBar = SnackBar(
-                                content: Text('login data not correct ...'));
+                                content: Text('login data not correct'));
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           }
@@ -143,7 +143,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                   ),
                   Row(
                     children: [
-                      const Text("Don't you have an account ...?"),
+                      const Text("Don't you have an account?"),
                       const SizedBox(
                         width: 20,
                       ),

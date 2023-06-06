@@ -121,7 +121,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                           Navigator.pushNamed(
                               context, '/patient-view-prescription');
                         },
-                        label: 'View Prescription',
+                        label: 'View Prescriptions',
                         icon: Icons.contact_page_rounded,
                       ),
                     ],
@@ -290,7 +290,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/patient-select-clinic');
                   },
-                  label: 'Book a new appointment',
+                  label: 'Book a New Appointment',
                   icon: Icons.note_add_rounded,
                 ),
                 const SizedBox(
@@ -301,7 +301,7 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/view-patient-app');
                   },
-                  label: 'View appointments',
+                  label: 'View Appointments',
                   icon: Icons.book_rounded,
                 ),
                 const SizedBox(

@@ -84,7 +84,7 @@ class LapRecordTest extends StatelessWidget {
                                             .update({'result': value});
                                       },
                                       decoration: const InputDecoration(
-                                        hintText: 'write test record .... ',
+                                        hintText: 'Write Test Record',
                                         border: OutlineInputBorder(),
                                       ),
                                     )

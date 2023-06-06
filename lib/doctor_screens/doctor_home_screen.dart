@@ -196,7 +196,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/book-patient-app');
                   },
-                  label: 'Book a new appointment',
+                  label: 'Book a New Appointment',
                   icon: Icons.note_add_rounded,
                 ),
                 const SizedBox(
@@ -207,7 +207,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/view-patient-app');
                   },
-                  label: 'View appointments',
+                  label: 'View Appointments',
                   icon: Icons.book_rounded,
                 ),
                 const SizedBox(

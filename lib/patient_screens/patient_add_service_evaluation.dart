@@ -218,7 +218,7 @@ class _PatientAddServiceEvaluationsState
                   height: 20,
                 ),
                 Text(
-                  'Write An Evaluation',
+                  'Write an Evaluation',
                   style: TextStyle(
                       color: textColor,
                       fontSize: 18,

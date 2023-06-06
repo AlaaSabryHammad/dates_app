@@ -122,8 +122,8 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                   onPressed: (value) {
                     chromes = value;
                   },
-                  label: 'Chromes Diseases',
-                  hint: 'Chromes Diseases',
+                  label: 'Chronic Diseases',
+                  hint: 'Chronic Diseases',
                   icon: Icons.health_and_safety,
                   isSecured: false,
                   controller: fnameController,

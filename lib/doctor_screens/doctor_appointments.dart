@@ -182,7 +182,7 @@ class UpcommingWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Waiting ....',
+                                      'Waiting',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.grey),

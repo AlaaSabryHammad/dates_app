@@ -63,7 +63,7 @@ class _PatientHomeChatScreenState extends State<PatientHomeChatScreen> {
                                 });
                               },
                               icon: const Icon(Icons.close)),
-                          hintText: 'Enter Doctor Name',
+                          hintText: 'Enter a Doctor Name',
                           border: const OutlineInputBorder()),
                     ),
                   ],

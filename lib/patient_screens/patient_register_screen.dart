@@ -108,7 +108,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                       const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Register New Account ...... !',
+                          'Register New Account',
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -117,9 +117,9 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         height: 30,
                       ),
                       CustomTextField(
-                        hint: 'Enter your email address',
+                        hint: 'Enter Your Email Address',
                         icon: Icons.email,
-                        label: 'Email Adress',
+                        label: 'Email Address',
                         onPressed: (value) {
                           emailAddress = value;
                         },
@@ -127,7 +127,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         controller: emailController,
                       ),
                       CustomTextField(
-                        hint: 'Enter your password',
+                        hint: 'Enter Your Password',
                         icon: Icons.lock,
                         label: 'Password',
                         onPressed: (value) {
@@ -137,7 +137,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         controller: passwordController,
                       ),
                       CustomTextField(
-                        hint: 'Confirm your password',
+                        hint: 'Confirm Your Password',
                         icon: Icons.lock,
                         label: 'Confirm Password',
                         onPressed: (value) {
@@ -156,7 +156,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         },
                         color: mainColor,
                         child: const Text(
-                          'Continue...',
+                          'Continue',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,

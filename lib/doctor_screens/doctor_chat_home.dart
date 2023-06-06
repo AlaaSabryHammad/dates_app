@@ -28,7 +28,7 @@ class _DoctorChatHomeState extends State<DoctorChatHome> {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Chat with your Patients',
+                  'Chat With Your Patients',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,

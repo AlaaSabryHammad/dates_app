@@ -230,7 +230,7 @@ class _CompletePatientProfileScreenState
                         inputType: TextInputType.text),
                     ProfileTextField(
                         controller: chromesController,
-                        hint: 'Chromes Diseases',
+                        hint: 'Chronic Diseases',
                         requiredColor: Colors.red,
                         readOnly: false,
                         inputType: TextInputType.text),

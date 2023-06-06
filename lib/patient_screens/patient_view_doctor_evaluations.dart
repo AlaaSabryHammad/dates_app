@@ -52,7 +52,7 @@ class _PatientViewDoctorEvaluationsState
                         });
                       },
                       icon: const Icon(Icons.close)),
-                  hintText: 'search for Doctor .....',
+                  hintText: 'search for a Doctor .....',
                   border: const OutlineInputBorder()),
             ),
             // const SizedBox(

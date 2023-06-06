@@ -58,7 +58,7 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login to continue ...... !',
+                      'Login to Continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -67,9 +67,9 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                     height: 30,
                   ),
                   CustomTextField(
-                    hint: 'Enter your email address',
+                    hint: 'Enter Your Email Address',
                     icon: Icons.email,
-                    label: 'Email Adress',
+                    label: 'Email Address',
                     onPressed: (value) {
                       emailAddress = value;
                     },

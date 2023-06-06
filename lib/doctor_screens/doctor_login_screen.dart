@@ -57,7 +57,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login to continue ...... !',
+                      'Login to Continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -66,9 +66,9 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                     height: 30,
                   ),
                   CustomTextField(
-                    hint: 'Enter your email address',
+                    hint: 'Enter Your Email Address',
                     icon: Icons.email,
-                    label: 'Email Adress',
+                    label: 'Email Address',
                     onPressed: (value) {
                       emailAddress = value;
                     },
@@ -76,7 +76,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                     controller: emailController,
                   ),
                   CustomTextField(
-                    hint: 'Enter your password',
+                    hint: 'Enter Your Password',
                     icon: Icons.lock,
                     label: 'Password',
                     onPressed: (value) {
