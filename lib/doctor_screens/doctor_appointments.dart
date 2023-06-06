@@ -122,6 +122,7 @@ class UpcommingWidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var item = snapshot.data!.docs[index];
                   DateTime date = item['startTime'].toDate();
+                  String xx = date.minute == 0 ? '00' : '${date.minute}';
                   return Stack(
                     children: [
                       Container(
@@ -170,7 +171,7 @@ class UpcommingWidget extends StatelessWidget {
                                       height: 10,
                                     ),
                                     Text(
-                                      '${date.hour}:${date.minute}',
+                                      '${date.hour}:$xx',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.blue),

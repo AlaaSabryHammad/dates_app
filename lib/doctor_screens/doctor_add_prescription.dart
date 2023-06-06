@@ -74,7 +74,7 @@ class _DoctorAddPrescriptionState extends State<DoctorAddPrescription> {
                           });
                         },
                         icon: const Icon(Icons.close)),
-                    hintText: 'search for pre. Items .....',
+                    hintText: 'Search For Pre Items',
                     border: const OutlineInputBorder()),
               ),
               Expanded(

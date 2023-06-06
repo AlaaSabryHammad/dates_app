@@ -59,8 +59,6 @@ class _PharmacistHomePageState extends State<PharmacistHomePage> {
                     children: [
                       CustomIcon(
                         onPressed: () {
-                          // Navigator.pushNamed(context, '/doctor-app');
-                          // customShowModalSheetApp(context);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -70,18 +68,6 @@ class _PharmacistHomePageState extends State<PharmacistHomePage> {
                         label: "Prescriptions",
                         icon: Icons.book_rounded,
                       ),
-                      // CustomIcon(
-                      //   onPressed: () {
-                      //     // Navigator.push(
-                      //     //   context,
-                      //     //   MaterialPageRoute(
-                      //     //     builder: (context) => const DoctorChatHome(),
-                      //     //   ),
-                      //     // );
-                      //   },
-                      //   label: "Chats",
-                      //   icon: Icons.email,
-                      // ),
                       CustomIcon(
                         onPressed: () {
                           FirebaseAuth.instance.signOut();
@@ -93,14 +79,6 @@ class _PharmacistHomePageState extends State<PharmacistHomePage> {
                       ),
                     ],
                   ),
-                  // CustomIcon(
-                  //   onPressed: () {
-                  //     FirebaseAuth.instance.signOut();
-                  //     Navigator.pushReplacementNamed(context, '/choose-login');
-                  //   },
-                  //   label: 'Log out',
-                  //   icon: Icons.logout_rounded,
-                  // ),
                 ],
               ),
             ),

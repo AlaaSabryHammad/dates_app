@@ -52,19 +52,19 @@ class _AdminAddLapState extends State<AdminAddLap> {
                   ),
                   AddDoctorTextField(
                     controller: userNameController,
-                    hint: 'User Name ...',
+                    hint: 'User Name',
                     icon: Icons.person,
                     label: 'User Name',
                   ),
                   AddDoctorTextField(
                     controller: emailController,
-                    hint: 'Email Address ...',
+                    hint: 'Email Address',
                     icon: Icons.email,
                     label: 'Email Address',
                   ),
                   AddDoctorTextField(
                     controller: passwordController,
-                    hint: 'password ...',
+                    hint: 'password',
                     icon: Icons.lock,
                     label: 'Password',
                   ),

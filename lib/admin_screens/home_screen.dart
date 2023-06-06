@@ -166,13 +166,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // CustomIcon(
-                    //   onPressed: () {
-                    //     resetPassword(context);
-                    //   },
-                    //   label: 'Reset Password',
-                    //   icon: Icons.password,
-                    // ),
                     CustomIcon(
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
@@ -235,11 +228,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                // UserAction(
-                //   onPressed: () {},
-                //   label: 'Update Patient',
-                //   icon: Icons.manage_accounts_rounded,
-                // ),
                 const SizedBox(
                   height: 30,
                 ),

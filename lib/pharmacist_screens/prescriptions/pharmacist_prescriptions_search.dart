@@ -56,7 +56,7 @@ class _PharmacistPrescriptionSearchState
                         });
                       },
                       icon: const Icon(Icons.close)),
-                  hintText: 'search for Medical File Number .....',
+                  hintText: 'Search For Medical File Number',
                   border: const OutlineInputBorder()),
             ),
             Expanded(

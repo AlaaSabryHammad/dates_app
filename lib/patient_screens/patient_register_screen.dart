@@ -117,7 +117,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         height: 30,
                       ),
                       CustomTextField(
-                        hint: 'Enter your email address .....',
+                        hint: 'Enter your email address',
                         icon: Icons.email,
                         label: 'Email Adress',
                         onPressed: (value) {
@@ -127,7 +127,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         controller: emailController,
                       ),
                       CustomTextField(
-                        hint: 'Enter your password .....',
+                        hint: 'Enter your password',
                         icon: Icons.lock,
                         label: 'Password',
                         onPressed: (value) {
@@ -137,7 +137,7 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         controller: passwordController,
                       ),
                       CustomTextField(
-                        hint: 'Confirm your password .....',
+                        hint: 'Confirm your password',
                         icon: Icons.lock,
                         label: 'Confirm Password',
                         onPressed: (value) {
@@ -153,14 +153,6 @@ class _PatientRegisterScreenState extends State<PatientRegisterScreen> {
                         elevation: 5,
                         onPressed: () async {
                           await registerNewPatient();
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => CompletePatientProfileScreen(
-                          //       patientEmail: emailAddress!,
-                          //     ),
-                          //   ),
-                          // );
                         },
                         color: mainColor,
                         child: const Text(

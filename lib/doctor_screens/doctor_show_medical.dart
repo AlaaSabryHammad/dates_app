@@ -169,7 +169,7 @@ class DetailWidget extends StatelessWidget {
             height: 10,
           ),
           Text(
-            'Laporatory Results',
+            'Laboratory Results',
             style: TextStyle(
                 color: mainColor, fontWeight: FontWeight.bold, fontSize: 12),
           ),

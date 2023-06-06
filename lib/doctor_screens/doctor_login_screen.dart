@@ -66,7 +66,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                     height: 30,
                   ),
                   CustomTextField(
-                    hint: 'Enter your email address .....',
+                    hint: 'Enter your email address',
                     icon: Icons.email,
                     label: 'Email Adress',
                     onPressed: (value) {
@@ -76,7 +76,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                     controller: emailController,
                   ),
                   CustomTextField(
-                    hint: 'Enter your password .....',
+                    hint: 'Enter your password',
                     icon: Icons.lock,
                     label: 'Password',
                     onPressed: (value) {

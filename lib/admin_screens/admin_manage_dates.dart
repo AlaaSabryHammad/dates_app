@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
 class AdminManagaDates extends StatefulWidget {
   const AdminManagaDates({super.key});
 
@@ -158,7 +159,7 @@ class _DoctorWidgetState extends State<DoctorWidget> {
                         });
                       },
                       icon: const Icon(Icons.close)),
-                  hintText: 'search for Doctor .....',
+                  hintText: 'Search For Doctor',
                   border: const OutlineInputBorder()),
             ),
             Expanded(
@@ -360,7 +361,7 @@ class _CancelledDatesWidgetState extends State<CancelledDatesWidget> {
                 },
                 icon: const Icon(Icons.close),
               ),
-              hintText: 'search for Doctor .....',
+              hintText: 'Search For Doctor',
               border: const OutlineInputBorder(),
             ),
           ),

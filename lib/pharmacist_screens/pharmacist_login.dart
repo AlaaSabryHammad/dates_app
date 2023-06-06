@@ -67,7 +67,7 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                     height: 30,
                   ),
                   CustomTextField(
-                    hint: 'Enter your email address .....',
+                    hint: 'Enter your email address',
                     icon: Icons.email,
                     label: 'Email Adress',
                     onPressed: (value) {
@@ -77,7 +77,7 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                     controller: emailController,
                   ),
                   CustomTextField(
-                    hint: 'Enter your password .....',
+                    hint: 'Enter Your Password',
                     icon: Icons.lock,
                     label: 'Password',
                     onPressed: (value) {
@@ -109,7 +109,7 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                                         const PharmacistHomePage()));
                           } else {
                             const snackBar = SnackBar(
-                                content: Text('login data not correct ...'));
+                                content: Text('login data not correct'));
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           }

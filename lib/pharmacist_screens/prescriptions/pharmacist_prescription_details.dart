@@ -3,6 +3,7 @@ import 'package:dates_app/constants.dart';
 import 'package:flutter/material.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
 class PharmacistPrescriptionDetails extends StatelessWidget {
   const PharmacistPrescriptionDetails({super.key, required this.item});
   final QueryDocumentSnapshot item;
@@ -110,8 +111,8 @@ class PharmacistPrescriptionDetails extends StatelessWidget {
                                         },
                                         decoration: InputDecoration(
                                             hintText: xItem['remain'] == 0
-                                                ? 'No remaining quantity...'
-                                                : 'Enter the quantity ..',
+                                                ? 'No remaining quantity'
+                                                : 'Enter the quantity',
                                             border: const OutlineInputBorder()),
                                       ),
                                     ),
@@ -137,30 +138,6 @@ class PharmacistPrescriptionDetails extends StatelessWidget {
                                                   xItem['remain'] - number,
                                               'taken': xItem['taken'] + number,
                                             });
-                                            // List<QueryDocumentSnapshot> zz = [];
-                                            // firebaseFirestore
-                                            //     .collection('bookings')
-                                            //     .doc(item.id)
-                                            //     .collection('prescription')
-                                            //     .get()
-                                            //     .then((value) {
-                                            //   for (var element in value.docs) {
-                                            //     if (element.get('remain') !=
-                                            //         0) {
-                                            //       zz.add(element);
-                                            //     }
-                                            //   }
-                                            // });
-                                            // if (zz.isEmpty) {
-                                            //   firebaseFirestore
-                                            //       .collection('bookings')
-                                            //       .doc(item.id)
-                                            //       .update({
-                                            //     'prescriptionCounts':
-                                            //         'completed'
-                                            //   });
-                                            // }
-                                            // textcontroller.clear();
                                           }
                                         },
                                         icon: Icon(

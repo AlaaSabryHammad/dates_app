@@ -383,7 +383,7 @@ class _DoctorShowAppState extends State<DoctorShowApp> {
                               expands: true, // and this
                               keyboardType: TextInputType.multiline,
                               decoration: const InputDecoration(
-                                  hintText: 'Write here ......',
+                                  hintText: 'Write Here',
                                   border: OutlineInputBorder()),
                               controller: diagController,
                             ),

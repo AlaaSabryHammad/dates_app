@@ -53,19 +53,19 @@ class _AdminAddPharmacianState extends State<AdminAddPharmacian> {
                   ),
                   AddDoctorTextField(
                     controller: userNameController,
-                    hint: 'Doctor User Name ...',
+                    hint: 'Doctor User Name',
                     icon: Icons.person,
                     label: 'User Name',
                   ),
                   AddDoctorTextField(
                     controller: emailController,
-                    hint: 'Doctor Email Address ...',
+                    hint: 'Doctor Email Address',
                     icon: Icons.email,
                     label: 'Email Address',
                   ),
                   AddDoctorTextField(
                     controller: passwordController,
-                    hint: 'Doctor password ...',
+                    hint: 'Doctor password',
                     icon: Icons.lock,
                     label: 'Password',
                   ),
@@ -80,8 +80,8 @@ class _AdminAddPharmacianState extends State<AdminAddPharmacian> {
                       if (userNameController.text.isEmpty ||
                           emailController.text.isEmpty ||
                           passwordController.text.isEmpty) {
-                        var snackBar = const SnackBar(
-                            content: Text('Complete fields ...'));
+                        var snackBar =
+                            const SnackBar(content: Text('Complete Fields'));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         if (emailController.text.contains('@taibahu.edu.sa')) {

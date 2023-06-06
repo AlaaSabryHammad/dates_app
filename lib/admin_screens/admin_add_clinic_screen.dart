@@ -3,7 +3,6 @@ import 'package:dates_app/constants.dart';
 import 'package:flutter/material.dart';
 import '../data.dart';
 
-
 class AddClinicScreen extends StatefulWidget {
   const AddClinicScreen({super.key});
 
@@ -99,7 +98,7 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
                       controller: clinicController,
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
-                        hintText: 'Clinic description ....',
+                        hintText: 'Clinic Description',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -355,7 +354,7 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
                         return Text('${snapshots.error}');
                       }
                       return const Center(
-                        child: Text('There is no clinics ...'),
+                        child: Text('There is no clinics'),
                       );
                     }),
               ),

@@ -65,7 +65,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     height: 30,
                   ),
                   CustomTextField(
-                    hint: 'Enter your email address .....',
+                    hint: 'Enter your email address',
                     icon: Icons.email,
                     label: 'Email Adress',
                     onPressed: (value) {
@@ -75,7 +75,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     controller: emailController,
                   ),
                   CustomTextField(
-                    hint: 'Enter your password .....',
+                    hint: 'Enter your password',
                     icon: Icons.lock,
                     label: 'Password',
                     onPressed: (value) {
@@ -103,7 +103,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             Navigator.pushReplacementNamed(context, '/home');
                           } else {
                             const snackBar = SnackBar(
-                                content: Text('login data not correct ...'));
+                                content: Text('login data not correct'));
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           }

@@ -35,7 +35,7 @@ class _PatientHomeChatScreenState extends State<PatientHomeChatScreen> {
                     const Align(
                       alignment: Alignment.center,
                       child: Text(
-                        'Connect to your Doctor',
+                        'Connect To Your Doctor',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
@@ -63,7 +63,7 @@ class _PatientHomeChatScreenState extends State<PatientHomeChatScreen> {
                                 });
                               },
                               icon: const Icon(Icons.close)),
-                          hintText: 'Enter Doctor Name .....',
+                          hintText: 'Enter Doctor Name',
                           border: const OutlineInputBorder()),
                     ),
                   ],

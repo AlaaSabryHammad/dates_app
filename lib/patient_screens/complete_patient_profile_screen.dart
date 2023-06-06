@@ -33,20 +33,39 @@ class _CompletePatientProfileScreenState
         email: widget.patientEmail,
         password: widget.password,
       );
-      await firestore.collection('patients').doc(credential.user!.uid).set({
-        'medicalFileNumber': '',
-        'fname': fNameController.text,
-        'lname': lNameController.text,
-        'socialstatus': status,
-        'email': emailController.text,
-        'password': widget.password,
-        'nationalid': nIDController.text,
-        'age': ageController.text,
-        'allegry': allergyController.text,
-        'chromes': chromesController.text
+
+      saveUser(String value) async {
+        await firestore.collection('patients').doc(credential.user!.uid).set({
+          'medicalFileNumber': value,
+          'fname': fNameController.text,
+          'lname': lNameController.text,
+          'socialstatus': status,
+          'email': emailController.text,
+          'password': widget.password,
+          'nationalid': nIDController.text,
+          'age': ageController.text,
+          'allegry': allergyController.text,
+          'chromes': chromesController.text
+        });
+        await credential.user!.updateDisplayName(
+            '${fNameController.text} ${lNameController.text}');
+      }
+
+      await firestore.collection('patients').get().then((value) async {
+        if (value.docs.length < 10) {
+          saveUser('00000${value.docs.length + 1}');
+        } else if (value.docs.length < 100 && value.docs.length >= 10) {
+          saveUser('0000${value.docs.length + 1}');
+        } else if (value.docs.length < 1000 && value.docs.length >= 100) {
+          saveUser('000${value.docs.length + 1}');
+        } else if (value.docs.length < 10000 && value.docs.length >= 1000) {
+          saveUser('00${value.docs.length + 1}');
+        } else if (value.docs.length < 100000 && value.docs.length >= 10000) {
+          saveUser('0${value.docs.length + 1}');
+        } else {
+          saveUser('${value.docs.length + 1}');
+        }
       });
-      await credential.user!
-          .updateDisplayName('${fNameController.text} ${lNameController.text}');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         const snackBar = SnackBar(

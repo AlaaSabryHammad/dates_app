@@ -67,74 +67,22 @@ class _AddDoctorScreenState extends State<AddDoctorScreen> {
                   ),
                   AddDoctorTextField(
                     controller: userNameController,
-                    hint: 'Doctor User Name ...',
+                    hint: 'Doctor User Name',
                     icon: Icons.person,
                     label: 'User Name',
                   ),
                   AddDoctorTextField(
                     controller: emailController,
-                    hint: 'Doctor Email Address ...',
+                    hint: 'Doctor Email Address',
                     icon: Icons.email,
                     label: 'Email Address',
                   ),
                   AddDoctorTextField(
                     controller: passwordController,
-                    hint: 'Doctor password ...',
+                    hint: 'Doctor password',
                     icon: Icons.lock,
                     label: 'Password',
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         setState(() {
-                  //           sexStatus = true;
-                  //           sex = 'Male';
-                  //         });
-                  //       },
-                  //       child: Container(
-                  //         width: 100,
-                  //         height: 50,
-                  //         decoration: BoxDecoration(
-                  //             color: sexStatus
-                  //                 ? mainColor
-                  //                 : Colors.grey.withOpacity(0.5)),
-                  //         child: const Center(
-                  //           child: Text(
-                  //             'Male',
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         setState(() {
-                  //           sexStatus = false;
-                  //           sex = 'Female';
-                  //         });
-                  //       },
-                  //       child: Container(
-                  //         width: 100,
-                  //         height: 50,
-                  //         decoration: BoxDecoration(
-                  //             color: sexStatus
-                  //                 ? Colors.grey.withOpacity(0.5)
-                  //                 : mainColor),
-                  //         child: const Center(
-                  //           child: Text(
-                  //             'Female',
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 10,
                   ),

@@ -63,7 +63,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     fname = value;
                   },
                   label: 'First Name',
-                  hint: 'first name ...',
+                  hint: 'First Name',
                   icon: Icons.person,
                   isSecured: false,
                   controller: fnameController,
@@ -73,7 +73,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     lname = value;
                   },
                   label: 'Last Name',
-                  hint: 'last name ...',
+                  hint: 'Last Name',
                   icon: Icons.person,
                   isSecured: false,
                   controller: lnameController,
@@ -83,7 +83,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     medicalnumber = value;
                   },
                   label: 'File Medical Number',
-                  hint: 'file medical number ...',
+                  hint: 'File Medical Number',
                   icon: Icons.numbers,
                   isSecured: false,
                   controller: lnameController,
@@ -93,7 +93,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     age = value;
                   },
                   label: 'Age',
-                  hint: 'age ...',
+                  hint: 'Age',
                   icon: Icons.date_range,
                   isSecured: false,
                   controller: fnameController,
@@ -103,7 +103,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     nationalId = value;
                   },
                   label: 'National ID',
-                  hint: 'national id ...',
+                  hint: 'National Id',
                   icon: Icons.person,
                   isSecured: false,
                   controller: fnameController,
@@ -113,7 +113,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     allegry = value;
                   },
                   label: 'Allergy',
-                  hint: 'allergy ...',
+                  hint: 'Allergy',
                   icon: Icons.health_and_safety,
                   isSecured: false,
                   controller: fnameController,
@@ -123,7 +123,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     chromes = value;
                   },
                   label: 'Chromes Diseases',
-                  hint: 'Chromes Diseases ...',
+                  hint: 'Chromes Diseases',
                   icon: Icons.health_and_safety,
                   isSecured: false,
                   controller: fnameController,
@@ -133,7 +133,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     email = value;
                   },
                   label: 'Email Address',
-                  hint: 'email address ...',
+                  hint: 'Email Address',
                   icon: Icons.email,
                   isSecured: false,
                   controller: emailController,
@@ -143,7 +143,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                     password = value;
                   },
                   label: 'Password',
-                  hint: 'password ...',
+                  hint: 'Password',
                   icon: Icons.lock,
                   isSecured: false,
                   controller: passwordController,
