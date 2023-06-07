@@ -56,7 +56,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login to Continue',
+                      'Login To continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),

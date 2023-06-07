@@ -72,6 +72,7 @@ class _PharmacistPrescriptionSearchState
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             var xItem = snapshot.data!.docs[index];
+                            DateTime time = xItem['startTime'].toDate();
                             if (name.isEmpty) {
                               return GestureDetector(
                                 onTap: () {
@@ -141,7 +142,9 @@ class _PharmacistPrescriptionSearchState
                                                   color: textColor),
                                             ),
                                             Text(
-                                              '${xItem['startTime'].toDate()}',
+                                              time.minute == 0
+                                                  ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
+                                                  : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
@@ -237,7 +240,9 @@ class _PharmacistPrescriptionSearchState
                                                   color: textColor),
                                             ),
                                             Text(
-                                              '${xItem['startTime'].toDate()}',
+                                              time.minute == 0
+                                                  ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
+                                                  : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,

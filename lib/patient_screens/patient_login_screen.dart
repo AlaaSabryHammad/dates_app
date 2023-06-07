@@ -58,7 +58,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login to continue',
+                      'Login To continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -67,7 +67,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                     height: 30,
                   ),
                   CustomTextField(
-                    hint: 'Enter your Email Address',
+                    hint: 'Enter Your Email Address',
                     icon: Icons.email,
                     label: 'Email Address',
                     onPressed: (value) {
@@ -77,7 +77,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                     controller: emailController,
                   ),
                   CustomTextField(
-                    hint: 'Enter your password',
+                    hint: 'Enter Your Password',
                     icon: Icons.lock,
                     label: 'Password',
                     onPressed: (value) {
@@ -151,7 +151,7 @@ class _PatientLoginScreenState extends State<PatientLoginScreen> {
                           onPressed: () {
                             Navigator.pushNamed(context, '/patient-register');
                           },
-                          child: const Text('Register .'))
+                          child: const Text('Register'))
                     ],
                   )
                 ],

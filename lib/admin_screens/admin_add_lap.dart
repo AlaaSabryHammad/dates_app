@@ -64,7 +64,7 @@ class _AdminAddLapState extends State<AdminAddLap> {
                   ),
                   AddDoctorTextField(
                     controller: passwordController,
-                    hint: 'password',
+                    hint: 'Password',
                     icon: Icons.lock,
                     label: 'Password',
                   ),

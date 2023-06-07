@@ -58,7 +58,7 @@ class _LapLoginScreenState extends State<LapLoginScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login to Continue',
+                      'Login To continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),

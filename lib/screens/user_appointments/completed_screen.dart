@@ -29,7 +29,7 @@ class _CompletedScreenState extends State<CompletedScreen> {
               name: item['patientName'],
               label: item['clinic'],
               date: item['doctor'],
-              time: date));
+              time: dateTime));
         });
       }
     });
@@ -72,7 +72,7 @@ class _CompletedScreenState extends State<CompletedScreen> {
                         name: item['patientName'],
                         label: item['clinic'],
                         date: item['doctor'],
-                        time: date);
+                        time: dateTime);
                   });
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');

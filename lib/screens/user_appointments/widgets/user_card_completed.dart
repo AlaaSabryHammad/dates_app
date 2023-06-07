@@ -8,8 +8,8 @@ class UserCardCompleted extends StatelessWidget {
       required this.label,
       required this.date,
       required this.time});
-  final String name, label, date, time;
-
+  final String name, label, date;
+  final DateTime time;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +67,9 @@ class UserCardCompleted extends StatelessWidget {
                     height: 6,
                   ),
                   Text(
-                    time,
+                    time.minute == 0
+                        ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
+                        : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],

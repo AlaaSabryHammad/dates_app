@@ -58,7 +58,7 @@ class _PharmacistLoginState extends State<PharmacistLogin> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login to Continue',
+                      'Login To continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
