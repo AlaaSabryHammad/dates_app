@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/admin-add-patient');
                   },
-                  label: 'Add Patient',
+                  label: 'Add New Patients',
                   icon: Icons.person_add_alt_1,
                 ),
                 const SizedBox(
@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/admin-view-patients');
                   },
-                  label: 'View Patient',
+                  label: 'View Patients',
                   icon: Icons.groups_2_rounded,
                 ),
                 const SizedBox(
@@ -269,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                  label: 'Add Lab Specialist',
+                  label: 'Add New Lab Specialists',
                   icon: Icons.person_add_alt_1,
                 ),
                 const SizedBox(
@@ -325,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/admin-add-pharmacian');
                   },
-                  label: 'Add Pharmacist',
+                  label: 'Add New Pharmacists',
                   icon: Icons.person_add_alt_1,
                 ),
                 const SizedBox(
@@ -481,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/add-doctor');
                   },
-                  label: 'Add a new doctor',
+                  label: 'Add New doctors',
                   icon: Icons.person_add_alt_1,
                 ),
                 const SizedBox(
@@ -492,7 +492,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/view-doctors');
                   },
-                  label: 'View doctors',
+                  label: 'View Doctors',
                   icon: Icons.groups_2_rounded,
                 ),
                 const SizedBox(
