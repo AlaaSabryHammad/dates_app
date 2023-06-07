@@ -40,12 +40,11 @@ class _CancelledScreenState extends State<CancelledScreen> {
                   itemBuilder: (context, index) {
                     var item = snapshot.data!.docs[index];
                     DateTime dateTime = item['startTime'].toDate();
-                    String date = '$dateTime';
                     return UserCardCancelled(
                       name: item['patientName'],
                       label: item['clinic'],
                       date: item['doctor'],
-                      time: date,
+                      time: dateTime,
                       onPressed: () {
                         customShowModalSheet(context, item);
                       },

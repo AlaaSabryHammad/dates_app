@@ -277,7 +277,7 @@ class _AddClinicScreenState extends State<AddClinicScreen> {
                                                 builder: (context) =>
                                                     AlertDialog(
                                                       content: Text(
-                                                        'Delete the clinic ...?',
+                                                        'Delete the clinic?',
                                                         style: TextStyle(
                                                             color: textColor,
                                                             fontSize: 18,

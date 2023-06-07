@@ -11,11 +11,11 @@ class UserCard extends StatelessWidget {
       required this.onPressed,
       required this.update,
       required this.send});
-  final String name, label, date, time;
+  final String name, label, date;
   final VoidCallback onPressed;
   final VoidCallback update;
   final VoidCallback send;
-
+  final DateTime time;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -75,7 +75,7 @@ class UserCard extends StatelessWidget {
                           color: mainColor, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      time,
+                  time.minute==0? '${time.year}-${time.month}-${time.day} ${time.hour}:00':'${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -109,15 +109,6 @@ class UserCard extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                // MaterialButton(
-                //   onPressed: onPressed,
-                //   color: const Color(0xff04c0c9),
-                //   elevation: 5,
-                //   child: const Text(
-                //     'Send',
-                //     style: TextStyle(color: Colors.white),
-                //   ),
-                // )
               ],
             ),
           )

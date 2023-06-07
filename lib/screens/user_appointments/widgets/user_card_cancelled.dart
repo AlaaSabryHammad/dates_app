@@ -9,8 +9,9 @@ class UserCardCancelled extends StatelessWidget {
       required this.date,
       required this.time,
       required this.onPressed});
-  final String name, label, date, time;
+  final String name, label, date;
   final VoidCallback onPressed;
+  final DateTime time;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class UserCardCancelled extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      time,
+                  time.minute==0? '${time.year}-${time.month}-${time.day} ${time.hour}:00':'${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),

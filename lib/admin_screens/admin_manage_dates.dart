@@ -376,6 +376,7 @@ class _CancelledDatesWidgetState extends State<CancelledDatesWidget> {
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             var item = snapshot.data!.docs[index];
+                            DateTime time = item['date'].toDate();
                             if (name.isEmpty) {
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 10),
@@ -401,7 +402,9 @@ class _CancelledDatesWidgetState extends State<CancelledDatesWidget> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(item['clinic']),
-                                      Text('${item['date'].toDate()}'),
+                                      Text(time.minute == 0
+                                          ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
+                                          : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}'),
                                     ],
                                   ),
                                   trailing: IconButton(

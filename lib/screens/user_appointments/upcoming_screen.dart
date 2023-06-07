@@ -71,12 +71,11 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                   itemBuilder: (context, index) {
                     var item = snapshot.data!.docs[index];
                     DateTime dateTime = item['startTime'].toDate();
-                    String date = '$dateTime';
                     return UserCard(
                       name: item['patientName'],
                       label: item['clinic'],
                       date: item['doctor'],
-                      time: date,
+                      time: dateTime,
                       onPressed: () async {
                         customShowModalSheet(context, item);
                       },

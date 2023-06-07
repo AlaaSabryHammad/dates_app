@@ -65,7 +65,7 @@ class _AdminAddPharmacianState extends State<AdminAddPharmacian> {
                   ),
                   AddDoctorTextField(
                     controller: passwordController,
-                    hint: 'Doctor password',
+                    hint: 'Doctor Password',
                     icon: Icons.lock,
                     label: 'Password',
                   ),

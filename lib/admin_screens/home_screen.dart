@@ -481,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, '/add-doctor');
                   },
-                  label: 'Add New doctors',
+                  label: 'Add New Doctors',
                   icon: Icons.person_add_alt_1,
                 ),
                 const SizedBox(

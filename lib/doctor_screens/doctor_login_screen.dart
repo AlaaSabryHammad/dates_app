@@ -57,7 +57,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login To continue',
+                      'Login to continue',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),

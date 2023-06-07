@@ -67,7 +67,6 @@ class _CompletedScreenState extends State<CompletedScreen> {
                   itemBuilder: (context, index) {
                     var item = snapshot.data!.docs[index];
                     DateTime dateTime = item['startTime'].toDate();
-                    String date = '$dateTime';
                     return UserCardCompleted(
                         name: item['patientName'],
                         label: item['clinic'],

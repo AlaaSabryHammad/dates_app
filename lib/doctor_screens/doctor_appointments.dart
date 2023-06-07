@@ -393,7 +393,7 @@ class CompletedWidget extends StatelessWidget {
                                       height: 10,
                                     ),
                                     Text(
-                                      '${date.hour}:${date.minute}',
+                                   date.minute==0?'${date.hour}:00':'${date.hour}:${date.minute}',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.blue),
