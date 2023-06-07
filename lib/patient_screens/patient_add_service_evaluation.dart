@@ -239,7 +239,7 @@ class _PatientAddServiceEvaluationsState
                     expands: true, // and this
                     keyboardType: TextInputType.multiline,
                     decoration:
-                        const InputDecoration(hintText: 'Write here ......'),
+                        const InputDecoration(hintText: 'Write here'),
                     controller: descController,
                   ),
                 ),

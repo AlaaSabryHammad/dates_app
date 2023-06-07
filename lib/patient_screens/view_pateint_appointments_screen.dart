@@ -70,7 +70,7 @@ class _ViewPatientAppointmentsState extends State<ViewPatientAppointments> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       content: Text(
-                                        'Do you want to Update the Appointment..?',
+                                        'Do you want to Update the Appointment?',
                                         style: TextStyle(
                                             color: textColor,
                                             fontSize: 16,
@@ -119,7 +119,7 @@ class _ViewPatientAppointmentsState extends State<ViewPatientAppointments> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       content: Text(
-                                        'Do you want to cancel the Appointment..?',
+                                        'Do you want to cancel the Appointment?',
                                         style: TextStyle(
                                             color: textColor,
                                             fontSize: 16,
@@ -307,7 +307,9 @@ class BookCard extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    'Time- ${tDate.hour}:${tDate.minute}',
+                    tDate.minute == 0
+                        ? 'Time- ${tDate.hour}:00'
+                        : 'Time- ${tDate.hour}:${tDate.minute}',
                     style: TextStyle(
                         color: textColor,
                         fontWeight: FontWeight.bold,

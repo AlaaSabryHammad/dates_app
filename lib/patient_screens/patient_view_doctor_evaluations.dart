@@ -52,7 +52,7 @@ class _PatientViewDoctorEvaluationsState
                         });
                       },
                       icon: const Icon(Icons.close)),
-                  hintText: 'search for a Doctor .....',
+                  hintText: 'Search For a Doctor',
                   border: const OutlineInputBorder()),
             ),
             // const SizedBox(
@@ -172,7 +172,9 @@ class EvaluationDoctorWidget extends StatelessWidget {
               // ratingValue = rating;
             },
           ),
-          Text('$time'),
+          Text(time.minute == 0
+              ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
+              : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}'),
           const Divider(),
           Text(desc)
         ],

@@ -103,7 +103,7 @@ class PatientAppDetails extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "$startDate",
+                    "${startDate.year}-${startDate.month}-${startDate.day} ${startDate.hour}:${startDate.minute}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 20,
@@ -124,7 +124,7 @@ class PatientAppDetails extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "$endDate",
+                   endDate.minute==0? "${endDate.year}-${endDate.month}-${endDate.day} ${endDate.hour}:00" :"${endDate.year}-${endDate.month}-${endDate.day} ${endDate.hour}:${endDate.minute}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 20,

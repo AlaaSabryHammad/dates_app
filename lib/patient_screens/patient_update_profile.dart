@@ -191,7 +191,7 @@ class _PatientUpdateProfileState extends State<PatientUpdateProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Chromes Diseases',
+                      'Chronic Diseases',
                       style: TextStyle(
                           color: textColor, fontWeight: FontWeight.bold),
                     ),
@@ -211,54 +211,6 @@ class _PatientUpdateProfileState extends State<PatientUpdateProfile> {
                     ),
                   ],
                 ),
-                // Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Email Address',
-                //       style: TextStyle(
-                //           color: textColor, fontWeight: FontWeight.bold),
-                //     ),
-                //     const SizedBox(
-                //       height: 10,
-                //     ),
-                //     TextField(
-                //       controller: emailController,
-                //       obscureText: false,
-                //       decoration: const InputDecoration(
-                //         prefixIcon: Icon(Icons.email),
-                //         border: OutlineInputBorder(),
-                //       ),
-                //     ),
-                //     const SizedBox(
-                //       height: 20,
-                //     ),
-                //   ],
-                // ),
-                // Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'Password',
-                //       style: TextStyle(
-                //           color: textColor, fontWeight: FontWeight.bold),
-                //     ),
-                //     const SizedBox(
-                //       height: 10,
-                //     ),
-                //     TextField(
-                //       controller: passwordController,
-                //       obscureText: false,
-                //       decoration: const InputDecoration(
-                //         prefixIcon: Icon(Icons.lock),
-                //         border: OutlineInputBorder(),
-                //       ),
-                //     ),
-                //     const SizedBox(
-                //       height: 20,
-                //     ),
-                //   ],
-                // ),
                 const SizedBox(
                   height: 20,
                 ),

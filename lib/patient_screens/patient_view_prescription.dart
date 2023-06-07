@@ -106,7 +106,9 @@ class _PatientViewDescriptionsState extends State<PatientViewDescriptions> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  '$dateTime',
+                                  dateTime.minute == 0
+                                      ? '${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:00'
+                                      : '${dateTime.year}-${dateTime.month}-${dateTime.day} ${dateTime.hour}:${dateTime.minute}',
                                   style: TextStyle(
                                       color: textColor,
                                       fontSize: 16,

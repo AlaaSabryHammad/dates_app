@@ -159,7 +159,7 @@ class DetailWidget extends StatelessWidget {
                               child: Center(
                                   child: Text(
                                 xData['item'],
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white,fontSize: 10),
                               )));
                         });
                   } else if (snapshot.hasError) {
@@ -174,7 +174,7 @@ class DetailWidget extends StatelessWidget {
           Text(
             'Laboratory Results',
             style: TextStyle(
-                color: mainColor, fontWeight: FontWeight.bold, fontSize: 12),
+                color: mainColor, fontWeight: FontWeight.bold, fontSize: 10),
           ),
           const SizedBox(
             height: 5,

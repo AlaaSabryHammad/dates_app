@@ -118,8 +118,6 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                           .signInWithEmailAndPassword(
                               email: widget.patient.get('email'),
                               password: widget.patient.get('password'));
-                      print(credential);
-                      print('patinet suceesssssss');
                       await FirebaseFirestore.instance
                           .collection('patients')
                           .doc(widget.patient.id)

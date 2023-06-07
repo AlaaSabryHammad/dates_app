@@ -99,6 +99,7 @@ class DetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    DateTime time = item.get('startTime').toDate();
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 10),
@@ -125,7 +126,10 @@ class DetailWidget extends StatelessWidget {
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
           ),
           Text(
-            "${item.get('startTime').toDate()}",
+            // "${item.get('startTime').toDate()}",
+            time.minute == 0
+                ? '${time.year}/${time.month}/${time.day} ${time.hour}:00'
+                : '${time.year}/${time.month}/${time.day} ${time.hour}:${time.minute}',
             style: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
           ),
