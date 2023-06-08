@@ -40,18 +40,29 @@ class DoctorShowMedical extends StatelessWidget {
                     .collection('bookings')
                     .where('isRefered', isEqualTo: false)
                     .where('status', isEqualTo: 'completed')
+                    .where('patientId', isEqualTo: patientId)
                     .orderBy('startTime', descending: true)
                     .get(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          var item = snapshot.data!.docs[index];
-                          return DetailWidget(
-                            item: item,
-                          );
-                        });
+                    return snapshot.data!.docs.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              var item = snapshot.data!.docs[index];
+                              return DetailWidget(
+                                item: item,
+                              );
+                            })
+                        : Center(
+                            child: Container(
+                                child: Text(
+                            'No Previous Appointments',
+                            style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          )));
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
@@ -159,7 +170,8 @@ class DetailWidget extends StatelessWidget {
                               child: Center(
                                   child: Text(
                                 xData['item'],
-                                style: const TextStyle(color: Colors.white,fontSize: 10),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 10),
                               )));
                         });
                   } else if (snapshot.hasError) {
