@@ -28,7 +28,43 @@ class DoctorShowMedical extends StatelessWidget {
             Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "${patient['fname']} ${patient['lname']}",
+                  "Name : ${patient['fname']} ${patient['lname']}",
+                  style: TextStyle(color: textColor, fontSize: 14),
+                )),
+            const SizedBox(
+              height: 5,
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Allergy : ${patient['allegry']}",
+                  style: TextStyle(color: textColor, fontSize: 14),
+                )),
+            const SizedBox(
+              height: 5,
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Chronic : ${patient['chromes']}",
+                  style: TextStyle(color: textColor, fontSize: 14),
+                )),
+            const SizedBox(
+              height: 5,
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Social Status : ${patient['socialstatus']}",
+                  style: TextStyle(color: textColor, fontSize: 14),
+                )),
+            const SizedBox(
+              height: 5,
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Age : ${patient['age']}",
                   style: TextStyle(color: textColor, fontSize: 14),
                 )),
             const SizedBox(
