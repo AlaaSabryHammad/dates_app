@@ -20,6 +20,7 @@ class _PharmacistPrescriptionSearchState
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
@@ -98,71 +99,77 @@ class _PharmacistPrescriptionSearchState
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  xItem['patientName'],
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  xItem['medicalFileNumber'],
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: textColor),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              xItem['doctor'],
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: textColor),
-                                            ),
-                                            Text(
-                                              xItem['clinic'],
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: textColor),
-                                            ),
-                                            Text(
-                                              time.minute == 0
-                                                  ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
-                                                  : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: textColor),
-                                            ),
-                                            Text(
-                                              '${xItem['patientDiagnosis']}',
-                                              style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
+                                        SizedBox(
+                                          width: width * 0.7,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    xItem['patientName'],
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: mainColor),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    xItem['medicalFileNumber'],
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: textColor),
+                                                  ),
+                                                ],
+                                              ),
+                                              Text(
+                                                xItem['doctor'],
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: textColor),
+                                              ),
+                                              Text(
+                                                xItem['clinic'],
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: textColor),
+                                              ),
+                                              Text(
+                                                time.minute == 0
+                                                    ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
+                                                    : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: textColor),
+                                              ),
+                                              Text(
+                                                '${xItem['patientDiagnosis']}',
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 25,
-                                          color: mainColor,
+                                        SizedBox(
+                                          width: width * 0.1,
+                                          child: Icon(
+                                            Icons.arrow_forward_ios,
+                                            size: 25,
+                                            color: mainColor,
+                                          ),
                                         )
                                       ],
                                     )),
@@ -196,71 +203,77 @@ class _PharmacistPrescriptionSearchState
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  xItem['patientName'],
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  xItem['medicalFileNumber'],
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: textColor),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              xItem['doctor'],
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: textColor),
-                                            ),
-                                            Text(
-                                              xItem['clinic'],
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: textColor),
-                                            ),
-                                            Text(
-                                              time.minute == 0
-                                                  ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
-                                                  : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: textColor),
-                                            ),
-                                            Text(
-                                              '${xItem['patientDiagnosis']}',
-                                              style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.blue),
-                                            ),
-                                          ],
+                                        SizedBox(
+                                          width: width * 0.7,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    xItem['patientName'],
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: mainColor),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    xItem['medicalFileNumber'],
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: textColor),
+                                                  ),
+                                                ],
+                                              ),
+                                              Text(
+                                                xItem['doctor'],
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: textColor),
+                                              ),
+                                              Text(
+                                                xItem['clinic'],
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: textColor),
+                                              ),
+                                              Text(
+                                                time.minute == 0
+                                                    ? '${time.year}-${time.month}-${time.day} ${time.hour}:00'
+                                                    : '${time.year}-${time.month}-${time.day} ${time.hour}:${time.minute}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: textColor),
+                                              ),
+                                              Text(
+                                                '${xItem['patientDiagnosis']}',
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 25,
-                                          color: mainColor,
+                                        SizedBox(
+                                          width: width * 0.1,
+                                          child: Icon(
+                                            Icons.arrow_forward_ios,
+                                            size: 25,
+                                            color: mainColor,
+                                          ),
                                         )
                                       ],
                                     )),

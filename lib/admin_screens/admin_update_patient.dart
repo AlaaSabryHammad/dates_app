@@ -88,13 +88,13 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                   isSecured: false,
                   controller: passwordController,
                 ),
-                CustomTextFieldEdit(
-                  onPressed: () {},
-                  label: 'Medical File Number',
-                  icon: Icons.person,
-                  isSecured: false,
-                  controller: idController,
-                ),
+                // CustomTextFieldEdit(
+                //   onPressed: () {},
+                //   label: 'Medical File Number',
+                //   icon: Icons.person,
+                //   isSecured: false,
+                //   controller: idController,
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -141,7 +141,7 @@ class _AdminUpdatePatientState extends State<AdminUpdatePatient> {
                           .then((value) async {
                         await firebaseAuth.signOut();
                         final user = await adminLogin('123456789');
-                           for (var doc in value.docs) {
+                        for (var doc in value.docs) {
                           await FirebaseFirestore.instance
                               .collection('bookings')
                               .doc(doc.id)

@@ -10,6 +10,7 @@ class PharmacistPrescriptionDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 70, left: 20, right: 20),

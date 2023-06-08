@@ -78,16 +78,16 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                   isSecured: false,
                   controller: lnameController,
                 ),
-                CustomTextField(
-                  onPressed: (value) {
-                    medicalnumber = value;
-                  },
-                  label: 'File Medical Number',
-                  hint: 'File Medical Number',
-                  icon: Icons.numbers,
-                  isSecured: false,
-                  controller: lnameController,
-                ),
+                // CustomTextField(
+                //   onPressed: (value) {
+                //     medicalnumber = value;
+                //   },
+                //   label: 'File Medical Number',
+                //   hint: 'File Medical Number',
+                //   icon: Icons.numbers,
+                //   isSecured: false,
+                //   controller: lnameController,
+                // ),
                 CustomTextField(
                   onPressed: (value) {
                     age = value;
@@ -215,7 +215,7 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                       if (lname == null ||
                           email == null ||
                           password == null ||
-                          medicalnumber == null ||
+                          // medicalnumber == null ||
                           fname == null ||
                           age == null ||
                           allegry == null ||
@@ -230,24 +230,67 @@ class _AdminAddPatientState extends State<AdminAddPatient> {
                               await FirebaseAuth.instanceFor(app: app)
                                   .createUserWithEmailAndPassword(
                                       email: email!, password: password!);
+                          saveUser(String value) async {
+                            await firebaseFirestore
+                                .collection('patients')
+                                .doc(userCredential.user!.uid)
+                                .set({
+                              'medicalFileNumber': value,
+                              'fname': fname,
+                              'lname': lname,
+                              'socialstatus': status,
+                              'email': email,
+                              'password': password,
+                              'nationalid': nationalId,
+                              'age': age,
+                              'allegry': allegry,
+                              'chromes': chromes
+                            });
+                            await userCredential.user!
+                                .updateDisplayName('$fname $lname');
+                          }
+
                           await firebaseFirestore
                               .collection('patients')
-                              .doc(userCredential.user!.uid)
-                              .set({
-                            'fname': fname,
-                            'lname': lname,
-                            'email': email,
-                            'medicalFileNumber': medicalnumber,
-                            'password': password,
-                            'age': age,
-                            'nationalid': nationalId,
-                            'allegry': allegry,
-                            'chromes': chromes,
-                            'socialstatus': status,
-                            'type': 'patient'
+                              .get()
+                              .then((value) async {
+                            if (value.docs.length < 10) {
+                              saveUser('00000${value.docs.length + 1}');
+                            } else if (value.docs.length < 100 &&
+                                value.docs.length >= 10) {
+                              saveUser('0000${value.docs.length + 1}');
+                            } else if (value.docs.length < 1000 &&
+                                value.docs.length >= 100) {
+                              saveUser('000${value.docs.length + 1}');
+                            } else if (value.docs.length < 10000 &&
+                                value.docs.length >= 1000) {
+                              saveUser('00${value.docs.length + 1}');
+                            } else if (value.docs.length < 100000 &&
+                                value.docs.length >= 10000) {
+                              saveUser('0${value.docs.length + 1}');
+                            } else {
+                              saveUser('${value.docs.length + 1}');
+                            }
                           });
-                          await userCredential.user!
-                              .updateDisplayName('$fname $lname');
+
+                          // await firebaseFirestore
+                          //     .collection('patients')
+                          //     .doc(userCredential.user!.uid)
+                          //     .set({
+                          //   'fname': fname,
+                          //   'lname': lname,
+                          //   'email': email,
+                          //   'medicalFileNumber': medicalnumber,
+                          //   'password': password,
+                          //   'age': age,
+                          //   'nationalid': nationalId,
+                          //   'allegry': allegry,
+                          //   'chromes': chromes,
+                          //   'socialstatus': status,
+                          //   'type': 'patient'
+                          // });
+                          // await userCredential.user!
+                          //     .updateDisplayName('$fname $lname');
                           Navigator.pushReplacementNamed(
                               context, '/admin-add-patient-success');
                         } on FirebaseAuthException catch (e) {
