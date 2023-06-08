@@ -58,7 +58,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
               if (snapshot.data!.docs.isEmpty) {
                 return Center(
                   child: Text(
-                    'no upcomming appointments ..',
+                    'no upcomming appointments',
                     style: TextStyle(
                         color: textColor,
                         fontSize: 16,
@@ -124,7 +124,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Cancel the Appointment..?',
+                  'Cancel the Appointment?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 30,
